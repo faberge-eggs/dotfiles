@@ -794,14 +794,211 @@ vscode "eamodio.gitlens"
 vscode "esbenp.prettier-vscode"
 ```
 
+## Critical Issues & Solutions (Lessons Learned)
+
+### Deprecated Taps
+
+**IMPORTANT**: As of 2024, core Homebrew taps are built-in and should NOT be declared:
+
+```ruby
+# ❌ DEPRECATED - these taps are now built-in
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+tap "homebrew/services"
+
+# ✅ CORRECT - remove all tap declarations for built-in taps
+# Taps are automatically available, no need to declare them
+```
+
+**Warning message**: `homebrew/bundle was deprecated. This tap is now empty and all its contents were either migrated...`
+
+### Deprecated and Renamed Packages
+
+Common package issues and their solutions:
+
+```ruby
+# ❌ DEPRECATED - package no longer exists
+brew "exa"              # Unmaintained, removed from Homebrew
+brew "dog"              # Not available (dig is built-in)
+
+# ✅ CORRECT alternatives
+brew "eza"              # Maintained fork of exa
+# dog - use built-in 'dig' or 'doggo' if needed
+
+# ❌ WRONG - old package names
+cask "docker"           # Deprecated name
+cask "mullvadvpn"       # Renamed
+
+# ✅ CORRECT - current names
+cask "docker-desktop"   # Includes both CLI and Desktop
+cask "mullvad-vpn"      # Current name
+
+# ❌ WRONG - package type
+brew "1password-cli"    # Not available as formula
+
+# ✅ CORRECT - it's a cask
+cask "1password-cli"
+```
+
+### Docker Confusion
+
+Docker Desktop includes the CLI, so you only need one entry:
+
+```ruby
+# ❌ REDUNDANT - duplicate docker entries
+brew "docker"           # Docker CLI
+cask "docker"           # Docker Desktop
+
+# ✅ CORRECT - Docker Desktop includes everything
+cask "docker-desktop"   # Includes CLI, Desktop, Compose
+
+# If you only need CLI tools without Desktop:
+brew "docker"           # CLI only
+brew "docker-compose"   # Compose plugin
+```
+
+### Mac App Store (mas) Issues
+
+**CRITICAL**: `mas` CLI authentication has changed significantly:
+
+```bash
+# ❌ REMOVED - these commands no longer exist
+mas signin email@example.com
+mas account
+
+# ✅ CORRECT - manual GUI sign-in required
+# 1. Sign in via GUI: open -a "App Store"
+# 2. Verify: mas list (shows installed apps)
+# 3. Then run: brew bundle
+```
+
+**Common errors**:
+- `No downloads initiated for ADAM ID` → Not signed into Mac App Store
+- `Error: unexpected argument 'signin'` → Command removed in mas 2.0+
+- `Error: Unexpected argument 'account'` → Command removed, use `mas list` instead
+
+**Best practice**: Comment out MAS apps by default:
+
+```ruby
+# Mac App Store apps (sign in to App Store first)
+# Verify with: mas list
+# mas "Xcode", id: 497799835
+# mas "1Password for Safari", id: 1569813296
+```
+
+### Package Type Detection
+
+Always verify if a package is a formula (brew) or cask:
+
+```bash
+# Search for a package
+brew search package-name
+
+# Check if it's a cask
+brew info --cask package-name
+
+# Check if it's a formula
+brew info package-name
+
+# ✅ Common mistakes
+# 1password-cli → cask (not brew)
+# visual-studio-code → cask (not brew)
+# docker-desktop → cask (not brew)
+```
+
+### Brewfile Validation
+
+Always validate before running:
+
+```bash
+# Check what would be installed/removed
+brew bundle check --verbose
+
+# See what's missing
+brew bundle list --all | wc -l
+
+# Dry-run cleanup (shows what's not in Brewfile)
+brew bundle cleanup --dry-run
+
+# Verify no syntax errors
+brew bundle dump --force --describe  # Create from current
+diff Brewfile Brewfile.lock.json
+```
+
+### Template Integration
+
+When using Brewfiles with chezmoi or other templating:
+
+```bash
+# ✅ CORRECT - check multiple possible Brewfile locations
+BREWFILE_DIR=""
+for dir in "." "$HOME/.dotfiles" "$HOME/repos/dotfiles"; do
+    if [ -f "$dir/Brewfile" ]; then
+        BREWFILE_DIR="$dir"
+        break
+    fi
+done
+
+if [ -n "$BREWFILE_DIR" ]; then
+    cd "$BREWFILE_DIR"
+    brew bundle --file=Brewfile
+fi
+```
+
+### Machine-Specific Brewfiles
+
+Organize by machine type:
+
+```ruby
+# Brewfile (common packages)
+brew "git"
+brew "vim"
+cask "firefox"
+
+# Brewfile.work (work-specific)
+brew "awscli"
+cask "microsoft-teams"
+
+# Brewfile.personal (personal-specific)
+cask "steam"
+cask "spotify"
+```
+
+```bash
+# Install both
+brew bundle --file=Brewfile
+brew bundle --file=Brewfile.work
+```
+
+### Error: "Cask already installed"
+
+```bash
+# If brew bundle fails with "already installed"
+# Option 1: Force reinstall
+brew bundle --force
+
+# Option 2: Check what's different
+brew bundle check
+
+# Option 3: Clean up and reinstall
+brew bundle cleanup --force
+brew bundle install
+```
+
 ## Resources
 
 When helping with Brewfiles:
+- **CRITICAL**: Remove all deprecated tap declarations
+- **CRITICAL**: Check for renamed packages (exa→eza, docker→docker-desktop, etc.)
+- **CRITICAL**: Document that MAS requires GUI sign-in first
 - Organize packages logically with comments
 - Recommend modern CLI alternatives
 - Suggest service management for databases
 - Encourage regular `brew bundle cleanup`
 - Remind about `brew bundle check` before applying changes
-- Consider using mas for Mac App Store apps
+- Consider using mas for Mac App Store apps (with caveats)
 - Suggest version pinning for critical dependencies
 - Document why packages are needed
+- Verify package type (brew vs cask) before adding

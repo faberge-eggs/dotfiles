@@ -31,27 +31,31 @@ fi
 
 print_step "🚀 Starting macOS bootstrap process..."
 
-# Ask for machine type
-echo "What type of machine is this?"
-echo "  1) own (personal machine)"
-echo "  2) workato (Workato work machine)"
-read -p "Select [1-2]: " -n 1 -r
-echo
+# Ask for machine type (or use environment variable)
+if [ -n "$MACHINE_TYPE" ]; then
+    print_step "Using machine type from environment: $MACHINE_TYPE"
+else
+    echo "What type of machine is this?"
+    echo "  1) own (personal machine)"
+    echo "  2) workato (Workato work machine)"
+    read -p "Select [1-2]: " -n 1 -r
+    echo
 
-case $REPLY in
-    1)
-        MACHINE_TYPE="own"
-        print_step "Configuring as own (personal) machine..."
-        ;;
-    2)
-        MACHINE_TYPE="workato"
-        print_step "Configuring as Workato machine..."
-        ;;
-    *)
-        MACHINE_TYPE="own"
-        print_step "Invalid choice, defaulting to own (personal) machine..."
-        ;;
-esac
+    case $REPLY in
+        1)
+            MACHINE_TYPE="own"
+            ;;
+        2)
+            MACHINE_TYPE="workato"
+            ;;
+        *)
+            MACHINE_TYPE="own"
+            print_warning "Invalid choice, defaulting to own (personal) machine..."
+            ;;
+    esac
+fi
+
+print_step "Configuring as $MACHINE_TYPE machine..."
 
 # Step 1: Install Xcode Command Line Tools
 if ! xcode-select -p &>/dev/null; then
@@ -125,10 +129,46 @@ else
 fi
 
 # Step 7: Copy dotfiles structure to chezmoi
+if [ -d "$CHEZMOI_SOURCE_DIR/home" ]; then
+    print_step "Chezmoi initialized from repository, using existing structure..."
+    # Move files from home/ subdirectory to root
+    cp -r "$CHEZMOI_SOURCE_DIR/home/"* "$CHEZMOI_SOURCE_DIR/"
+    # Clean up the home directory to avoid confusion
+    rm -rf "$CHEZMOI_SOURCE_DIR/home"
+fi
+
+# Always copy local files to get latest changes (overwrite repo version)
 if [ -d "home" ]; then
-    print_step "Copying dotfiles structure to chezmoi..."
+    print_step "Copying latest dotfiles from local directory..."
     cp -r home/* "$CHEZMOI_SOURCE_DIR/"
 fi
+
+# Step 7.5: Configure chezmoi with user data
+print_step "Configuring chezmoi..."
+mkdir -p "$HOME/.config/chezmoi"
+
+# Get user information from git config if available
+GIT_NAME=$(git config --global user.name 2>/dev/null || echo "")
+GIT_EMAIL=$(git config --global user.email 2>/dev/null || echo "")
+GITHUB_USER=$(git config --global github.user 2>/dev/null || echo "")
+
+# Create chezmoi config with all required data
+cat > "$HOME/.config/chezmoi/chezmoi.toml" <<EOF
+[data]
+    email = "${GIT_EMAIL:-user@example.com}"
+    name = "${GIT_NAME:-Your Name}"
+    githubUsername = "${GITHUB_USER:-yourusername}"
+    machineType = "$MACHINE_TYPE"
+
+[data.onepassword]
+    enabled = true
+EOF
+
+print_step "Chezmoi configured with:"
+echo "  - Name: ${GIT_NAME:-Your Name}"
+echo "  - Email: ${GIT_EMAIL:-user@example.com}"
+echo "  - GitHub: ${GITHUB_USER:-yourusername}"
+echo "  - Machine: $MACHINE_TYPE"
 
 # Step 8: Apply chezmoi configuration
 print_step "Applying dotfiles with chezmoi..."

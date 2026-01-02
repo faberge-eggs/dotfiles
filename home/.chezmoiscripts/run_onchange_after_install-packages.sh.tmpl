@@ -6,10 +6,33 @@ set -e
 
 echo "Brewfile changed, updating packages..."
 
-cd "{{ .chezmoi.sourceDir }}/.."
+# Check if Homebrew is installed
+if ! command -v brew &>/dev/null; then
+    echo "Homebrew not found. Skipping package update."
+    exit 0
+fi
+
+# Find the Brewfiles - check multiple possible locations
+BREWFILE_DIR=""
+for dir in "{{ .chezmoi.sourceDir }}/.." "$HOME/.dotfiles" "{{ .chezmoi.sourceDir }}/../../dotfiles"; do
+    if [ -f "$dir/Brewfile" ]; then
+        BREWFILE_DIR="$dir"
+        break
+    fi
+done
+
+if [ -z "$BREWFILE_DIR" ]; then
+    echo "Brewfile not found. Skipping package update."
+    exit 0
+fi
+
+cd "$BREWFILE_DIR"
 
 # Update common packages
-brew bundle --file=Brewfile
+if [ -f "Brewfile" ]; then
+    echo "Updating common packages from Brewfile..."
+    brew bundle --file=Brewfile
+fi
 
 # Update machine-specific packages
 {{- if eq .machineType "workato" }}

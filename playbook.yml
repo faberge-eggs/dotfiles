@@ -21,8 +21,8 @@
           community.general.osx_defaults:
             domain: com.apple.dock
             key: tilesize
-            type: int
-            value: 48
+            type: float
+            value: 48.0
           notify: Restart Dock
 
         - name: Enable Dock autohide
@@ -188,26 +188,28 @@
             value: true
 
         # ===== Safari Configuration =====
-        - name: Enable Safari develop menu
-          community.general.osx_defaults:
-            domain: com.apple.Safari
-            key: IncludeDevelopMenu
-            type: bool
-            value: true
+        # Note: Safari uses sandboxed preferences that can't be modified via defaults
+        # Configure Safari settings manually through Safari > Settings
+        # - name: Enable Safari develop menu
+        #   community.general.osx_defaults:
+        #     domain: com.apple.Safari
+        #     key: IncludeDevelopMenu
+        #     type: bool
+        #     value: true
 
-        - name: Enable Safari debug menu
-          community.general.osx_defaults:
-            domain: com.apple.Safari
-            key: IncludeInternalDebugMenu
-            type: bool
-            value: true
+        # - name: Enable Safari debug menu
+        #   community.general.osx_defaults:
+        #     domain: com.apple.Safari
+        #     key: IncludeInternalDebugMenu
+        #     type: bool
+        #     value: true
 
-        - name: Show full URL in Safari address bar
-          community.general.osx_defaults:
-            domain: com.apple.Safari
-            key: ShowFullURLInSmartSearchField
-            type: bool
-            value: true
+        # - name: Show full URL in Safari address bar
+        #   community.general.osx_defaults:
+        #     domain: com.apple.Safari
+        #     key: ShowFullURLInSmartSearchField
+        #     type: bool
+        #     value: true
 
         # ===== System Preferences =====
         - name: Expand save panel by default

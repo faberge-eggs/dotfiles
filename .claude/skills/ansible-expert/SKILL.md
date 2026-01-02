@@ -366,6 +366,149 @@ From lowest to highest:
 5. **Use SSH keys**: Avoid password authentication
 6. **Audit logs**: Enable logging in ansible.cfg
 
+## macOS-Specific Best Practices (Lessons Learned)
+
+### osx_defaults Type Mismatches
+
+macOS defaults can have unexpected types. Always check the current type:
+
+```bash
+# Check current type and value
+defaults read com.apple.dock tilesize
+# Output: 48.0 (float)
+
+# ❌ WRONG - type mismatch error
+- name: Set Dock icon size
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: tilesize
+    type: int        # ← Will fail if current value is float
+    value: 48
+
+# ✅ CORRECT - match the existing type
+- name: Set Dock icon size
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: tilesize
+    type: float
+    value: 48.0
+```
+
+### Safari and App Sandboxing
+
+Modern macOS apps (especially Safari) use sandboxed preferences that can't be modified via `defaults`:
+
+```yaml
+# ❌ WILL FAIL - Safari is sandboxed
+- name: Enable Safari develop menu
+  community.general.osx_defaults:
+    domain: com.apple.Safari
+    key: IncludeDevelopMenu
+    type: bool
+    value: true
+# Error: Could not write domain .../com.apple.Safari
+
+# ✅ SOLUTION - Comment out or document manual configuration
+# Safari Configuration (Manual)
+# These settings must be configured through Safari > Settings
+# - Enable Develop menu: Safari > Settings > Advanced > Show Develop menu
+```
+
+Apps affected by sandboxing:
+- Safari
+- Mail
+- Messages
+- Photos
+- Other Mac App Store apps
+
+### Deprecation Warnings
+
+Handle `ansible_env` deprecation warnings:
+
+```yaml
+# ⚠️ DEPRECATED (still works but shows warnings)
+- name: Create directory
+  file:
+    path: "{{ ansible_env.HOME }}/.config"
+    state: directory
+
+# ✅ PREFERRED - use ansible_facts
+- name: Create directory
+  file:
+    path: "{{ ansible_facts.env.HOME }}/.config"
+    state: directory
+
+# Or disable the warning in ansible.cfg
+[defaults]
+inject_facts_as_vars = False
+```
+
+### Non-Interactive Execution
+
+When running playbooks from automation scripts:
+
+```bash
+# ❌ WILL HANG - waiting for password
+ansible-playbook playbook.yml --ask-become-pass
+
+# ✅ OPTIONS:
+# 1. Run without become (if not needed)
+ansible-playbook playbook.yml
+
+# 2. Use NOPASSWD in sudoers
+# /etc/sudoers.d/ansible:
+# username ALL=(ALL) NOPASSWD: ALL
+
+# 3. Provide password via variable (less secure)
+ansible-playbook playbook.yml -e ansible_become_pass=password
+```
+
+### macOS System Integrity Protection (SIP)
+
+Some system modifications require SIP to be disabled:
+
+```yaml
+# This may fail with SIP enabled
+- name: Modify system directory
+  file:
+    path: /System/Library/Something
+    state: directory
+  # Solution: Document that SIP must be disabled or use approved methods
+```
+
+### Testing macOS Playbooks
+
+Always test on a fresh system or VM:
+
+```bash
+# Test without making changes
+ansible-playbook --check playbook.yml
+
+# Test with verbose output
+ansible-playbook -vvv playbook.yml
+
+# Test specific tags
+ansible-playbook --tags dock,finder playbook.yml
+```
+
+### Common macOS Modules
+
+```yaml
+# ✅ Preferred modules for macOS
+community.general.osx_defaults     # System preferences
+community.general.homebrew         # Package installation
+community.general.homebrew_cask    # Application installation
+community.general.mas              # Mac App Store (with limitations)
+
+# Restart services after changes
+handlers:
+  - name: Restart Dock
+    command: killall Dock
+
+  - name: Restart Finder
+    command: killall Finder
+```
+
 ## Resources
 
 When helping with Ansible:
@@ -375,3 +518,6 @@ When helping with Ansible:
 - Consider cross-platform compatibility
 - Encourage role-based organization for complex setups
 - Suggest testing strategies (molecule, kitchen, etc.)
+- **For macOS**: Always verify `osx_defaults` types with `defaults read`
+- **For macOS**: Document sandboxed apps that need manual configuration
+- **For macOS**: Test on multiple macOS versions (Ventura, Sonoma, Sequoia)

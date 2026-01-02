@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(chezmoi --version:*)",
+      "Bash(chmod:*)",
+      "Bash(ls:*)",
+      "Bash(brew bundle check:*)",
+      "Bash(mas --help:*)",
+      "Bash(brew bundle:*)",
+      "Bash(mas --version:*)"
+    ]
+  }
+}

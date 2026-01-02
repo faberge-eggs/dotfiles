@@ -530,9 +530,102 @@ chezmoi add ~/.vimrc
 {{ (output "bw" "get" "password" "item-id") | trim }}
 ```
 
+## Critical Best Practices (Lessons Learned)
+
+### Template File Naming
+**CRITICAL**: Files containing template variables MUST have the `.tmpl` extension:
+```bash
+# ❌ WRONG - will fail with "map has no entry for key"
+run_once_install.sh           # Contains {{ .chezmoi.sourceDir }}
+
+# ✅ CORRECT
+run_once_install.sh.tmpl      # Chezmoi processes templates
+```
+
+Without `.tmpl`, chezmoi treats the file as plain text and doesn't process template variables.
+
+### Non-Interactive Bootstrap Integration
+
+When integrating chezmoi with bootstrap scripts, provide all required data upfront:
+
+```bash
+# Create chezmoi config before apply
+mkdir -p "$HOME/.config/chezmoi"
+cat > "$HOME/.config/chezmoi/chezmoi.toml" <<EOF
+[data]
+    email = "$GIT_EMAIL"
+    name = "$GIT_NAME"
+    githubUsername = "$GITHUB_USER"
+    machineType = "$MACHINE_TYPE"
+
+[data.onepassword]
+    enabled = true
+EOF
+
+# Then apply
+chezmoi apply
+```
+
+**Why**: `promptStringOnce` in `.chezmoi.toml.tmpl` won't work in non-interactive environments.
+
+### Script Path Detection
+
+Scripts in `.chezmoiscripts/` must handle multiple possible locations:
+
+```bash
+# ✅ CORRECT - check multiple locations
+BREWFILE_DIR=""
+for dir in "{{ .chezmoi.sourceDir }}/.." "$HOME/.dotfiles" "{{ .chezmoi.sourceDir }}/../../dotfiles"; do
+    if [ -f "$dir/Brewfile" ]; then
+        BREWFILE_DIR="$dir"
+        break
+    fi
+done
+
+if [ -z "$BREWFILE_DIR" ]; then
+    echo "Brewfile not found. Skipping."
+    exit 0
+fi
+```
+
+**Why**: `{{ .chezmoi.sourceDir }}` varies depending on how chezmoi was initialized (repo clone vs local init).
+
+### Template Variable Escaping
+
+When you want literal template syntax in output (like showing examples):
+
+```bash
+# ❌ WRONG - chezmoi will try to evaluate
+# GITHUB_TOKEN={{ onepasswordRead "op://Private/token" }}
+
+# ✅ CORRECT - escape the template syntax
+# GITHUB_TOKEN={{ "{{" }} onepasswordRead "op://Private/token" {{ "}}" }}
+```
+
+### Bootstrap Script Integration
+
+When copying dotfiles from a repo to chezmoi source:
+
+```bash
+# If chezmoi init cloned a repo with home/ subdirectory
+if [ -d "$CHEZMOI_SOURCE_DIR/home" ]; then
+    # Move files from home/ to root
+    cp -r "$CHEZMOI_SOURCE_DIR/home/"* "$CHEZMOI_SOURCE_DIR/"
+    rm -rf "$CHEZMOI_SOURCE_DIR/home"
+fi
+
+# Always copy local files to get latest changes (overwrite repo version)
+if [ -d "home" ]; then
+    cp -r home/* "$CHEZMOI_SOURCE_DIR/"
+fi
+```
+
+**Why**: When `chezmoi init` clones from a repo, it may create a nested structure that needs flattening.
+
 ## Resources
 
 When helping with chezmoi:
+- **ALWAYS** check that template files have `.tmpl` extension
 - Emphasize template-based configuration for cross-platform setups
 - Recommend age for encryption (simpler than GPG)
 - Suggest proper file naming conventions
@@ -540,3 +633,5 @@ When helping with chezmoi:
 - Always test with `chezmoi diff` before `chezmoi apply`
 - Remind about `.chezmoiignore` for repo-specific files
 - Consider security implications of dotfile exposure
+- Provide all data upfront for non-interactive usage
+- Handle multiple possible path locations in scripts
