@@ -1,0 +1,16 @@
+{{- if eq .machineType "workato" }}
+# Workato-specific git configuration
+# This file is included conditionally for workato repositories
+
+[user]
+    # Override with workato email
+    # email = your.name@workato.com
+
+# Workato-specific settings
+# [core]
+#     sshCommand = ssh -i ~/.ssh/workato_id_rsa
+
+# Workato GitHub Enterprise
+# [url "git@github.workato.com:"]
+#     insteadOf = https://github.workato.com/
+{{- end }}

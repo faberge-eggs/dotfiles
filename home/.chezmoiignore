@@ -1,0 +1,23 @@
+# Files that chezmoi should NOT manage
+
+README.md
+LICENSE
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.Trash
+
+# Git
+.git/
+
+# Editors
+.vscode/
+.idea/
+
+{{- if ne .chezmoi.os "darwin" }}
+# Ignore macOS-specific files on non-macOS systems
+Library/
+{{- end }}

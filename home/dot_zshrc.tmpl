@@ -1,0 +1,226 @@
+# ~/.zshrc
+# Zsh configuration managed by chezmoi
+
+# ===== Path Configuration =====
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+# ===== Oh My Zsh =====
+export ZSH="$HOME/.oh-my-zsh"
+
+# Theme
+ZSH_THEME=""  # Using Starship instead
+
+# Plugins
+plugins=(
+    git
+    docker
+    kubectl
+    terraform
+    ansible
+    brew
+    macos
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# ===== User Configuration =====
+export LANG=en_US.UTF-8
+export EDITOR='code --wait'
+export VISUAL='code --wait'
+
+# Git configuration
+export GIT_AUTHOR_NAME="{{ .name }}"
+export GIT_AUTHOR_EMAIL="{{ .email }}"
+export GIT_COMMITTER_NAME="{{ .name }}"
+export GIT_COMMITTER_EMAIL="{{ .email }}"
+
+# ===== 1Password Integration =====
+{{- if .onepassword.enabled }}
+# 1Password CLI helper functions
+op_load() {
+    if ! command -v op &>/dev/null; then
+        echo "1Password CLI not installed"
+        return 1
+    fi
+
+    # Check if signed in
+    if ! op account list &>/dev/null; then
+        echo "Not signed in to 1Password. Run: eval \$(op signin)"
+        return 1
+    fi
+}
+
+# Load environment variables from 1Password
+# Example: op_env "My Secret" "ENV_VAR_NAME"
+op_env() {
+    op_load || return 1
+    local item_name="$1"
+    local field_name="${2:-password}"
+    op item get "$item_name" --fields "$field_name" 2>/dev/null
+}
+
+# Export all env vars from a 1Password item
+# Example: op_export_env "Development Environment"
+op_export_env() {
+    op_load || return 1
+    local item_name="$1"
+    eval $(op item get "$item_name" --format=json | jq -r '.fields[] | select(.type=="concealed") | "export \(.label)=\(.value)"')
+}
+{{- end }}
+
+# ===== Aliases =====
+# Modern CLI replacements
+alias ls="eza --icons --group-directories-first"
+alias ll="eza -l --icons --group-directories-first"
+alias la="eza -la --icons --group-directories-first"
+alias lt="eza --tree --icons --group-directories-first"
+alias cat="bat"
+alias find="fd"
+alias grep="rg"
+alias ps="procs"
+alias du="ncdu"
+alias df="duf"
+alias top="btop"
+
+# Git aliases
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit"
+alias gp="git push"
+alias gl="git pull"
+alias gd="git diff"
+alias gco="git checkout"
+alias gb="git branch"
+alias lg="lazygit"
+
+# Docker aliases
+alias d="docker"
+alias dc="docker-compose"
+alias dps="docker ps"
+alias dpsa="docker ps -a"
+alias di="docker images"
+
+# Kubernetes aliases
+alias k="kubectl"
+alias kgp="kubectl get pods"
+alias kgs="kubectl get services"
+alias kgd="kubectl get deployments"
+
+# Chezmoi aliases
+alias cm="chezmoi"
+alias cma="chezmoi apply"
+alias cmd="chezmoi diff"
+alias cme="chezmoi edit"
+alias cmu="chezmoi update"
+
+# System aliases
+alias reload="source ~/.zshrc"
+alias brewup="brew update && brew upgrade && brew cleanup"
+alias dotup="chezmoi update"
+
+# Navigation aliases
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias ~="cd ~"
+
+# Utility aliases
+alias h="history"
+alias c="clear"
+alias md="mkdir -p"
+alias rd="rmdir"
+
+# macOS specific aliases
+{{- if eq .chezmoi.os "darwin" }}
+alias showfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+{{- end }}
+
+# ===== FZF Configuration =====
+if command -v fzf &>/dev/null; then
+    # Auto-completion
+    [[ $- == *i* ]] && source "/opt/homebrew/opt/fzf/shell/completion.zsh" 2> /dev/null
+
+    # Key bindings
+    source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh" 2> /dev/null
+
+    # Use fd instead of find
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+
+    # Preview with bat
+    export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :500 {}'"
+fi
+
+# ===== Starship Prompt =====
+if command -v starship &>/dev/null; then
+    eval "$(starship init zsh)"
+fi
+
+# ===== Additional Tools =====
+# Node Version Manager (if using nvm)
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+
+# Rust
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+
+# Go
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
+
+# Python
+export PYTHONDONTWRITEBYTECODE=1
+
+# ===== Machine-specific Configuration =====
+{{- if eq .machineType "workato" }}
+# ===== Workato Machine Configuration =====
+
+# Cloud Provider Profiles
+# export AWS_PROFILE="workato"
+# export AWS_REGION="us-east-1"
+# export AZURE_SUBSCRIPTION_ID="your-subscription-id"
+# export GCP_PROJECT="your-project-id"
+
+# Corporate Proxies (if needed)
+# export HTTP_PROXY="http://proxy.workato.com:8080"
+# export HTTPS_PROXY="http://proxy.workato.com:8080"
+# export NO_PROXY="localhost,127.0.0.1,.workato.com"
+
+# Workato-specific tools
+# export WORKATO_ENV="production"
+
+# Workato-specific aliases
+alias vpn-connect="echo 'Connect to Workato VPN'"
+alias vpn-disconnect="echo 'Disconnect from Workato VPN'"
+
+# Workato git email override (if different from personal)
+# export GIT_AUTHOR_EMAIL="your.name@workato.com"
+# export GIT_COMMITTER_EMAIL="your.name@workato.com"
+
+{{- else if eq .machineType "own" }}
+# ===== Own Machine Configuration =====
+
+# Personal Cloud Provider Profiles
+# export AWS_PROFILE="personal"
+# export AWS_REGION="us-west-2"
+
+# Personal projects
+# export PERSONAL_PROJECTS_DIR="$HOME/Developer/personal"
+
+# Personal aliases
+alias personal="cd $HOME/Developer/personal"
+alias experiments="cd $HOME/Developer/experiments"
+
+{{- end }}
+
+# Local customizations (not managed by chezmoi)
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local

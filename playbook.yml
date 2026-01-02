@@ -1,0 +1,350 @@
+---
+# Ansible Playbook for macOS Configuration
+# Configures system preferences and macOS defaults
+#
+# Usage:
+#   ansible-playbook playbook.yml --ask-become-pass
+
+- name: Configure macOS System
+  hosts: localhost
+  connection: local
+  become: false
+
+  vars:
+    computer_name: "{{ ansible_hostname }}"
+
+  tasks:
+    - name: macOS System Configuration
+      block:
+        # ===== Dock Configuration =====
+        - name: Set Dock icon size
+          community.general.osx_defaults:
+            domain: com.apple.dock
+            key: tilesize
+            type: int
+            value: 48
+          notify: Restart Dock
+
+        - name: Enable Dock autohide
+          community.general.osx_defaults:
+            domain: com.apple.dock
+            key: autohide
+            type: bool
+            value: true
+          notify: Restart Dock
+
+        - name: Set Dock autohide delay
+          community.general.osx_defaults:
+            domain: com.apple.dock
+            key: autohide-delay
+            type: float
+            value: 0
+          notify: Restart Dock
+
+        - name: Minimize windows into application icon
+          community.general.osx_defaults:
+            domain: com.apple.dock
+            key: minimize-to-application
+            type: bool
+            value: true
+          notify: Restart Dock
+
+        - name: Show recent applications in Dock
+          community.general.osx_defaults:
+            domain: com.apple.dock
+            key: show-recents
+            type: bool
+            value: false
+          notify: Restart Dock
+
+        # ===== Finder Configuration =====
+        - name: Show hidden files in Finder
+          community.general.osx_defaults:
+            domain: com.apple.finder
+            key: AppleShowAllFiles
+            type: bool
+            value: true
+          notify: Restart Finder
+
+        - name: Show file extensions in Finder
+          community.general.osx_defaults:
+            domain: NSGlobalDomain
+            key: AppleShowAllExtensions
+            type: bool
+            value: true
+          notify: Restart Finder
+
+        - name: Show path bar in Finder
+          community.general.osx_defaults:
+            domain: com.apple.finder
+            key: ShowPathbar
+            type: bool
+            value: true
+          notify: Restart Finder
+
+        - name: Show status bar in Finder
+          community.general.osx_defaults:
+            domain: com.apple.finder
+            key: ShowStatusBar
+            type: bool
+            value: true
+          notify: Restart Finder
+
+        - name: Set default Finder view to list view
+          community.general.osx_defaults:
+            domain: com.apple.finder
+            key: FXPreferredViewStyle
+            type: string
+            value: "Nlsv"
+          notify: Restart Finder
+
+        - name: Set default Finder location to home directory
+          community.general.osx_defaults:
+            domain: com.apple.finder
+            key: NewWindowTarget
+            type: string
+            value: "PfHm"
+          notify: Restart Finder
+
+        - name: Disable warning when changing file extension
+          community.general.osx_defaults:
+            domain: com.apple.finder
+            key: FXEnableExtensionChangeWarning
+            type: bool
+            value: false
+          notify: Restart Finder
+
+        # ===== Keyboard Configuration =====
+        - name: Enable key repeat
+          community.general.osx_defaults:
+            domain: NSGlobalDomain
+            key: ApplePressAndHoldEnabled
+            type: bool
+            value: false
+
+        - name: Set fast key repeat rate
+          community.general.osx_defaults:
+            domain: NSGlobalDomain
+            key: KeyRepeat
+            type: int
+            value: 2
+
+        - name: Set short delay until key repeat
+          community.general.osx_defaults:
+            domain: NSGlobalDomain
+            key: InitialKeyRepeat
+            type: int
+            value: 15
+
+        # ===== Trackpad Configuration =====
+        - name: Enable tap to click
+          community.general.osx_defaults:
+            domain: com.apple.driver.AppleBluetoothMultitouch.trackpad
+            key: Clicking
+            type: bool
+            value: true
+
+        - name: Enable three finger drag
+          community.general.osx_defaults:
+            domain: com.apple.AppleMultitouchTrackpad
+            key: TrackpadThreeFingerDrag
+            type: bool
+            value: true
+
+        # ===== Screen Configuration =====
+        - name: Require password after sleep or screen saver
+          community.general.osx_defaults:
+            domain: com.apple.screensaver
+            key: askForPassword
+            type: int
+            value: 1
+
+        - name: Set password delay after screen saver to 5 seconds
+          community.general.osx_defaults:
+            domain: com.apple.screensaver
+            key: askForPasswordDelay
+            type: int
+            value: 5
+
+        - name: Save screenshots to Downloads folder
+          community.general.osx_defaults:
+            domain: com.apple.screencapture
+            key: location
+            type: string
+            value: "{{ ansible_env.HOME }}/Downloads"
+
+        - name: Save screenshots in PNG format
+          community.general.osx_defaults:
+            domain: com.apple.screencapture
+            key: type
+            type: string
+            value: "png"
+
+        - name: Disable shadow in screenshots
+          community.general.osx_defaults:
+            domain: com.apple.screencapture
+            key: disable-shadow
+            type: bool
+            value: true
+
+        # ===== Safari Configuration =====
+        - name: Enable Safari develop menu
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: IncludeDevelopMenu
+            type: bool
+            value: true
+
+        - name: Enable Safari debug menu
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: IncludeInternalDebugMenu
+            type: bool
+            value: true
+
+        - name: Show full URL in Safari address bar
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: ShowFullURLInSmartSearchField
+            type: bool
+            value: true
+
+        # ===== System Preferences =====
+        - name: Expand save panel by default
+          community.general.osx_defaults:
+            domain: NSGlobalDomain
+            key: NSNavPanelExpandedStateForSaveMode
+            type: bool
+            value: true
+
+        - name: Expand print panel by default
+          community.general.osx_defaults:
+            domain: NSGlobalDomain
+            key: PMPrintingExpandedStateForPrint
+            type: bool
+            value: true
+
+        - name: Disable automatic capitalization
+          community.general.osx_defaults:
+            domain: NSGlobalDomain
+            key: NSAutomaticCapitalizationEnabled
+            type: bool
+            value: false
+
+        - name: Disable smart dashes
+          community.general.osx_defaults:
+            domain: NSGlobalDomain
+            key: NSAutomaticDashSubstitutionEnabled
+            type: bool
+            value: false
+
+        - name: Disable smart quotes
+          community.general.osx_defaults:
+            domain: NSGlobalDomain
+            key: NSAutomaticQuoteSubstitutionEnabled
+            type: bool
+            value: false
+
+        - name: Disable auto-correct
+          community.general.osx_defaults:
+            domain: NSGlobalDomain
+            key: NSAutomaticSpellingCorrectionEnabled
+            type: bool
+            value: false
+
+        # ===== Time Machine =====
+        - name: Prevent Time Machine from prompting to use new hard drives as backup volume
+          community.general.osx_defaults:
+            domain: com.apple.TimeMachine
+            key: DoNotOfferNewDisksForBackup
+            type: bool
+            value: true
+
+        # ===== Activity Monitor =====
+        - name: Show all processes in Activity Monitor
+          community.general.osx_defaults:
+            domain: com.apple.ActivityMonitor
+            key: ShowCategory
+            type: int
+            value: 0
+
+        - name: Sort Activity Monitor results by CPU usage
+          community.general.osx_defaults:
+            domain: com.apple.ActivityMonitor
+            key: SortColumn
+            type: string
+            value: "CPUUsage"
+
+        - name: Sort Activity Monitor in descending order
+          community.general.osx_defaults:
+            domain: com.apple.ActivityMonitor
+            key: SortDirection
+            type: int
+            value: 0
+
+      tags:
+        - macos
+        - system
+
+    # ===== Create Directories =====
+    - name: Create Development directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - "{{ ansible_env.HOME }}/Developer"
+        - "{{ ansible_env.HOME }}/Developer/projects"
+        - "{{ ansible_env.HOME }}/Developer/playground"
+        - "{{ ansible_env.HOME }}/bin"
+      tags:
+        - directories
+
+    # ===== iTerm2 Configuration =====
+    - name: Create iTerm2 config directory
+      file:
+        path: "{{ ansible_env.HOME }}/.dotfiles/config/iterm2"
+        state: directory
+        mode: '0755'
+      tags:
+        - iterm2
+
+    - name: Configure iTerm2 to use custom preferences directory
+      community.general.osx_defaults:
+        domain: com.googlecode.iterm2
+        key: PrefsCustomFolder
+        type: string
+        value: "{{ ansible_env.HOME }}/.dotfiles/config/iterm2"
+      tags:
+        - iterm2
+
+    - name: Enable loading preferences from custom folder
+      community.general.osx_defaults:
+        domain: com.googlecode.iterm2
+        key: LoadPrefsFromCustomFolder
+        type: bool
+        value: true
+      tags:
+        - iterm2
+
+    # ===== SSH Configuration =====
+    - name: Ensure SSH directory exists
+      file:
+        path: "{{ ansible_env.HOME }}/.ssh"
+        state: directory
+        mode: '0700'
+      tags:
+        - ssh
+
+  handlers:
+    - name: Restart Dock
+      command: killall Dock
+      changed_when: false
+
+    - name: Restart Finder
+      command: killall Finder
+      changed_when: false
+
+    - name: Restart SystemUIServer
+      command: killall SystemUIServer
+      changed_when: false

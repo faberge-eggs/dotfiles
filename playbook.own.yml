@@ -1,0 +1,93 @@
+---
+# Own Machine Ansible Playbook
+# Personal machine-specific configuration (deltas from base playbook)
+#
+# Usage:
+#   ansible-playbook playbook.own.yml --ask-become-pass
+
+- name: Configure Own Machine
+  hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+    # ===== Personal Directories =====
+    - name: Create personal directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - "{{ ansible_env.HOME }}/Developer"
+        - "{{ ansible_env.HOME }}/Developer/personal"
+        - "{{ ansible_env.HOME }}/Developer/experiments"
+        - "{{ ansible_env.HOME }}/Documents/personal"
+      tags:
+        - directories
+
+    # ===== Personal Environment File =====
+    - name: Create personal environment file
+      copy:
+        dest: "{{ ansible_env.HOME }}/.own.env"
+        content: |
+          # Personal environment variables
+          # Source this file in your shell: source ~/.own.env
+
+          # Personal AWS/Cloud profiles
+          # export AWS_PROFILE="personal"
+          # export AWS_REGION="us-west-2"
+
+          # Personal projects
+          # export PERSONAL_PROJECTS_DIR="$HOME/Developer/personal"
+        mode: '0600'
+        force: no
+      tags:
+        - environment
+
+    # ===== macOS Personal Settings =====
+    - name: Personal macOS Configuration
+      block:
+        - name: Set shorter screen lock delay for personal use
+          community.general.osx_defaults:
+            domain: com.apple.screensaver
+            key: askForPasswordDelay
+            type: int
+            value: 60  # 1 minute for personal
+          tags:
+            - macos
+            - security
+
+        - name: Enable Airdrop for personal use
+          command: defaults write com.apple.NetworkBrowser DisableAirDrop -bool NO
+          tags:
+            - macos
+
+        # Add more personal-specific settings here
+
+    # ===== Git Configuration for Personal Repos =====
+    - name: Create gitconfig for personal repositories
+      copy:
+        dest: "{{ ansible_env.HOME }}/.gitconfig.own"
+        content: |
+          # Personal git configuration
+          # This file is included via includeIf in main .gitconfig
+
+          [user]
+              # email = personal@example.com
+
+          # Personal GitHub settings
+          # [url "git@github.com-personal:"]
+          #     insteadOf = https://github.com/
+        mode: '0644'
+        force: no
+      tags:
+        - git
+
+  handlers:
+    - name: Restart Dock
+      command: killall Dock
+      changed_when: false
+
+    - name: Restart Finder
+      command: killall Finder
+      changed_when: false

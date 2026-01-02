@@ -1,0 +1,40 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Backups
+backups/
+*.backup
+*.bak
+
+# Temporary files
+*.swp
+*.swo
+*~
+
+# Local configuration (not synced)
+*.local
+
+# Secrets (NEVER commit these)
+.env
+*.key
+*.pem
+*.cert
+id_rsa*
+*.age
+key.txt
+
+# 1Password
+.op/
+
+# Ansible
+*.retry
+.ansible/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/

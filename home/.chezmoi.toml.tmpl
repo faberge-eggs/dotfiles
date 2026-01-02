@@ -1,0 +1,28 @@
+{{- $email := promptStringOnce . "email" "Git email address" -}}
+{{- $name := promptStringOnce . "name" "Full name" -}}
+{{- $githubUsername := promptStringOnce . "githubUsername" "GitHub username" -}}
+{{- $machineType := promptStringOnce . "machineType" "Machine type (own/workato)" -}}
+
+[data]
+    email = {{ $email | quote }}
+    name = {{ $name | quote }}
+    githubUsername = {{ $githubUsername | quote }}
+    machineType = {{ $machineType | quote }}
+
+[edit]
+    command = "code"
+    args = ["--wait"]
+
+[diff]
+    command = "code"
+    args = ["--wait", "--diff"]
+
+[git]
+    autoCommit = false
+    autoPush = false
+
+# 1Password integration
+# Requires: brew install 1password-cli
+# Sign in: eval $(op signin)
+[data.onepassword]
+    enabled = true

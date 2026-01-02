@@ -1,0 +1,45 @@
+# Environment variables
+# This file demonstrates 1Password CLI integration
+# Reference: https://developer.1password.com/docs/cli/secrets-reference-syntax
+
+{{- if .onepassword.enabled }}
+# Example: Load secrets from 1Password
+# Replace "My Item Name" with your 1Password item name
+
+# GitHub Token
+# GITHUB_TOKEN={{ onepasswordRead "op://Private/GitHub Personal Access Token/credential" }}
+
+# AWS Credentials
+# AWS_ACCESS_KEY_ID={{ onepasswordRead "op://Private/AWS Credentials/access_key_id" }}
+# AWS_SECRET_ACCESS_KEY={{ onepasswordRead "op://Private/AWS Credentials/secret_access_key" }}
+
+# API Keys
+# OPENAI_API_KEY={{ onepasswordRead "op://Private/OpenAI/api_key" }}
+# ANTHROPIC_API_KEY={{ onepasswordRead "op://Private/Anthropic/api_key" }}
+
+# Database URLs
+# DATABASE_URL={{ onepasswordRead "op://Private/Database/connection_string" }}
+
+{{- else }}
+# 1Password integration not enabled
+# Set values manually or enable in .chezmoi.toml.tmpl
+{{- end }}
+
+# Non-secret environment variables
+export EDITOR="code --wait"
+export VISUAL="code --wait"
+
+# Development
+export NODE_ENV=development
+export PYTHONDONTWRITEBYTECODE=1
+
+# Homebrew
+export HOMEBREW_NO_ANALYTICS=1
+
+{{- if eq .machineType "workato" }}
+# Workato-specific environment
+# export WORKATO_API_KEY={{ onepasswordRead "op://Private/Workato/api_key" }}
+{{- else if eq .machineType "own" }}
+# Personal machine environment
+# export PERSONAL_API_KEY={{ onepasswordRead "op://Private/Personal/api_key" }}
+{{- end }}

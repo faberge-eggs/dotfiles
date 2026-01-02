@@ -1,0 +1,151 @@
+---
+# Workato-Specific Ansible Playbook
+# Additional configuration for Workato work machines
+#
+# Usage:
+#   ansible-playbook playbook.workato.yml --ask-become-pass
+
+- name: Configure Workato Machine
+  hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+    # ===== Workato Directories =====
+    - name: Create workato directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - "{{ ansible_env.HOME }}/workato"
+        - "{{ ansible_env.HOME }}/workato/projects"
+        - "{{ ansible_env.HOME }}/workato/repos"
+        - "{{ ansible_env.HOME }}/workato/docs"
+      tags:
+        - directories
+
+    # ===== SSH Configuration for Workato =====
+    - name: Ensure workato SSH key directory exists
+      file:
+        path: "{{ ansible_env.HOME }}/.ssh/workato"
+        state: directory
+        mode: '0700'
+      tags:
+        - ssh
+
+    # ===== Workato Environment File =====
+    - name: Create workato environment file
+      copy:
+        dest: "{{ ansible_env.HOME }}/.workato.env"
+        content: |
+          # Workato-specific environment variables
+          # Source this file in your shell: source ~/.workato.env
+
+          # Cloud Provider Profiles
+          # export AWS_PROFILE="work"
+          # export AWS_REGION="us-east-1"
+
+          # Company-specific
+          # export COMPANY_ENV="production"
+          # export COMPANY_REGION="us-east"
+        mode: '0600'
+        force: no
+      tags:
+        - environment
+
+    # ===== macOS Workato Settings =====
+    - name: Workato-specific macOS Configuration
+      block:
+        - name: Set longer screen lock delay for workato
+          community.general.osx_defaults:
+            domain: com.apple.screensaver
+            key: askForPasswordDelay
+            type: int
+            value: 300  # 5 minutes for workato
+          tags:
+            - macos
+            - security
+
+        - name: Disable Airdrop (if required by company policy)
+          command: defaults write com.apple.NetworkBrowser DisableAirDrop -bool YES
+          tags:
+            - macos
+            - security
+            - compliance
+
+        # Add more workato-specific settings here
+
+    # ===== VPN Configuration =====
+    # Uncomment if your company uses specific VPN
+    # - name: Configure VPN
+    #   template:
+    #     src: templates/vpn-config.ovpn.j2
+    #     dest: "{{ ansible_env.HOME }}/.vpn/company-vpn.ovpn"
+    #     mode: '0600'
+    #   tags:
+    #     - vpn
+
+    # ===== Corporate Certificates =====
+    # - name: Install corporate root certificates
+    #   copy:
+    #     src: "files/company-root-ca.crt"
+    #     dest: "/usr/local/share/ca-certificates/company-root-ca.crt"
+    #   become: yes
+    #   tags:
+    #     - certificates
+    #     - security
+
+    # ===== Docker Configuration for Workato =====
+    - name: Create Docker config for corporate registry
+      file:
+        path: "{{ ansible_env.HOME }}/.docker"
+        state: directory
+        mode: '0755'
+      tags:
+        - docker
+
+    # ===== Kubernetes Configuration =====
+    - name: Create kubeconfig directory
+      file:
+        path: "{{ ansible_env.HOME }}/.kube"
+        state: directory
+        mode: '0755'
+      tags:
+        - kubernetes
+
+    # ===== Git Configuration for Workato Repos =====
+    - name: Create gitconfig for workato repositories
+      copy:
+        dest: "{{ ansible_env.HOME }}/.gitconfig.workato"
+        content: |
+          # Workato-specific git configuration
+          # This file is included via includeIf in main .gitconfig
+
+          [user]
+              # email = your.name@workato.com
+
+          # [core]
+          #     sshCommand = ssh -i ~/.ssh/workato_id_rsa
+        mode: '0644'
+        force: no
+      tags:
+        - git
+
+    # ===== Company-specific Tools =====
+    # Example: Configure company CLI tools
+    # - name: Configure company CLI
+    #   template:
+    #     src: templates/company-cli-config.yml.j2
+    #     dest: "{{ ansible_env.HOME }}/.company/config.yml"
+    #   tags:
+    #     - tools
+
+  handlers:
+    - name: Restart Dock
+      command: killall Dock
+      changed_when: false
+
+    - name: Restart Finder
+      command: killall Finder
+      changed_when: false
