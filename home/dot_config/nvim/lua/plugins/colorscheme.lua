@@ -1,53 +1,21 @@
--- lua/plugins/colorscheme.lua
--- Colorschemes
-
+-- Custom colorscheme configuration
 return {
-  -- Catppuccin (primary)
+  -- Set catppuccin as the default colorscheme
   {
     "catppuccin/nvim",
     name = "catppuccin",
+    lazy = false,
     priority = 1000,
     opts = {
       flavour = "mocha",
-      background = {
-        light = "latte",
-        dark = "mocha",
-      },
-      transparent_background = false,
-      term_colors = true,
-      integrations = {
-        cmp = true,
-        gitsigns = true,
-        nvimtree = true,
-        treesitter = true,
-        telescope = true,
-        which_key = true,
-        indent_blankline = { enabled = true },
-        native_lsp = {
-          enabled = true,
-          underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
-          },
-        },
-      },
     },
   },
 
-  -- TokyoNight (alternative)
+  -- Configure LazyVim to use catppuccin
   {
-    "folke/tokyonight.nvim",
-    lazy = true,
+    "LazyVim/LazyVim",
     opts = {
-      style = "night",
+      colorscheme = "catppuccin",
     },
-  },
-
-  -- Gruvbox (alternative)
-  {
-    "ellisonleao/gruvbox.nvim",
-    lazy = true,
   },
 }
