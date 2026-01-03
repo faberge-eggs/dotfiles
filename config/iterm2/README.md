@@ -63,25 +63,30 @@ OR manually:
 
 ## Files
 
-- `com.googlecode.iterm2.plist` - Main preferences file (binary plist, auto-saved by iTerm2)
-- `preferences.json` - Human-readable JSON version of preferences (for review)
-- `iterm_profile.json` - Custom profile configuration (colors, fonts, settings)
+- `com.googlecode.iterm2.plist` - Full iTerm2 preferences (binary plist, auto-saved by iTerm2)
+- `preferences.json` - Human-readable JSON version for review and diffs
+- `iterm_profile.json` - Reference profile configuration (colors, fonts, window settings)
 
 ## Scripts
-
-Use these scripts to manage iTerm2 preferences:
 
 ### Export Current Settings
 ```bash
 ./scripts/iterm2-export.sh
 ```
-Exports your current iTerm2 settings to this directory. Run this after making changes you want to save.
+Exports your current iTerm2 settings. Run after making changes in iTerm2.
 
 ### Import Settings
 ```bash
 ./scripts/iterm2-import.sh
 ```
-Imports preferences from this directory. Use on new machines or to restore settings.
+Imports full preferences from this directory. Use on new machines.
+
+### Apply Profile
+```bash
+python3 scripts/iterm2-apply-profile.py
+```
+Applies custom profile settings (colors, fonts, etc.) to your default profile.
+Quit iTerm2 first, then run this script.
 
 ## Tips
 
