@@ -139,4 +139,8 @@ mas "Amphetamine", id: 937984704  # Keep-awake utility
 mas "copyclip", id: 595191960
 
 cask "chatgpt"
-cask "cleanmymac", args: { url: "https://dl.devmate.com/com.macpaw.CleanMyMac4/CleanMyMacX.dmg" }
+
+tap "faberge-eggs/custom", "file://#{File.dirname(__FILE__)}/homebrew-custom"
+
+cask "#{File.dirname(__FILE__)}/homebrew-custom/Casks/cleanmymac.rb"
+
