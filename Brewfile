@@ -140,7 +140,9 @@ mas "copyclip", id: 595191960
 
 cask "chatgpt"
 
-tap "faberge-eggs/custom", "file://#{File.dirname(__FILE__)}/homebrew-custom"
+# Custom tap for apps not in official Homebrew
+tap "faberge-eggs/custom", "#{File.dirname(__FILE__)}/homebrew-custom"
 
-cask "#{File.dirname(__FILE__)}/homebrew-custom/Casks/cleanmymac.rb"
+# Custom casks from local tap
+cask "cleanmymac"
 
