@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Install Oh My Zsh and plugins
+# This script runs once before dotfiles are applied
+
+set -e
+
+echo "Setting up Oh My Zsh..."
+
+# Install Oh My Zsh if not already installed
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    echo "Installing Oh My Zsh..."
+    # Non-interactive installation (doesn't change shell or run zsh)
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    echo "Oh My Zsh installed successfully"
+else
+    echo "Oh My Zsh already installed"
+fi
+
+# Custom plugins directory
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+# Install zsh-autosuggestions
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+    echo "Installing zsh-autosuggestions..."
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+else
+    echo "zsh-autosuggestions already installed"
+fi
+
+# Install zsh-syntax-highlighting
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+    echo "Installing zsh-syntax-highlighting..."
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+else
+    echo "zsh-syntax-highlighting already installed"
+fi
+
+echo "Oh My Zsh setup complete"
