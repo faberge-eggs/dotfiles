@@ -1,0 +1,304 @@
+" ~/.vimrc - Classic Vim Configuration
+" Managed by chezmoi
+
+" ============================================================================
+" GENERAL SETTINGS
+" ============================================================================
+
+set nocompatible              " Use Vim settings, not Vi
+filetype plugin indent on     " Enable filetype detection, plugins, indenting
+syntax enable                 " Enable syntax highlighting
+
+" Encoding
+set encoding=utf-8
+set fileencoding=utf-8
+
+" Performance
+set lazyredraw                " Don't redraw while executing macros
+set ttyfast                   " Faster terminal connection
+
+" ============================================================================
+" USER INTERFACE
+" ============================================================================
+
+set number                    " Show line numbers
+set relativenumber            " Relative line numbers
+set cursorline                " Highlight current line
+set showcmd                   " Show command in bottom bar
+set showmode                  " Show current mode
+set wildmenu                  " Visual autocomplete for command menu
+set wildmode=longest:full,full
+set laststatus=2              " Always show status line
+set ruler                     " Show cursor position
+set scrolloff=8               " Keep 8 lines above/below cursor
+set sidescrolloff=8           " Keep 8 columns left/right of cursor
+set signcolumn=yes            " Always show sign column
+set colorcolumn=80            " Show column at 80 chars
+set title                     " Set terminal title
+set belloff=all               " Disable all bells
+
+" Line wrapping
+set nowrap                    " Don't wrap lines by default
+set linebreak                 " Wrap at word boundaries when wrap is on
+
+" Splits
+set splitbelow                " Open horizontal splits below
+set splitright                " Open vertical splits to the right
+
+" ============================================================================
+" COLORS AND THEME
+" ============================================================================
+
+set background=dark
+set termguicolors             " Enable true colors (if terminal supports)
+
+" Use a good colorscheme (will be set after plugins load)
+silent! colorscheme desert    " Fallback colorscheme
+
+" ============================================================================
+" EDITING
+" ============================================================================
+
+" Indentation
+set autoindent                " Copy indent from current line
+set smartindent               " Smart autoindenting
+set tabstop=4                 " Tab = 4 spaces visually
+set softtabstop=4             " Tab = 4 spaces when editing
+set shiftwidth=4              " Indent = 4 spaces
+set expandtab                 " Use spaces instead of tabs
+set smarttab                  " Smart tab handling
+
+" Backspace behavior
+set backspace=indent,eol,start
+
+" Search
+set incsearch                 " Search as you type
+set hlsearch                  " Highlight search results
+set ignorecase                " Case insensitive search
+set smartcase                 " Case sensitive if uppercase present
+
+" Completion
+set completeopt=menuone,longest,preview
+
+" Clipboard
+set clipboard=unnamed         " Use system clipboard
+
+" Mouse
+set mouse=a                   " Enable mouse in all modes
+
+" ============================================================================
+" FILES AND BACKUP
+" ============================================================================
+
+set hidden                    " Allow hidden buffers
+set autoread                  " Reload files changed outside vim
+set nobackup                  " Don't create backup files
+set nowritebackup             " Don't create backup before overwriting
+set noswapfile                " Don't create swap files
+set undofile                  " Persistent undo
+set undodir=~/.vim/undodir    " Undo directory
+
+" Create undo directory if it doesn't exist
+if !isdirectory(expand("~/.vim/undodir"))
+    call mkdir(expand("~/.vim/undodir"), "p")
+endif
+
+" ============================================================================
+" PLUGIN MANAGER (vim-plug)
+" ============================================================================
+
+" Auto-install vim-plug if not present
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+
+" Colorschemes
+Plug 'morhetz/gruvbox'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'tomasr/molokai'
+Plug 'altercation/vim-colors-solarized'
+
+" Status line
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" File navigation
+Plug 'preservim/nerdtree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" Git integration
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Editing helpers
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'jiangmiao/auto-pairs'
+
+" Syntax and language support
+Plug 'sheerun/vim-polyglot'
+
+" Code completion (optional - uncomment if needed)
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Distraction-free writing
+Plug 'junegunn/goyo.vim'
+
+call plug#end()
+
+" ============================================================================
+" PLUGIN CONFIGURATION
+" ============================================================================
+
+" Gruvbox colorscheme
+let g:gruvbox_contrast_dark = 'medium'
+silent! colorscheme gruvbox
+
+" Airline
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme = 'gruvbox'
+
+" NERDTree
+let NERDTreeShowHidden = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeIgnore = ['\.pyc$', '__pycache__', '\.git$', 'node_modules']
+
+" GitGutter
+set updatetime=100            " Faster git gutter updates
+
+" FZF
+let g:fzf_layout = { 'down': '40%' }
+
+" ============================================================================
+" KEY MAPPINGS
+" ============================================================================
+
+" Leader key
+let mapleader = " "
+let maplocalleader = " "
+
+" Quick escape
+inoremap jk <Esc>
+inoremap kj <Esc>
+
+" Clear search highlight
+nnoremap <leader>/ :nohlsearch<CR>
+
+" Better window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Resize windows
+nnoremap <C-Up> :resize +2<CR>
+nnoremap <C-Down> :resize -2<CR>
+nnoremap <C-Left> :vertical resize -2<CR>
+nnoremap <C-Right> :vertical resize +2<CR>
+
+" Buffer navigation
+nnoremap <leader>bn :bnext<CR>
+nnoremap <leader>bp :bprevious<CR>
+nnoremap <leader>bd :bdelete<CR>
+
+" Tab navigation
+nnoremap <leader>tn :tabnext<CR>
+nnoremap <leader>tp :tabprevious<CR>
+nnoremap <leader>tc :tabclose<CR>
+nnoremap <leader>to :tabonly<CR>
+
+" NERDTree
+nnoremap <leader>e :NERDTreeToggle<CR>
+nnoremap <leader>nf :NERDTreeFind<CR>
+
+" FZF
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fg :GFiles<CR>
+nnoremap <leader>fb :Buffers<CR>
+nnoremap <leader>fh :History<CR>
+nnoremap <leader>fr :Rg<CR>
+nnoremap <C-p> :Files<CR>
+
+" Git (Fugitive)
+nnoremap <leader>gs :Git<CR>
+nnoremap <leader>gc :Git commit<CR>
+nnoremap <leader>gp :Git push<CR>
+nnoremap <leader>gl :Git pull<CR>
+nnoremap <leader>gd :Gdiffsplit<CR>
+nnoremap <leader>gb :Git blame<CR>
+
+" Quick save
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>x :x<CR>
+
+" Move lines up/down
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" Stay in visual mode when indenting
+vnoremap < <gv
+vnoremap > >gv
+
+" Keep cursor centered when scrolling
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Paste without yanking in visual mode
+xnoremap <leader>p "_dP
+
+" Copy to system clipboard
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>Y "+Y
+
+" ============================================================================
+" AUTOCOMMANDS
+" ============================================================================
+
+augroup vimrc
+  autocmd!
+
+  " Return to last edit position when opening files
+  autocmd BufReadPost *
+    \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+    \ |   exe "normal! g`\""
+    \ | endif
+
+  " Remove trailing whitespace on save
+  autocmd BufWritePre * :%s/\s\+$//e
+
+  " Auto-resize splits when Vim is resized
+  autocmd VimResized * wincmd =
+
+  " Close NERDTree if it's the only window left
+  autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+  " File type specific settings
+  autocmd FileType python setlocal tabstop=4 shiftwidth=4 expandtab
+  autocmd FileType javascript,typescript,json,yaml setlocal tabstop=2 shiftwidth=2 expandtab
+  autocmd FileType html,css setlocal tabstop=2 shiftwidth=2 expandtab
+  autocmd FileType make setlocal noexpandtab
+  autocmd FileType markdown setlocal wrap linebreak spell
+
+augroup END
+
+" ============================================================================
+" LOCAL CONFIG
+" ============================================================================
+
+" Load local config if it exists
+if filereadable(expand("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
