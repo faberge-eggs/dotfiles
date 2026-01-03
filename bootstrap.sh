@@ -154,11 +154,26 @@ GITHUB_USER=$(git config --global github.user 2>/dev/null || echo "")
 
 # Create chezmoi config with all required data
 cat > "$HOME/.config/chezmoi/chezmoi.toml" <<EOF
+# Use dotfiles repo directly as source
+sourceDir = "$DOTFILES_DIR/home"
+
 [data]
     email = "${GIT_EMAIL:-user@example.com}"
     name = "${GIT_NAME:-Your Name}"
     githubUsername = "${GITHUB_USER:-yourusername}"
     machineType = "$MACHINE_TYPE"
+
+[edit]
+    command = "code"
+    args = ["--wait"]
+
+[diff]
+    command = "code"
+    args = ["--wait", "--diff"]
+
+[git]
+    autoCommit = false
+    autoPush = false
 
 [data.onepassword]
     enabled = true
