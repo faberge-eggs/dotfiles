@@ -36,7 +36,7 @@ plist_path = "$PLIST_PATH"
 # Read the profile JSON
 print(f"Reading profile from: {profile_json_path}")
 with open(profile_json_path, 'r') as f:
-    new_profile = json.load(f)
+    source_profile = json.load(f)
 
 # Read iTerm2 preferences (create if doesn't exist)
 if os.path.exists(plist_path):
@@ -50,25 +50,35 @@ else:
 if 'New Bookmarks' not in prefs:
     prefs['New Bookmarks'] = []
 
-# Check if profile with this GUID already exists
-existing_index = None
-profile_guid = new_profile.get('Guid')
-for i, p in enumerate(prefs['New Bookmarks']):
-    if p.get('Guid') == profile_guid:
-        existing_index = i
+# Get the current default profile GUID
+default_guid = prefs.get('Default Bookmark Guid')
+
+# Find the default profile
+target_profile = None
+for p in prefs['New Bookmarks']:
+    if p.get('Guid') == default_guid:
+        target_profile = p
         break
 
-# Add or update the profile
-if existing_index is not None:
-    print(f"✓ Updating existing profile: {new_profile.get('Name', 'Unknown')}")
-    prefs['New Bookmarks'][existing_index] = new_profile
+# If no default profile exists, use the source profile as-is
+if target_profile is None:
+    print(f"✓ Adding new profile: {source_profile.get('Name', 'Default')}")
+    prefs['New Bookmarks'].append(source_profile)
+    prefs['Default Bookmark Guid'] = source_profile.get('Guid')
+    print(f"✓ Set as default profile (GUID: {source_profile.get('Guid')})")
 else:
-    print(f"✓ Adding new profile: {new_profile.get('Name', 'Unknown')}")
-    prefs['New Bookmarks'].append(new_profile)
+    # Update the existing default profile with settings from source
+    # Keep the existing GUID but update all other settings
+    existing_guid = target_profile.get('Guid')
+    existing_name = target_profile.get('Name', 'Default')
+    print(f"✓ Updating existing profile: {existing_name} (GUID: {existing_guid})")
 
-# Set as default profile
-prefs['Default Bookmark Guid'] = profile_guid
-print(f"✓ Set as default profile (GUID: {profile_guid})")
+    # Copy all settings from source to target, but keep the original GUID
+    for key, value in source_profile.items():
+        if key != 'Guid':  # Don't overwrite the GUID
+            target_profile[key] = value
+
+    print(f"✓ Profile settings applied")
 
 # Write back the preferences
 with open(plist_path, 'wb') as f:
