@@ -22,6 +22,10 @@ brew "zsh-syntax-highlighting"  # Syntax highlighting for Zsh
 brew "starship"                 # Cross-shell prompt
 brew "tmux"                     # Terminal multiplexer
 
+# ===== Editors =====
+brew "vim"                      # Classic text editor
+brew "neovim"                   # Modern Vim fork (LazyVim)
+
 # ===== Development Tools - Version Control =====
 brew "git"                      # Version control
 brew "gh"                       # GitHub CLI
