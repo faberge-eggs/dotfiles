@@ -1,0 +1,76 @@
+{
+  "Name": "Default",
+  "Guid": "0BA6B8A6-938C-4D9D-80AD-4AB018314FCD",
+  "Tags": [],
+  
+  "Colors": {
+    "Ansi 0 Color": {"Red": 0.078, "Green": 0.098, "Blue": 0.118},
+    "Ansi 1 Color": {"Red": 0.878, "Green": 0.243, "Blue": 0.310},
+    "Ansi 2 Color": {"Red": 0.639, "Green": 0.749, "Blue": 0.318},
+    "Ansi 3 Color": {"Red": 0.937, "Green": 0.722, "Blue": 0.318},
+    "Ansi 4 Color": {"Red": 0.314, "Green": 0.569, "Blue": 0.835},
+    "Ansi 5 Color": {"Red": 0.737, "Green": 0.431, "Blue": 0.839},
+    "Ansi 6 Color": {"Red": 0.361, "Green": 0.753, "Blue": 0.769},
+    "Ansi 7 Color": {"Red": 0.843, "Green": 0.855, "Blue": 0.878},
+    "Ansi 8 Color": {"Red": 0.325, "Green": 0.337, "Blue": 0.361},
+    "Ansi 9 Color": {"Red": 0.937, "Green": 0.341, "Blue": 0.400},
+    "Ansi 10 Color": {"Red": 0.733, "Green": 0.843, "Blue": 0.408},
+    "Ansi 11 Color": {"Red": 0.988, "Green": 0.804, "Blue": 0.431},
+    "Ansi 12 Color": {"Red": 0.455, "Green": 0.678, "Blue": 0.918},
+    "Ansi 13 Color": {"Red": 0.831, "Green": 0.529, "Blue": 0.933},
+    "Ansi 14 Color": {"Red": 0.506, "Green": 0.839, "Blue": 0.855},
+    "Ansi 15 Color": {"Red": 0.953, "Green": 0.965, "Blue": 0.988},
+    "Background Color": {"Red": 0.118, "Green": 0.122, "Blue": 0.149},
+    "Foreground Color": {"Red": 0.843, "Green": 0.855, "Blue": 0.878},
+    "Cursor Color": {"Red": 0.843, "Green": 0.855, "Blue": 0.878},
+    "Cursor Text Color": {"Red": 0.118, "Green": 0.122, "Blue": 0.149}
+  },
+  
+  "Font": {
+    "Normal Font": "MesloLGS-NF-Regular 13",
+    "Use Non-ASCII Font": false,
+    "Non Ascii Font": "MesloLGS-NF-Regular 13",
+    "Horizontal Spacing": 1.0,
+    "Vertical Spacing": 1.0,
+    "Use Bold Font": true,
+    "Use Italic Font": true,
+    "ASCII Anti Aliased": true
+  },
+  
+  "Window": {
+    "Transparency": 0.05,
+    "Blur": true,
+    "Blur Radius": 2.0,
+    "Columns": 120,
+    "Rows": 35,
+    "Hide After Opening": false,
+    "Window Style": "Normal"
+  },
+  
+  "Terminal": {
+    "Scrollback Lines": 10000,
+    "Unlimited Scrollback": false,
+    "Character Encoding": 4,
+    "Terminal Type": "xterm-256color",
+    "Disable Printing": false,
+    "Silence Bell": true,
+    "Visual Bell": false
+  },
+  
+  "Cursor": {
+    "Cursor Type": 0,
+    "Blinking Cursor": true,
+    "Cursor Boost": 0.5
+  },
+  
+  "Keyboard": {
+    "Option Key Sends": 2,
+    "Right Option Key Sends": 2
+  },
+  
+  "Session": {
+    "Close Sessions On End": false,
+    "Prompt Before Closing 2": 0,
+    "Automatically Log": false
+  }
+}
