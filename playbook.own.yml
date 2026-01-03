@@ -18,17 +18,17 @@
         state: directory
         mode: '0755'
       loop:
-        - "{{ ansible_env.HOME }}/Developer"
-        - "{{ ansible_env.HOME }}/Developer/personal"
-        - "{{ ansible_env.HOME }}/Developer/experiments"
-        - "{{ ansible_env.HOME }}/Documents/personal"
+        - "{{ ansible_facts.env.HOME }}/Developer"
+        - "{{ ansible_facts.env.HOME }}/Developer/personal"
+        - "{{ ansible_facts.env.HOME }}/Developer/experiments"
+        - "{{ ansible_facts.env.HOME }}/Documents/personal"
       tags:
         - directories
 
     # ===== Personal Environment File =====
     - name: Create personal environment file
       copy:
-        dest: "{{ ansible_env.HOME }}/.own.env"
+        dest: "{{ ansible_facts.env.HOME }}/.own.env"
         content: |
           # Personal environment variables
           # Source this file in your shell: source ~/.own.env
@@ -67,7 +67,7 @@
     # ===== Git Configuration for Personal Repos =====
     - name: Create gitconfig for personal repositories
       copy:
-        dest: "{{ ansible_env.HOME }}/.gitconfig.own"
+        dest: "{{ ansible_facts.env.HOME }}/.gitconfig.own"
         content: |
           # Personal git configuration
           # This file is included via includeIf in main .gitconfig

@@ -31,28 +31,49 @@ fi
 
 print_step "🚀 Starting macOS bootstrap process..."
 
-# Ask for machine type (or use environment variable)
+# Detect machine type from hostname
+detect_machine_type() {
+    local hostname=$(hostname -s)
+    case "$hostname" in
+        own-*)
+            echo "own"
+            ;;
+        workato-*)
+            echo "workato"
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
+}
+
+# Ask for machine type (environment > hostname > interactive)
 if [ -n "$MACHINE_TYPE" ]; then
     print_step "Using machine type from environment: $MACHINE_TYPE"
 else
-    echo "What type of machine is this?"
-    echo "  1) own (personal machine)"
-    echo "  2) workato (Workato work machine)"
-    read -p "Select [1-2]: " -n 1 -r
-    echo
+    MACHINE_TYPE=$(detect_machine_type)
+    if [ -n "$MACHINE_TYPE" ]; then
+        print_step "Detected machine type from hostname: $MACHINE_TYPE"
+    else
+        echo "What type of machine is this?"
+        echo "  1) own (personal machine)"
+        echo "  2) workato (Workato work machine)"
+        read -p "Select [1-2]: " -n 1 -r
+        echo
 
-    case $REPLY in
-        1)
-            MACHINE_TYPE="own"
-            ;;
-        2)
-            MACHINE_TYPE="workato"
-            ;;
-        *)
-            MACHINE_TYPE="own"
-            print_warning "Invalid choice, defaulting to own (personal) machine..."
-            ;;
-    esac
+        case $REPLY in
+            1)
+                MACHINE_TYPE="own"
+                ;;
+            2)
+                MACHINE_TYPE="workato"
+                ;;
+            *)
+                MACHINE_TYPE="own"
+                print_warning "Invalid choice, defaulting to own (personal) machine..."
+                ;;
+        esac
+    fi
 fi
 
 print_step "Configuring as $MACHINE_TYPE machine..."

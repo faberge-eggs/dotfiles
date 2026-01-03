@@ -1,6 +1,8 @@
 # Starship Prompt Configuration
 # https://starship.rs/config/
 
+add_newline = false
+
 format = """
 [┌─](bold green)$username$hostname$directory$git_branch$git_status$git_state$docker_context$python$nodejs$rust$golang$terraform$kubernetes
 [└─❯](bold green) """

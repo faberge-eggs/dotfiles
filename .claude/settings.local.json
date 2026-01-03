@@ -8,7 +8,13 @@
       "Bash(brew bundle check:*)",
       "Bash(mas --help:*)",
       "Bash(brew bundle:*)",
-      "Bash(mas --version:*)"
+      "Bash(mas --version:*)",
+      "Bash(cat:*)",
+      "Bash(chezmoi add:*)",
+      "Bash(chezmoi apply:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(bash -n:*)"
     ]
   }
 }

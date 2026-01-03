@@ -18,17 +18,17 @@
         state: directory
         mode: '0755'
       loop:
-        - "{{ ansible_env.HOME }}/workato"
-        - "{{ ansible_env.HOME }}/workato/projects"
-        - "{{ ansible_env.HOME }}/workato/repos"
-        - "{{ ansible_env.HOME }}/workato/docs"
+        - "{{ ansible_facts.env.HOME }}/workato"
+        - "{{ ansible_facts.env.HOME }}/workato/projects"
+        - "{{ ansible_facts.env.HOME }}/workato/repos"
+        - "{{ ansible_facts.env.HOME }}/workato/docs"
       tags:
         - directories
 
     # ===== SSH Configuration for Workato =====
     - name: Ensure workato SSH key directory exists
       file:
-        path: "{{ ansible_env.HOME }}/.ssh/workato"
+        path: "{{ ansible_facts.env.HOME }}/.ssh/workato"
         state: directory
         mode: '0700'
       tags:
@@ -37,7 +37,7 @@
     # ===== Workato Environment File =====
     - name: Create workato environment file
       copy:
-        dest: "{{ ansible_env.HOME }}/.workato.env"
+        dest: "{{ ansible_facts.env.HOME }}/.workato.env"
         content: |
           # Workato-specific environment variables
           # Source this file in your shell: source ~/.workato.env
@@ -81,7 +81,7 @@
     # - name: Configure VPN
     #   template:
     #     src: templates/vpn-config.ovpn.j2
-    #     dest: "{{ ansible_env.HOME }}/.vpn/company-vpn.ovpn"
+    #     dest: {{ ansible_facts.env.HOME }}/.vpn/company-vpn.ovpn
     #     mode: '0600'
     #   tags:
     #     - vpn
@@ -99,7 +99,7 @@
     # ===== Docker Configuration for Workato =====
     - name: Create Docker config for corporate registry
       file:
-        path: "{{ ansible_env.HOME }}/.docker"
+        path: "{{ ansible_facts.env.HOME }}/.docker"
         state: directory
         mode: '0755'
       tags:
@@ -108,7 +108,7 @@
     # ===== Kubernetes Configuration =====
     - name: Create kubeconfig directory
       file:
-        path: "{{ ansible_env.HOME }}/.kube"
+        path: "{{ ansible_facts.env.HOME }}/.kube"
         state: directory
         mode: '0755'
       tags:
@@ -117,7 +117,7 @@
     # ===== Git Configuration for Workato Repos =====
     - name: Create gitconfig for workato repositories
       copy:
-        dest: "{{ ansible_env.HOME }}/.gitconfig.workato"
+        dest: "{{ ansible_facts.env.HOME }}/.gitconfig.workato"
         content: |
           # Workato-specific git configuration
           # This file is included via includeIf in main .gitconfig
@@ -137,7 +137,7 @@
     # - name: Configure company CLI
     #   template:
     #     src: templates/company-cli-config.yml.j2
-    #     dest: "{{ ansible_env.HOME }}/.company/config.yml"
+    #     dest: {{ ansible_facts.env.HOME }}/.company/config.yml
     #   tags:
     #     - tools
 

@@ -171,7 +171,7 @@
             domain: com.apple.screencapture
             key: location
             type: string
-            value: "{{ ansible_env.HOME }}/Downloads"
+            value: "{{ ansible_facts.env.HOME }}/Downloads"
 
         - name: Save screenshots in PNG format
           community.general.osx_defaults:
@@ -295,10 +295,10 @@
         state: directory
         mode: '0755'
       loop:
-        - "{{ ansible_env.HOME }}/Developer"
-        - "{{ ansible_env.HOME }}/Developer/projects"
-        - "{{ ansible_env.HOME }}/Developer/playground"
-        - "{{ ansible_env.HOME }}/bin"
+        - "{{ ansible_facts.env.HOME }}/Developer"
+        - "{{ ansible_facts.env.HOME }}/Developer/projects"
+        - "{{ ansible_facts.env.HOME }}/Developer/playground"
+        - "{{ ansible_facts.env.HOME }}/bin"
       tags:
         - directories
 
@@ -338,7 +338,7 @@
     # ===== SSH Configuration =====
     - name: Ensure SSH directory exists
       file:
-        path: "{{ ansible_env.HOME }}/.ssh"
+        path: "{{ ansible_facts.env.HOME }}/.ssh"
         state: directory
         mode: '0700'
       tags:

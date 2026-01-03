@@ -3,6 +3,10 @@
 # Default shell
 SHELL := /bin/bash
 
+# Detect machine type from hostname (own-m1 -> own, workato-m4 -> workato)
+HOSTNAME := $(shell hostname -s)
+MACHINE_TYPE := $(if $(filter own-%,$(HOSTNAME)),own,$(if $(filter workato-%,$(HOSTNAME)),workato,))
+
 # Colors for output
 GREEN  := $(shell tput -Txterm setaf 2)
 YELLOW := $(shell tput -Txterm setaf 3)
@@ -29,7 +33,14 @@ install: ## Full installation (bootstrap everything)
 
 install-brew: ## Install Homebrew packages from Brewfile
 	@echo "${GREEN}Installing Homebrew packages...${RESET}"
+	@echo "Machine type: ${MACHINE_TYPE}"
 	@brew bundle --file=Brewfile
+ifneq ($(MACHINE_TYPE),)
+	@if [ -f "Brewfile.$(MACHINE_TYPE)" ]; then \
+		echo "${GREEN}Installing ${MACHINE_TYPE}-specific packages...${RESET}"; \
+		brew bundle --file=Brewfile.$(MACHINE_TYPE); \
+	fi
+endif
 
 install-chezmoi: ## Initialize and apply chezmoi dotfiles
 	@echo "${GREEN}Applying dotfiles with chezmoi...${RESET}"
@@ -65,11 +76,20 @@ config: ansible ## Configure macOS system settings with Ansible
 
 ansible: ## Run Ansible playbook for macOS configuration
 	@echo "${GREEN}Running Ansible playbook...${RESET}"
+	@echo "Machine type: ${MACHINE_TYPE}"
 	@ansible-playbook playbook.yml --ask-become-pass
+ifneq ($(MACHINE_TYPE),)
+	@echo "${GREEN}Running ${MACHINE_TYPE}-specific playbook...${RESET}"
+	@ansible-playbook playbook.$(MACHINE_TYPE).yml --ask-become-pass
+endif
 
 ansible-check: ## Dry-run Ansible playbook
 	@echo "${GREEN}Running Ansible playbook (dry-run)...${RESET}"
+	@echo "Machine type: ${MACHINE_TYPE}"
 	@ansible-playbook playbook.yml --check
+ifneq ($(MACHINE_TYPE),)
+	@ansible-playbook playbook.$(MACHINE_TYPE).yml --check
+endif
 
 ## Chezmoi Commands
 diff: ## Show diff of dotfiles changes
@@ -128,7 +148,8 @@ test: ## Test the setup on current machine
 info: ## Show system information
 	@echo "${CYAN}System Information${RESET}"
 	@echo "macOS Version: $$(sw_vers -productVersion)"
-	@echo "Hostname: $$(hostname)"
+	@echo "Hostname: $(HOSTNAME)"
+	@echo "Machine Type: $(MACHINE_TYPE)"
 	@echo "Architecture: $$(uname -m)"
 	@echo ""
 	@echo "${CYAN}Tool Versions${RESET}"
