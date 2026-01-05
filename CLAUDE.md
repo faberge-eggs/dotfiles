@@ -13,7 +13,11 @@ Supports two machine types: `own` (personal) and `workato` (work), using a base 
 
 ## Rules
 - **Don't edit files in `home` directory -  Use chezmoi**
-- **Don't run `brew install` only use `Brewfile` !!!**
+- **Don't run `brew install` - only use `Brewfile`**
+- **Don't run `gem install` - only use `Gemfile`**
+- **Don't run `go install` - only use `go-packages.txt`**
+- **Don't run `pip install` - only use `requirements.txt`**
+- **Don't run `npm install -g` - only use `npm-packages.txt`**
 
 ## Common Commands
 
@@ -94,7 +98,12 @@ chezmoi edit ~/.config/app/config.yml  # Add templating if needed
 make apply
 ```
 
-**New package:** Add to `Brewfile` (or `Brewfile.{type}` for machine-specific)
+**New package:**
+- Homebrew: Add to `Brewfile` (or `Brewfile.{type}` for machine-specific)
+- Ruby gem: Add to `Gemfile`
+- Go tool: Add to `go-packages.txt`
+- Python: Add to `requirements.txt`
+- NPM global: Add to `npm-packages.txt`
 
 **New macOS setting:** Add to `playbook.yml` (or `playbook.{type}.yml`)
 
@@ -104,3 +113,6 @@ This repo includes specialized Claude Code skills in `.claude/skills/`:
 - `chezmoi-expert` - Chezmoi templates, encryption, dotfile management
 - `ansible-expert` - Playbooks, roles, macOS configuration
 - `mac-brewfile-expert` - Homebrew bundle, package management
+- `neovim-expert` - Neovim config with vim-plug, LSP, treesitter
+- `starship-expert` - Starship prompt configuration
+- `dev-packages-expert` - Go, Ruby, Python, NPM package automation

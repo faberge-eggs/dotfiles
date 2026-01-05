@@ -1,0 +1,18 @@
+# Go Packages
+# Global Go tools installed with: go install
+#
+# Usage:
+#   cat go-packages.txt | grep -v '^#' | xargs -I {} go install {}
+
+# Development tools
+golang.org/x/tools/gopls@latest
+github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+github.com/go-delve/delve/cmd/dlv@latest
+golang.org/x/tools/cmd/goimports@latest
+
+# Code generation
+github.com/golang/mock/mockgen@latest
+
+# Testing
+github.com/onsi/ginkgo/v2/ginkgo@latest
+gotest.tools/gotestsum@latest

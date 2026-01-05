@@ -1,0 +1,17 @@
+# Python Packages
+# Global Python tools installed with: pipx install <package>
+#
+# Usage:
+#   pipx install <package>  # Install single package
+#   pipx upgrade-all        # Update all packages
+
+# Development tools
+black
+pylint
+mypy
+isort
+
+# Utilities
+httpie
+ansible-lint
+yamllint

@@ -21,6 +21,7 @@ brew "zsh-autosuggestions"      # Fish-like autosuggestions
 brew "zsh-syntax-highlighting"  # Syntax highlighting for Zsh
 brew "starship"                 # Cross-shell prompt
 brew "tmux"                     # Terminal multiplexer
+brew "tmuxp"                    # Tmux session manager
 
 # ===== Editors =====
 brew "vim"                      # Classic text editor
@@ -36,9 +37,10 @@ brew "lazygit"                  # Terminal UI for git
 # ===== Development Tools - Languages & Runtimes =====
 brew "node"                     # JavaScript runtime
 brew "python@3.11"              # Python 3.11
+brew "pipx"                     # Python CLI tool installer
 brew "go"                       # Go language
 brew "rust"                     # Rust language
-brew "ruby"                     # Ruby language
+brew "ruby@3.4"                 # Ruby language
 
 # ===== Development Tools - Containers & Infrastructure =====
 cask "docker-desktop"           # Docker Desktop (includes CLI)
@@ -124,7 +126,7 @@ cask "gimp"                     # Image editor
 # ===== Fonts =====
 # Note: Fonts now use "homebrew-cask-fonts" prefix in newer Homebrew
 cask "font-fira-code"           # Fira Code with ligatures
-cask "font-jetbrains-mono"      # JetBrains Mono
+cask "font-jetbrains-mono-nerd-font" # JetBrains Mono Nerd Font
 cask "font-hack-nerd-font"      # Hack Nerd Font
 cask "font-meslo-lg-nerd-font"  # Meslo for Powerlevel10k
 cask "font-source-code-pro"     # Source Code Pro

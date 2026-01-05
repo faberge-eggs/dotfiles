@@ -1,0 +1,104 @@
+#!/bin/bash
+
+# Install development packages from various package managers
+# Runs when package files change
+
+# Don't exit on errors - we want to continue even if some packages fail
+set +e
+
+# Find the dotfiles directory
+DOTFILES_DIR=""
+for dir in "{{ .chezmoi.sourceDir }}/.." "$HOME/.dotfiles" "$HOME/repos/dotfiles"; do
+    if [ -f "$dir/Gemfile" ]; then
+        DOTFILES_DIR="$dir"
+        break
+    fi
+done
+
+if [ -z "$DOTFILES_DIR" ]; then
+    echo "Dotfiles directory not found. Skipping package installation."
+    exit 0
+fi
+
+cd "$DOTFILES_DIR"
+
+echo "========================================"
+echo "Installing development packages..."
+echo "========================================"
+
+# ===== Ruby Gems =====
+RUBY_BIN="/opt/homebrew/opt/ruby@3.4/bin"
+if [ -x "$RUBY_BIN/bundle" ] && [ -f "Gemfile" ]; then
+    echo ""
+    echo ">>> Installing Ruby gems from Gemfile..."
+    export PATH="$RUBY_BIN:$PATH"
+    bundle install --quiet
+    echo "Ruby gems installed."
+else
+    echo ""
+    echo ">>> Skipping Ruby gems (bundler not found or no Gemfile)"
+fi
+
+# ===== Go Packages =====
+if command -v go &>/dev/null && [ -f "go-packages.txt" ]; then
+    echo ""
+    echo ">>> Installing Go packages..."
+    grep -v '^#' go-packages.txt | grep -v '^$' | while read -r pkg; do
+        echo "  Installing $pkg..."
+        go install "$pkg" 2>/dev/null || echo "  Warning: Failed to install $pkg"
+    done
+    echo "Go packages installed."
+else
+    echo ""
+    echo ">>> Skipping Go packages (go not found or no go-packages.txt)"
+fi
+
+# ===== Python Packages =====
+# Use pipx for CLI tools (recommended on modern macOS)
+if command -v pipx &>/dev/null && [ -f "requirements.txt" ]; then
+    echo ""
+    echo ">>> Installing Python packages with pipx..."
+    grep -v '^#' requirements.txt | grep -v '^$' | while read -r pkg; do
+        pkg_name=$(echo "$pkg" | cut -d'=' -f1 | cut -d'<' -f1 | cut -d'>' -f1 | tr -d ' ')
+        if ! pipx list 2>/dev/null | grep -q "package $pkg_name"; then
+            echo "  Installing $pkg_name..."
+            pipx install "$pkg_name" 2>/dev/null || echo "  Warning: Failed to install $pkg_name"
+        else
+            echo "  $pkg_name already installed"
+        fi
+    done
+    echo "Python packages installed."
+else
+    echo ""
+    echo ">>> Skipping Python packages (pipx not found or no requirements.txt)"
+    echo "    Install pipx with: brew install pipx"
+fi
+
+# ===== NPM Packages =====
+if command -v npm &>/dev/null && [ -f "npm-packages.txt" ]; then
+    echo ""
+    echo ">>> Installing NPM global packages..."
+    while IFS= read -r pkg || [ -n "$pkg" ]; do
+        # Skip comments and empty lines
+        [[ "$pkg" =~ ^#.*$ || -z "$pkg" ]] && continue
+        if ! npm list -g "$pkg" &>/dev/null; then
+            echo "  Installing $pkg..."
+            npm install -g "$pkg" --silent 2>/dev/null || echo "  Warning: Failed to install $pkg"
+        fi
+    done < npm-packages.txt
+    echo "NPM packages installed."
+else
+    echo ""
+    echo ">>> Skipping NPM packages (npm not found or no npm-packages.txt)"
+fi
+
+echo ""
+echo "========================================"
+echo "Development packages installation complete!"
+echo "========================================"
+
+# Hashes to detect changes
+# Gemfile hash: {{ include (joinPath .chezmoi.sourceDir "../Gemfile") | sha256sum }}
+# go-packages.txt hash: {{ include (joinPath .chezmoi.sourceDir "../go-packages.txt") | sha256sum }}
+# requirements.txt hash: {{ include (joinPath .chezmoi.sourceDir "../requirements.txt") | sha256sum }}
+# npm-packages.txt hash: {{ include (joinPath .chezmoi.sourceDir "../npm-packages.txt") | sha256sum }}

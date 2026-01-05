@@ -14,12 +14,12 @@
 # mas "Things 3", id: 904280696
 
 # ===== Media & Creative =====
-# cask "vlc"
+cask "vlc"
 # cask "handbrake"
 # cask "obs"
 
 # ===== Personal Cloud Services =====
-# cask "dropbox"
+cask "dropbox"
 # cask "google-drive"
 
 # ===== Browsers & Extensions =====
@@ -32,3 +32,5 @@
 # ===== Personal Utilities =====
 # cask "appcleaner"
 # cask "keka"
+
+cask "transmission"

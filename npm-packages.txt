@@ -1,0 +1,14 @@
+# NPM Global Packages
+# Global Node.js tools installed with: npm install -g
+#
+# Usage:
+#   cat npm-packages.txt | grep -v '^#' | xargs npm install -g
+
+# Development tools
+typescript
+ts-node
+prettier
+eslint
+
+# Utilities
+npm-check-updates
