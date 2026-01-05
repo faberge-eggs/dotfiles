@@ -1,21 +1,25 @@
-{{- $email := promptStringOnce . "email" "Git email address" -}}
-{{- $name := promptStringOnce . "name" "Full name" -}}
-{{- $githubUsername := promptStringOnce . "githubUsername" "GitHub username" -}}
-{{- $machineType := promptStringOnce . "machineType" "Machine type (own/workato)" -}}
+{{- /* Load host-specific config */ -}}
+{{- $hostFile := printf ".chezmoidata_%s.yaml" .chezmoi.hostname -}}
+{{- $hostData := include $hostFile | fromYaml -}}
+
+{{- if not $hostData.type -}}
+{{-   fail (printf "Unknown hostname '%s'. Create .chezmoidata_%s.yaml" .chezmoi.hostname .chezmoi.hostname) -}}
+{{- end -}}
+
+sourceDir = "{{ $hostData.repoPath }}/home"
 
 [data]
-    email = {{ $email | quote }}
-    name = {{ $name | quote }}
-    githubUsername = {{ $githubUsername | quote }}
-    machineType = {{ $machineType | quote }}
+    machineType = {{ $hostData.type | quote }}
+    email = {{ $hostData.email | quote }}
+    name = {{ $hostData.name | quote }}
+    githubUsername = {{ $hostData.githubUsername | quote }}
+    repoPath = {{ $hostData.repoPath | quote }}
 
 [edit]
     command = "vim"
-    args = [""]
 
 [diff]
     command = "delta"
-    args = [""]
 
 [git]
     autoCommit = false
