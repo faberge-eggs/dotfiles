@@ -62,7 +62,34 @@
           tags:
             - macos
 
-        # Add more personal-specific settings here
+    # ===== Transmission BitTorrent Client =====
+    - name: Create torrents directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - "{{ ansible_facts.env.HOME }}/torrents"
+        - "{{ ansible_facts.env.HOME }}/torrents/incomplete"
+      tags:
+        - transmission
+
+    - name: Configure Transmission
+      community.general.osx_defaults:
+        domain: org.m0k.transmission
+        key: "{{ item.key }}"
+        type: "{{ item.type }}"
+        value: "{{ item.value }}"
+      loop:
+        - { key: "DownloadFolder", type: "string", value: "{{ ansible_facts.env.HOME }}/torrents" }
+        - { key: "DownloadLocationConstant", type: "bool", value: true }
+        - { key: "IncompleteDownloadFolder", type: "string", value: "{{ ansible_facts.env.HOME }}/torrents/incomplete" }
+        - { key: "UseIncompleteDownloadFolder", type: "bool", value: true }
+        - { key: "AutoImport", type: "bool", value: true }
+        - { key: "AutoImportDirectory", type: "string", value: "{{ ansible_facts.env.HOME }}/Downloads" }
+        - { key: "DeleteOriginalTorrent", type: "bool", value: true }
+      tags:
+        - transmission
 
     # ===== Git Configuration for Personal Repos =====
     - name: Create gitconfig for personal repositories
