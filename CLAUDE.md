@@ -58,10 +58,13 @@ File naming conventions:
 - `private_` sets 600 permissions
 - `.tmpl` suffix enables templating
 
+Host-specific data files:
+- `.chezmoidata_<hostname>.yaml` - Per-machine config (email, name, repoPath, etc.)
+- `.chezmoi.toml.tmpl` - Loads host data automatically, fails on unknown hostname
+
 Key templates:
 - `dot_zshrc.tmpl` - Shell config with machine-conditional sections
 - `dot_gitconfig.tmpl` - Git config with directory-based email switching
-- `.chezmoi.toml.tmpl` - Chezmoi configuration and data prompts
 
 ### Machine-Specific Files
 

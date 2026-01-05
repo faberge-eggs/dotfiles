@@ -374,8 +374,42 @@ chezmoi edit --decrypt ~/.netrc
 ```
 
 ### Machine-specific configurations
+
+#### Using host-specific data files (recommended)
+```bash
+# Create per-host data files in source directory
+home/.chezmoidata_work-laptop.yaml
+home/.chezmoidata_personal-mac.yaml
+```
+
+```yaml
+# .chezmoidata_work-laptop.yaml
+type: "work"
+email: "work@company.com"
+name: "Your Name"
+repoPath: "/Users/you/repos/dotfiles"
+```
+
+```go
+# .chezmoi.toml.tmpl - loads host file automatically
+{{- $hostFile := printf ".chezmoidata_%s.yaml" .chezmoi.hostname -}}
+{{- $hostData := include $hostFile | fromYaml -}}
+
+{{- if not $hostData.type -}}
+{{-   fail (printf "Unknown hostname '%s'. Create .chezmoidata_%s.yaml" .chezmoi.hostname .chezmoi.hostname) -}}
+{{- end -}}
+
+sourceDir = "{{ $hostData.repoPath }}/home"
+
+[data]
+    machineType = {{ $hostData.type | quote }}
+    email = {{ $hostData.email | quote }}
+    name = {{ $hostData.name | quote }}
+```
+
+#### Using conditionals in template
 ```toml
-# chezmoi.toml
+# chezmoi.toml.tmpl - inline approach
 [data]
     {{- if eq .chezmoi.hostname "work-laptop" }}
     email = "work@company.com"
