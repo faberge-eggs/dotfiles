@@ -1,0 +1,51 @@
+#!/bin/bash
+# Clone repositories from repo lists
+set -e
+
+REPOS_DIR="$HOME/repos"
+mkdir -p "$REPOS_DIR"
+
+clone_if_missing() {
+    local url=$1
+    # Skip empty lines and comments
+    [[ -z "$url" || "$url" =~ ^[[:space:]]*# ]] && return
+    
+    local name=$(basename "$url" .git)
+    local path="$REPOS_DIR/$name"
+    if [ ! -d "$path" ]; then
+        echo "Cloning $name..."
+        git clone "$url" "$path"
+    fi
+}
+
+# Common repos
+{{- range (include (joinPath .chezmoi.sourceDir "../repos.txt") | splitList "\n") }}
+{{- if and . (not (hasPrefix "#" .)) }}
+clone_if_missing "{{ . }}"
+{{- end }}
+{{- end }}
+
+# Machine-specific repos
+{{- if eq .machineType "own" }}
+{{- range (include (joinPath .chezmoi.sourceDir "../repos.own.txt") | splitList "\n") }}
+{{- if and . (not (hasPrefix "#" .)) }}
+clone_if_missing "{{ . }}"
+{{- end }}
+{{- end }}
+{{- else if eq .machineType "workato" }}
+{{- range (include (joinPath .chezmoi.sourceDir "../repos.workato.txt") | splitList "\n") }}
+{{- if and . (not (hasPrefix "#" .)) }}
+clone_if_missing "{{ . }}"
+{{- end }}
+{{- end }}
+{{- end }}
+
+echo "Repository sync complete."
+
+# Change detection hashes
+# repos.txt: {{ include (joinPath .chezmoi.sourceDir "../repos.txt") | sha256sum }}
+{{- if eq .machineType "own" }}
+# repos.own.txt: {{ include (joinPath .chezmoi.sourceDir "../repos.own.txt") | sha256sum }}
+{{- else if eq .machineType "workato" }}
+# repos.workato.txt: {{ include (joinPath .chezmoi.sourceDir "../repos.workato.txt") | sha256sum }}
+{{- end }}

@@ -5,6 +5,10 @@
 # Usage:
 #   ansible-playbook playbook.yml --ask-become-pass
 
+# defaults commands list
+# https://github.com/mathiasbynens/dotfiles/blob/main/.macOS
+# https://macos-defaults.com
+
 - name: Configure macOS System
   hosts: localhost
   connection: local
@@ -188,28 +192,28 @@
             value: true
 
         # ===== Safari Configuration =====
-        # Note: Safari uses sandboxed preferences that can't be modified via defaults
-        # Configure Safari settings manually through Safari > Settings
-        # - name: Enable Safari develop menu
-        #   community.general.osx_defaults:
-        #     domain: com.apple.Safari
-        #     key: IncludeDevelopMenu
-        #     type: bool
-        #     value: true
+        # Note: These may fail on modern macOS due to sandbox restrictions
+        # Configure manually: Safari > Settings > Advanced / General
+        - name: Show full URL in Safari address bar
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: ShowFullURLInSmartSearchField
+            type: bool
+            value: true
 
-        # - name: Enable Safari debug menu
-        #   community.general.osx_defaults:
-        #     domain: com.apple.Safari
-        #     key: IncludeInternalDebugMenu
-        #     type: bool
-        #     value: true
+        - name: Disable auto-open safe downloads in Safari
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: AutoOpenSafeDownloads
+            type: bool
+            value: false
 
-        # - name: Show full URL in Safari address bar
-        #   community.general.osx_defaults:
-        #     domain: com.apple.Safari
-        #     key: ShowFullURLInSmartSearchField
-        #     type: bool
-        #     value: true
+        - name: Set Safari default text encoding to UTF-8
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: WebKitDefaultTextEncodingName
+            type: string
+            value: "utf-8"
 
         # ===== System Preferences =====
         - name: Expand save panel by default
@@ -293,7 +297,7 @@
       file:
         path: "{{ item }}"
         state: directory
-        mode: '0755'
+        mode: "0755"
       loop:
         - "{{ ansible_facts.env.HOME }}/Developer"
         - "{{ ansible_facts.env.HOME }}/Developer/projects"
@@ -313,7 +317,7 @@
       file:
         path: "{{ dotfiles_dir }}/config/iterm2"
         state: directory
-        mode: '0755'
+        mode: "0755"
       tags:
         - iterm2
 
@@ -340,7 +344,7 @@
       file:
         path: "{{ ansible_facts.env.HOME }}/.ssh"
         state: directory
-        mode: '0700'
+        mode: "0700"
       tags:
         - ssh
 

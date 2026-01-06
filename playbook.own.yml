@@ -91,6 +91,20 @@
       tags:
         - transmission
 
+
+    # ===== OpenConnect VPN (passwordless sudo) =====
+    - name: Allow openconnect without sudo password
+      become: true
+      copy:
+        dest: /etc/sudoers.d/openconnect
+        content: |
+          %admin ALL=(ALL) NOPASSWD: /opt/homebrew/bin/openconnect
+        mode: '0440'
+        validate: 'visudo -cf %s'
+      tags:
+        - vpn
+        - sudo
+
     # ===== Git Configuration for Personal Repos =====
     - name: Create gitconfig for personal repositories
       copy:

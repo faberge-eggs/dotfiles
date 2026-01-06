@@ -14,6 +14,9 @@ if vim.fn.empty(vim.fn.glob(plug_path)) > 0 then
 	vim.cmd("autocmd VimEnter * PlugInstall --sync | source $MYVIMRC")
 end
 
+-- Treesitter compatibility shim (ft_to_lang was renamed to get_lang in Neovim 0.10+)
+vim.treesitter.language.ft_to_lang = vim.treesitter.language.get_lang
+
 -- Load options and keymaps first
 require("config.options")
 require("config.keymaps")

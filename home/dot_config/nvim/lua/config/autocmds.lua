@@ -58,6 +58,9 @@ vim.filetype.add({
       return get_base_filetype(filename) or "gotmpl"
     end,
   },
+  filename = {
+    [".yamllint"] = "yaml",
+  },
 })
 
 -- Add gotmpl syntax highlighting for {{ }} blocks in .tmpl files

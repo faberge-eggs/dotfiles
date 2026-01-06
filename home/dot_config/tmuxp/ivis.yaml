@@ -1,0 +1,24 @@
+session_name: ivis
+start_directory: ~/repos/ivis
+options:
+  set-titles: on
+  set-titles-string: "#{session_name}"
+windows:
+  - window_name: vim
+    panes:
+      - shell_command:
+          - nvim
+  - window_name: claude
+    panes:
+      - shell_command:
+          - claude --resume ivis --dangerously-skip-permissions
+  - window_name: shell
+    panes:
+      - shell_command: []
+  - window_name: server
+    panes:
+      - shell_command: []
+  - window_name: vpn
+    panes:
+      - shell_command:
+          - ivis-vpn

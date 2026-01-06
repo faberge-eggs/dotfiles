@@ -34,3 +34,5 @@ cask "dropbox"
 # cask "keka"
 
 cask "transmission"
+
+brew "openconnect" # vpn client for cisco

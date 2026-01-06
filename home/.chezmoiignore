@@ -21,3 +21,9 @@ LICENSE
 # Ignore macOS-specific files on non-macOS systems
 Library/
 {{- end }}
+
+# Machine-specific configs
+{{- if eq .machineType "workato" }}
+.config/openconnect/
+.config/tmuxp/ivis.yaml
+{{- end }}

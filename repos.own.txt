@@ -1,0 +1,4 @@
+# Personal repos (own machine only)
+# One URL per line, comments start with #
+
+git@github.com:faberge-eggs/ivis.git

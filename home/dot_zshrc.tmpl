@@ -36,6 +36,8 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # ===== User Configuration =====
+export DISABLE_AUTO_TITLE='true' # tmuxp wants
+
 export LANG=en_US.UTF-8
 export EDITOR='vim'
 export VISUAL='code --wait'
@@ -82,7 +84,7 @@ op_export_env() {
 
 # ===== Aliases =====
 # Modern CLI replacements
-alias ls="ls -lD "%Y-%m-%d %H:%M""
+# alias ls="ls -lD "%Y-%m-%d %H:%M""
 #alias ls="eza --icons --group-directories-first"
 alias ll="eza -l --icons --group-directories-first"
 alias la="eza -la --icons --group-directories-first"
@@ -227,6 +229,12 @@ alias vpn-disconnect="echo 'Disconnect from Workato VPN'"
 # Personal aliases
 alias personal="cd $HOME/Developer/personal"
 alias experiments="cd $HOME/Developer/experiments"
+
+# VPN aliases
+alias ivis-vpn="sudo openconnect \
+    --config ~/.config/openconnect/ivis.conf \
+    --passwd-on-stdin \
+    <<< \$(op read 'op://IVIS/Ivis VPN/password')"
 
 {{- end }}
 

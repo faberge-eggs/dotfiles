@@ -1,0 +1,4 @@
+# Common repos (all machines)
+# One URL per line, comments start with #
+
+git@github.com:faberge-eggs/dotfiles.git
