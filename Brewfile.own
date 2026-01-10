@@ -36,3 +36,4 @@ cask "dropbox"
 cask "transmission"
 
 brew "openconnect" # vpn client for cisco
+cask "windows-app"
