@@ -170,6 +170,7 @@ if command -v fzf &>/dev/null; then
 fi
 
 # ===== Starship Prompt =====
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 if command -v starship &>/dev/null; then
     eval "$(starship init zsh)"
 fi
