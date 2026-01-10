@@ -2,36 +2,11 @@
 # Personal machine-specific packages (deltas from base Brewfile)
 # This file supplements the main Brewfile
 
-# ===== Personal Development Tools =====
-# Add your personal-only tools here
-
-# ===== Gaming & Entertainment =====
-# cask "steam"
-# cask "discord"
-
-# ===== Personal Productivity =====
-# cask "spotify"
-# mas "Things 3", id: 904280696
-
-# ===== Media & Creative =====
 cask "vlc"
-# cask "handbrake"
-# cask "obs"
-
-# ===== Personal Cloud Services =====
 cask "dropbox"
-# cask "google-drive"
+cask "google-drive"
 
-# ===== Browsers & Extensions =====
-# cask "chrome-canary"
-
-# ===== Personal CLI Tools =====
-# brew "youtube-dl"
-# brew "ffmpeg"
-
-# ===== Personal Utilities =====
-# cask "appcleaner"
-# cask "keka"
+brew "ffmpeg"
 
 cask "transmission"
 

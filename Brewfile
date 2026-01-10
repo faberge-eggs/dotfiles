@@ -46,7 +46,6 @@ brew "ruby@3.4"                 # Ruby language
 cask "docker-desktop"           # Docker Desktop (includes CLI)
 brew "kubernetes-cli"           # Kubernetes CLI
 brew "helm"                     # Kubernetes package manager
-brew "terraform"                # Infrastructure as code
 brew "ansible"                  # Automation tool
 
 # ===== Development Tools - Build & Package Managers =====
@@ -90,7 +89,6 @@ brew "procs"                    # Better ps
 # ===== Development Casks =====
 cask "visual-studio-code"       # Code editor
 cask "iterm2"                   # Better terminal
-cask "warp"                     # Modern terminal
 cask "postman"                  # API testing
 cask "tableplus"                # Database GUI
 
@@ -114,14 +112,9 @@ cask "brave-browser"            # Privacy-focused browser
 
 # ===== Security & Privacy =====
 cask "1password"                # Password manager
-cask "little-snitch"            # Firewall
-cask "mullvad-vpn"              # VPN client
 
 # ===== Media & Graphics =====
 cask "vlc"                      # Media player
-cask "spotify"                  # Music streaming
-cask "imageoptim"               # Image optimizer
-cask "gimp"                     # Image editor
 
 # ===== Fonts =====
 # Note: Fonts now use "homebrew-cask-fonts" prefix in newer Homebrew
@@ -141,14 +134,6 @@ cask "font-cascadia-code"       # Cascadia Code
 mas "Xcode", id: 497799835
 mas "1Password for Safari", id: 1569813296
 mas "The Unarchiver", id: 425424353
-mas "Amphetamine", id: 937984704  # Keep-awake utility
 mas "copyclip", id: 595191960
 
 cask "chatgpt"
-
-# Custom tap for apps not in official Homebrew
-tap "faberge-eggs/custom", "#{File.dirname(__FILE__)}/homebrew-custom"
-
-# Custom casks from local tap
-cask "cleanmymac"
-

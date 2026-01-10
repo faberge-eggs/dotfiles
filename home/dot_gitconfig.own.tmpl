@@ -3,6 +3,17 @@
 # This file is included conditionally for personal repositories
 
 [user]
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMJcITiTdi3bRla6A3EdaUB5oM9euwyNiO23r6Udvm11
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[commit]
+  gpgsign = true
+
     # Override with personal email
     # email = personal@example.com
 

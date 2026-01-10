@@ -1,0 +1,24 @@
+Host ftp
+  Hostname ftp.ivis.ru
+  User vadim
+
+Host mail mail.ivis.ru
+  Hostname 10.11.1.164
+  PubkeyAcceptedKeyTypes +ssh-rsa
+#  IdentityFile ~/.ssh/id_rsa
+  TCPKeepAlive yes
+  User vadim
+  Port 2222
+  HostKeyAlgorithms=+ssh-rsa
+  PubkeyAcceptedAlgorithms=+ssh-rsa
+
+Host smtp-proxy 10.11.1.171
+  Hostname 10.11.1.171
+  User ubuntu
+#  IdentityFile ~/.ssh/id_rsa
+  ServerAliveInterval 60
+  TCPKeepAlive yes
+  ProxyJump mail
+  LogLevel QUIET
+  StrictHostKeyChecking no
+

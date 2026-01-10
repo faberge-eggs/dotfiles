@@ -85,6 +85,8 @@ if not ok then
 	vim.cmd("colorscheme default")
 end
 
+vim.api.nvim_set_hl(0, "Normal", { fg = "#ebdbb2", bg = "#1d2021" })
+
 -- Load plugin configurations (only if plugins are installed)
 local function safe_require(module)
 	local status, err = pcall(require, module)

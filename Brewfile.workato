@@ -6,52 +6,14 @@
 # Uncomment and add your Workato work tools here
 
 # Cloud Provider CLIs
-# brew "awscli"                # AWS CLI
-# brew "azure-cli"             # Azure CLI
-# brew "google-cloud-sdk"      # Google Cloud CLI
-
-# Container Registries
-# brew "docker-credential-helper"
-
-# VPN Clients
-# cask "cisco-anyconnect"
-# cask "tunnelblick"
-
-# Corporate Tools
-# cask "microsoft-teams"
-# cask "microsoft-office"
-# cask "microsoft-outlook"
+brew "awscli"                # AWS CLI
 
 # Security & Compliance
 # cask "zscaler"
-# brew "vault"                 # HashiCorp Vault CLI
-# brew "aws-vault"             # AWS credential management
-
-# Monitoring & Observability
-# brew "datadog-agent"
-# brew "newrelic-cli"
-
-# Database Tools
-# cask "dbeaver-community"     # Universal database tool
-# cask "mongodb-compass"       # MongoDB GUI
-
-# API Development
-# cask "insomnia"              # REST client alternative to Postman
-
-# Communication
-# cask "webex"
-# cask "bluejeans"
+brew "vault"                 # HashiCorp Vault CLI
 
 # Project Management
-# cask "jira"
-# cask "confluence"
+cask "jira"
+cask "confluence"
 
-# Code Quality & Security
-# brew "sonarqube"
-# brew "trivy"                 # Container security scanner
-# brew "tfsec"                 # Terraform security scanner
-
-# Example: Company-specific tools
-# tap "company/internal"
-# brew "company-cli"
-# cask "company-vpn"
+brew "terraform"                # Infrastructure as code
