@@ -17,7 +17,9 @@ opt.autoindent = true
 opt.smartindent = true
 
 -- Line wrapping
-opt.wrap = false
+opt.wrap = true
+opt.linebreak = true      -- Break at word boundaries
+opt.breakindent = true    -- Preserve indentation on wrapped lines
 
 -- Search
 opt.ignorecase = true
