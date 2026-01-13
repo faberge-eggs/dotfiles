@@ -81,7 +81,7 @@ style = "bold 105"
 [kubernetes]
 symbol = "☸ "
 format = 'on [$symbol$context( \($namespace\))]($style) '
-style = "cyan bold"
+style = "dimmed white"
 disabled = false
 
 [kubernetes.context_aliases]

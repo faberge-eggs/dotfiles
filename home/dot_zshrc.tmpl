@@ -194,6 +194,19 @@ export PATH="$GOPATH/bin:$PATH"
 # Python
 export PYTHONDONTWRITEBYTECODE=1
 
+# Direnv
+if command -v direnv &>/dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
+# Kubernetes - load all configs from ~/.kube
+if [ -d "$HOME/.kube" ]; then
+    export KUBECONFIG="$HOME/.kube/config"
+    for config in "$HOME/.kube/configs"/*; do
+        [ -f "$config" ] && export KUBECONFIG="$KUBECONFIG:$config"
+    done
+fi
+
 # ===== Machine-specific Configuration =====
 {{- if eq .machineType "workato" }}
 # ===== Workato Machine Configuration =====
