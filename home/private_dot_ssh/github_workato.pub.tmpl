@@ -1,0 +1,3 @@
+{{- if eq .machineType "workato" }}
+{{ onepasswordRead "op://SSH/Github Workato/public key" }}
+{{- end }}

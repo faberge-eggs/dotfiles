@@ -1,0 +1,8 @@
+{{- if eq .machineType "workato" }}
+# Workato GitHub repos (uses key from 1Password)
+Host github.com-workato
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/github_workato.pub
+    IdentitiesOnly yes
+{{- end }}
