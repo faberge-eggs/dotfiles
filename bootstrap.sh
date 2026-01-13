@@ -78,6 +78,10 @@ fi
 
 print_step "Configuring as $MACHINE_TYPE machine..."
 
+# Get the directory where this script is located (the dotfiles repo)
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+print_step "Dotfiles directory: $DOTFILES_DIR"
+
 # Step 1: Install Xcode Command Line Tools
 if ! xcode-select -p &>/dev/null; then
     print_step "Installing Xcode Command Line Tools..."
