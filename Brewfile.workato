@@ -5,15 +5,17 @@
 # ===== Workato-Specific Development Tools =====
 # Uncomment and add your Workato work tools here
 
+tap "hashicorp/tap"
+
 # Cloud Provider CLIs
 brew "awscli"                # AWS CLI
 
 # Security & Compliance
 # cask "zscaler"
-brew "vault"                 # HashiCorp Vault CLI
+brew "hashicorp/tap/vault"                 # HashiCorp Vault CLI
 
 # Project Management
-cask "jira"
-cask "confluence"
+# cask "jira"
+# cask "confluence"
 
-brew "terraform"                # Infrastructure as code
+brew "hashicorp/tap/terraform"                # Infrastructure as code

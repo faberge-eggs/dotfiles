@@ -102,7 +102,7 @@ cask "appcleaner"               # App uninstaller
 
 # ===== Productivity Apps - Communication =====
 cask "slack"                    # Team communication
-cask "zoom"                     # Video conferencing
+# cask "zoom"                     # Video conferencing
 cask "telegram"                 # Messaging
 cask "whatsApp"
 
@@ -137,3 +137,5 @@ mas "The Unarchiver", id: 425424353
 mas "copyclip", id: 595191960
 
 cask "chatgpt"
+
+cask "claude-code"
