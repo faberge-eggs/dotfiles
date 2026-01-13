@@ -140,3 +140,4 @@ cask "chatgpt"
 
 cask "claude-code"
 cask "google-drive"
+brew "direnv"
