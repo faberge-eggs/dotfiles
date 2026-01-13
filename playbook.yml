@@ -192,28 +192,10 @@
             value: true
 
         # ===== Safari Configuration =====
-        # Note: These may fail on modern macOS due to sandbox restrictions
-        # Configure manually: Safari > Settings > Advanced / General
-        - name: Show full URL in Safari address bar
-          community.general.osx_defaults:
-            domain: com.apple.Safari
-            key: ShowFullURLInSmartSearchField
-            type: bool
-            value: true
-
-        - name: Disable auto-open safe downloads in Safari
-          community.general.osx_defaults:
-            domain: com.apple.Safari
-            key: AutoOpenSafeDownloads
-            type: bool
-            value: false
-
-        - name: Set Safari default text encoding to UTF-8
-          community.general.osx_defaults:
-            domain: com.apple.Safari
-            key: WebKitDefaultTextEncodingName
-            type: string
-            value: "utf-8"
+        # Safari settings require Full Disk Access for Terminal
+        # Configure manually: Safari > Settings > Advanced
+        # - Show full URL in address bar
+        # - Disable auto-open safe downloads
 
         # ===== System Preferences =====
         - name: Expand save panel by default
