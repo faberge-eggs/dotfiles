@@ -1,8 +1,6 @@
 {{- if eq .machineType "workato" }}
-# Workato GitHub repos (uses key from 1Password)
-Host github.com-workato
-    HostName github.com
-    User git
+# GitHub (uses workato key from 1Password for SAML SSO)
+Host github.com
     IdentityFile ~/.ssh/github_workato.pub
     IdentitiesOnly yes
 {{- end }}

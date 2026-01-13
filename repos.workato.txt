@@ -2,20 +2,20 @@
 # One URL per line, comments start with #
 
 # Infrastructure and Kubernetes
-git@github.com-workato:workato-devops/argocd-apps.git
-git@github.com-workato:workato-devops/cd-eks-infra.git
-git@github.com-workato:workato-devops/infra-tf-modules.git
-git@github.com-workato:workato-devops/k8s-manifests.git
+git@github.com:workato-devops/argocd-apps.git
+git@github.com:workato-devops/cd-eks-infra.git
+git@github.com:workato-devops/infra-tf-modules.git
+git@github.com:workato-devops/k8s-manifests.git
 
 # Terraform
-git@github.com-workato:workato-devops/tf-accounts.git
-git@github.com-workato:workato-devops/tf-infra-eks.git
-git@github.com-workato:workato-devops/tf-infra-prod.git
-git@github.com-workato:workato-devops/tf-infra-vpc.git
-git@github.com-workato:workato-devops/tf-workato-preview.git
-git@github.com-workato:workato-devops/tf-workato-prod.git
+git@github.com:workato-devops/tf-accounts.git
+git@github.com:workato-devops/tf-infra-eks.git
+git@github.com:workato-devops/tf-infra-prod.git
+git@github.com:workato-devops/tf-infra-vpc.git
+git@github.com:workato-devops/tf-workato-preview.git
+git@github.com:workato-devops/tf-workato-prod.git
 
 # Other
-git@github.com-workato:workato-devops/ace-plugins.git
-git@github.com-workato:workato/aws_admin.git
-git@github.com-workato:workato-devops/vault-secrets.git
+git@github.com:workato-devops/ace-plugins.git
+git@github.com:workato/aws_admin.git
+git@github.com:workato-devops/vault-secrets.git
