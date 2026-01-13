@@ -1,0 +1,20 @@
+session_name: k8s-manifests
+start_directory: ~/repos/k8s-manifests
+options:
+  set-titles: on
+  set-titles-string: "#{session_name}"
+windows:
+  - window_name: vim
+    panes:
+      - shell_command:
+          - nvim
+  - window_name: claude
+    panes:
+      - shell_command:
+          - claude --resume k8s-manifests
+  - window_name: shell
+    panes:
+      - shell_command: []
+  - window_name: server
+    panes:
+      - shell_command: []

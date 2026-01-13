@@ -1,0 +1,20 @@
+session_name: ace-plugins
+start_directory: ~/repos/ace-plugins
+options:
+  set-titles: on
+  set-titles-string: "#{session_name}"
+windows:
+  - window_name: vim
+    panes:
+      - shell_command:
+          - nvim
+  - window_name: claude
+    panes:
+      - shell_command:
+          - claude --resume ace-plugins
+  - window_name: shell
+    panes:
+      - shell_command: []
+  - window_name: server
+    panes:
+      - shell_command: []

@@ -1,0 +1,20 @@
+session_name: cd-eks-infra
+start_directory: ~/repos/cd-eks-infra
+options:
+  set-titles: on
+  set-titles-string: "#{session_name}"
+windows:
+  - window_name: vim
+    panes:
+      - shell_command:
+          - nvim
+  - window_name: claude
+    panes:
+      - shell_command:
+          - claude --resume cd-eks-infra
+  - window_name: shell
+    panes:
+      - shell_command: []
+  - window_name: server
+    panes:
+      - shell_command: []
