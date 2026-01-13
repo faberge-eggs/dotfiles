@@ -168,7 +168,55 @@ if [ -d "home" ]; then
     cp -r home/* "$CHEZMOI_SOURCE_DIR/"
 fi
 
-# Step 7.5: Configure chezmoi with user data
+# Step 7.5: Set up host-specific chezmoi data file
+HOSTNAME=$(hostname -s)
+HOST_DATA_FILE=".chezmoidata_${HOSTNAME}.yaml"
+HOST_DATA_PATH="$CHEZMOI_SOURCE_DIR/$HOST_DATA_FILE"
+
+if [ ! -f "$HOST_DATA_PATH" ]; then
+    print_step "Creating host-specific configuration for $HOSTNAME..."
+
+    # Get user information from git config if available
+    GIT_NAME=$(git config --global user.name 2>/dev/null || echo "")
+    GIT_EMAIL=$(git config --global user.email 2>/dev/null || echo "")
+    GITHUB_USER=$(git config --global github.user 2>/dev/null || echo "")
+
+    # Prompt for information if not available
+    if [ -z "$GIT_NAME" ]; then
+        read -p "Enter your full name: " GIT_NAME
+    fi
+
+    if [ -z "$GIT_EMAIL" ]; then
+        read -p "Enter your email: " GIT_EMAIL
+    fi
+
+    if [ -z "$GITHUB_USER" ]; then
+        read -p "Enter your GitHub username: " GITHUB_USER
+    fi
+
+    # Create the host data file
+    cat > "$HOST_DATA_PATH" <<EOF
+type: "$MACHINE_TYPE"
+email: "$GIT_EMAIL"
+name: "$GIT_NAME"
+githubUsername: "$GITHUB_USER"
+repoPath: "$DOTFILES_DIR"
+EOF
+
+    print_step "Created $HOST_DATA_FILE with:"
+    echo "  - Name: $GIT_NAME"
+    echo "  - Email: $GIT_EMAIL"
+    echo "  - GitHub: $GITHUB_USER"
+    echo "  - Machine Type: $MACHINE_TYPE"
+    echo "  - Repo Path: $DOTFILES_DIR"
+    echo ""
+    print_warning "Consider adding this file to your dotfiles repo:"
+    echo "  cd $DOTFILES_DIR && git add home/$HOST_DATA_FILE"
+else
+    print_step "Using existing host configuration: $HOST_DATA_FILE"
+fi
+
+# Step 7.6: Configure chezmoi with user data
 print_step "Configuring chezmoi..."
 mkdir -p "$HOME/.config/chezmoi"
 
