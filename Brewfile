@@ -139,3 +139,4 @@ mas "copyclip", id: 595191960
 cask "chatgpt"
 
 cask "claude-code"
+cask "google-drive"

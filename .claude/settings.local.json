@@ -16,7 +16,12 @@
       "Bash(find:*)",
       "Bash(bash -n:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(ssh-add:*)",
+      "Bash(ssh:*)",
+      "Bash(for key in ~/.ssh/*.pub)",
+      "Bash(ssh-keygen:*)",
+      "Bash(done)"
     ]
   }
 }

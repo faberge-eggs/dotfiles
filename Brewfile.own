@@ -4,7 +4,6 @@
 
 cask "vlc"
 cask "dropbox"
-cask "google-drive"
 
 brew "ffmpeg"
 
