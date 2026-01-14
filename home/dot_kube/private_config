@@ -1,0 +1,31 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUR6ekNDQXJlZ0F3SUJBZ0lSQUx3eVJ5TlpNS0ZjRTZXNTR2OENFYmN3RFFZSktvWklodmNOQVFFTEJRQXcKZ1lBeEpUQWpCZ05WQkFvVEhIUmxiR1Z3YjNKMExtbHVabkpoTG5kcmRHOXBibVp5WVM1dVpYUXhKVEFqQmdOVgpCQU1USEhSbGJHVndiM0owTG1sdVpuSmhMbmRyZEc5cGJtWnlZUzV1WlhReE1EQXVCZ05WQkFVVEp6STFNREUxCk5Ua3lNRGt3TWpFMk1UUXlPVEEyT0RFMU5UTXlNRE16TVRVMk5EZzRNRE14TVRBZUZ3MHlOREEzTWpNd09UVXoKTURWYUZ3MHpOREEzTWpFd09UVXpNRFZhTUlHQU1TVXdJd1lEVlFRS0V4eDBaV3hsY0c5eWRDNXBibVp5WVM1MwphM1J2YVc1bWNtRXVibVYwTVNVd0l3WURWUVFERXh4MFpXeGxjRzl5ZEM1cGJtWnlZUzUzYTNSdmFXNW1jbUV1CmJtVjBNVEF3TGdZRFZRUUZFeWN5TlRBeE5UVTVNakE1TURJeE5qRTBNamt3TmpneE5UVXpNakF6TXpFMU5qUTQKT0RBek1URXdnZ0VpTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCRHdBd2dnRUtBb0lCQVFDL1YwMnlsY0JMQ0xGaQp5dVpyeFhyS2VEcGJnbzgraVZOeEUxeHlHdjFuTFdHMTR1OFFxQnJOaFVGNFl3QlNCV0hITVR5ZXBzdk9lTHlECkdaWElOM1JGenJaVkQ0eCtzYXltZ3h1RkxKSGdacytrWW1xd3RpZnNxY1EzUGZtcWJuclUvZjNkSWp1RXRZQWoKVGZpRmdxa04wMndNV2Jwam5MZFFmQ0RXaUwwYWVUUUN1R21ocTZGOVRtaUNUaHh3YXVuSVE1NkNCeVRMTG54SQpuT3gzTlhabmFnTGFPRmQzMnhqb2IrdzVBdHBVT0xhbXg1Y29nMlpNWVpvSXA2MGpVYkM1K3FyNmJibElLbWJPClFLUWFmS2ExMFV2ZmZuVWN0S1ByTzQ4M2g0aUxIMkFjVTBFVkI3djNKSjNzbDZPZExVUVhXQ09WajhEYmdScEsKVDc5cXl2ZXZBZ01CQUFHalFqQkFNQTRHQTFVZER3RUIvd1FFQXdJQnBqQVBCZ05WSFJNQkFmOEVCVEFEQVFILwpNQjBHQTFVZERnUVdCQlF2czNCOWY0OWlueHp2TUpUcWkvN2l3M0ZXYVRBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFaaS9VTlpkMUl1V1g2L3plSWpaZTNHSURHOU16WWtaakEvTjNPamsrTVhLWXhUcncxQ3ZWR1U4Y2hvcEsKZWJHZ2hGVkdvOEZ6WDVHbnR2YkR1R3VKNUZNb1pvSXF0b2Q3eklucDdGZzVRVXNyVUgxeEdVRldlZzZwbisyRwpUZFE2aHJXdVdkekloTHFjWEdSMkJGOW9YSWFobVIxZEh0di8wMDdZOW9GQ2RzK21wb3BHNDhidkgvTjlVakRHClNNU2J0azg1SWt6dTBqWXczcDFYSVcxZUFtNWZOMXFucXpjSWRQQ0tUK0l2YTBlRTlQM0NGalpuaEtQU0FiVWMKLzBhYkxaMXM2Z2xZbnQzVzM3V003aUxPUkpWSmRlaGJtalZVbHpZdzJFaHRYWENKVEh4aEVpd1J4bktDbWwyZgphQ3JOT1R1UlNjbnlVbUg5Y3d5TlRyZnZhQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://teleport.infra.wktoinfra.net:3026
+  name: teleport.infra.wktoinfra.net
+contexts:
+- context:
+    cluster: teleport
+    extensions:
+    - extension: obs-prod-apse1.sg
+      name: teleport.kube.name
+    namespace: lor-cnnw1
+    user: teleport.infra.wktoinfra.net-obs-prod-apse1.sg
+  name: obs-prod-apse1
+kind: Config
+users:
+- name: teleport.infra.wktoinfra.net-obs-prod-apse1.sg
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - kube
+      - credentials
+      - --kube-cluster=obs-prod-apse1.sg
+      - --teleport-cluster=teleport.infra.wktoinfra.net
+      - --proxy=teleport.infra.wktoinfra.net:443
+      command: /usr/local/bin/tsh
+      env: null
+      interactiveMode: IfAvailable
+      provideClusterInfo: false

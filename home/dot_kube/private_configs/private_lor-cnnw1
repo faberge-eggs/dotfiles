@@ -1,0 +1,32 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJR0p4UVFleTlCY3d3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TlRFeU1qSXhNVFUzTkRSYUZ3MHpOVEV5TWpBeE1qQXlORFJhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUUNqNytmem1LSytCYzZ3TFp5aHR4d1FzZFpLTnIrTkJqTmhuZ1FvTDRCcUlmTEl2cUR0bldOQ0JhU0MKRVE1S21IQ3JFQ0QxVisrano1MnQ1VXh6MFZvQUZtWUdYUXZUSmNCODMwdHJiaXZKdVRUbFowa0dkaFJoaWJTNwo0N1dwMHFLZ3ZmeVJ1dThvTWlqaktQWDZSSUFXSDdvZ0NhRmZEeEFnbHgxckZwR1IxVlNEZUFrMEc0bmovM0ZSCnl2NXhKUXBwcys2MnRtV2FFUXd4V3paMU9rYUgvNmt2dGFjYUdEYitNRStLM1dhaGp6RnJKMEN3anErcjNBck4KLzJQQk5xRUJWWVJSWHQyNlNQVFhjdG5zZHNucEI4VGMxODhicjM4R3Y3a09aWnNlSjRMRXpNNUtVb0xML3UvWQpFdVNjanh5OU1FbEl5Ri9oeFVpandpMGdJRnZKQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJSVytiVXdub250YkJkOTVxanhobzRlbmtZcldUQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQml1Y0FWSE9FTQpUbVE1U1IzaUhwUHBSdWRVcFFmMW9OZE5zUlpTQ3pCZVFleDNaeUN3dzRha3dyeDh5aGhKckN2TERXV0IwUVFCCnJaQXU3YTF3eFQwOEY3RXU2RFpRTzllRjNkRXgwbS9FeHlkMGI2T09sUlMvaW1obTdsWDlURzNONllRL0xlZUwKSFB5MUhQcStleGNDK0N6cklxek5zdG44cHZJTDFnRFJKQ216ZzlkbkxOZzJTbGZZcUdmTm81NDYrQzNnL25QYgpXSXNzaHRKVkRzYlZLaFZYSkU1T1A4dnVDTnFYWHQ2RERHR0pJak13ZjJJZlpWZkZWOVdlVDdlc2w4eWRZaTcyCjgySzRnQm1nZng1QzhKRk4zaktCUUt0dE5ic2JNNEFpTnVVdzU0QkRnSjFIZ0tFZk9rd3VtTkN6cnNla2hqbXoKUy9USDV0SVJwUkF5Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://845311D8A1822CA6E751ACC8D3039A60.gr7.cn-northwest-1.eks.amazonaws.com.cn
+  name: arn:aws-cn:eks:cn-northwest-1:739089135338:cluster/wkt-prod-lor-cnnw1
+contexts:
+- context:
+    cluster: arn:aws-cn:eks:cn-northwest-1:739089135338:cluster/wkt-prod-lor-cnnw1
+    user: arn:aws-cn:eks:cn-northwest-1:739089135338:cluster/wkt-prod-lor-cnnw1
+  name: lor-cnnw1
+current-context: lor-cnnw1
+kind: Config
+preferences: {}
+users:
+- name: arn:aws-cn:eks:cn-northwest-1:739089135338:cluster/wkt-prod-lor-cnnw1
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - --region
+      - cn-northwest-1
+      - eks
+      - get-token
+      - --cluster-name
+      - wkt-prod-lor-cnnw1
+      - --output
+      - json
+      command: aws
+      env:
+      - name: AWS_PROFILE
+        value: lor-cnnw1

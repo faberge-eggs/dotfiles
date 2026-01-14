@@ -1,0 +1,45 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJTXkzVFJ6N2lIUHd3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TkRBeU1ESXhNVEE1TlRGYUZ3MHpOREF4TXpBeE1URTBOVEZhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUUM1UzBZSThRSzg5NTZBWmFuekNmNzhUSCtweEhTbEtmTHZoSGFLSDNUdjc0Z0FZUHFkT00yWlZXMFAKeVhyMk90Z1BDL2tUVHBNRnFFTW1UVVBuemhqblBuQWhVL24xWUdQREV0ajBNN2N5WGIxeXhMYjVmZ2h4U1VSQQp2bm1XSmVPdlhHMkNaVnBrdU9xai9OV2dTa0hWVkxZT3dXMDhVTk4zUTA5N0RCazlGTlh1T3VtcTRCME14ZmZrCnJHYk0vakwxamM4WDh4SWxRTjkrMHl3MUJ6eER3UVVnL0h5YTBvUTlzbUJxWHlObHc5NlRRZllTWnFhUjBuVi8KYnBZMUV2eDNJOHVKV0YyMitKVndabkpTMHlFQ3lIUXVGUjBKeE8vV0gyVDJ5T0pYSjhaZ3RCTWcwdk80SEdYdApDaTV1Wkw1VjIxNmgrSGM1eEVLYzhwNlRzaFNSQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJSNWVncXhjVnRWQUJYNFhwOU10bWxNTXM3K1pUQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQUNzYjVMaGhPWQpzUHVqa1BHYmswNmIvdUJDU0ZjcmV1Nzh5NlhBNjlROXNFZkcvUFdMaGpPRjI3eFdLeDU3Uy9tajNJRFRpbmltCk9JOXh2MGdOYzRzZ2RnaFVuSjdWSEJxa252bFFmMVhlWnZ2d0k3ZXNCWE1XdjdPMmVsdENBREFzM1RxVzQxZXIKKzNTOVNvOGJZWTNkRENpM1ZtUVpsQjJrc1FrZzdVdjAyaDBSaEx5dGhyaHBSMTU1WGlCbGNVUkliZUhzdm9SdwpQckNRV3dXcUFTY1RFT3pjVURpMTVLa3lDVm9pd01pWGliQUZXd1ZEdDNTWnpFbklGL3czM0FDaGhLcGpjUXArClltTjdCRmpKKzZ2d0loYzRudDYxdjZhNWdGVFRJZ3NWN0RTN2d6bTJ6Q3M3SlQ5TmNuako1b2FXVHllckx1MkMKLzNUbGk2T2NSZTZrCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://A59A40F60E9DC32EEE396F8226B53ACD.gr7.us-east-1.eks.amazonaws.com
+  name: wkt-prod-use1
+contexts:
+- context:
+    cluster: wkt-prod-use1
+    namespace: workato
+    user: wkt-prod-use1-oidc
+  name: us-prod
+current-context: us-prod
+kind: Config
+users:
+- name: aws
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - eks
+      - get-token
+      - --cluster-name
+      - wkt-prod-use1
+      command: aws
+      env: null
+      interactiveMode: IfAvailable
+      provideClusterInfo: false
+- name: wkt-prod-use1-oidc
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - oidc-login
+      - get-token
+      - --oidc-issuer-url=https://workatodevops.okta.com/oauth2/ausnffp2qtT891Or52p7
+      - --oidc-client-id=0oanffn30bygBZtzm2p7
+      - --oidc-extra-scope=email
+      - --oidc-extra-scope=offline_access
+      - --oidc-extra-scope=profile
+      - --oidc-extra-scope=openid
+      command: kubectl
+      env: null
+      interactiveMode: IfAvailable
+      provideClusterInfo: false
