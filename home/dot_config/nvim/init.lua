@@ -59,6 +59,7 @@ Plug("MunifTanjim/nui.nvim")
 
 -- Git
 Plug("lewis6991/gitsigns.nvim")
+Plug("ruifm/gitlinker.nvim")
 
 -- UI
 Plug("nvim-lualine/lualine.nvim")

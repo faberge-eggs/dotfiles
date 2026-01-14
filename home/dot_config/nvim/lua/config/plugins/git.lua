@@ -1,3 +1,19 @@
+-- Gitlinker Configuration (uses current branch)
+require("gitlinker").setup({
+  opts = {
+    add_current_line_on_normal_mode = true,
+    action_callback = require("gitlinker.actions").copy_to_clipboard,
+    print_url = true,
+  },
+  callbacks = {
+    ["github.com"] = function(url_data)
+      url_data.rev = vim.fn.system("git rev-parse --abbrev-ref HEAD"):gsub("\n", "")
+      return require("gitlinker.hosts").get_github_type_url(url_data)
+    end,
+  },
+  mappings = "<leader>gy",
+})
+
 -- Gitsigns Configuration
 require("gitsigns").setup({
   signs = {

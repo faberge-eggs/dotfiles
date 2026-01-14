@@ -670,7 +670,7 @@
 				<real>0.8659515380859375</real>
 			</dict>
 			<key>Automatically Enable Alternate Mouse Scroll</key>
-			<false/>
+			<true/>
 			<key>BM Growl</key>
 			<true/>
 			<key>Background Color</key>

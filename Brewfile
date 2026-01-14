@@ -47,6 +47,7 @@ cask "docker-desktop"           # Docker Desktop (includes CLI)
 brew "kubernetes-cli"           # Kubernetes CLI
 brew "helm"                     # Kubernetes package manager
 brew "ansible"                  # Automation tool
+brew "tflint"                   # Terraform linter
 
 # ===== Development Tools - Build & Package Managers =====
 brew "make"                     # Build automation
