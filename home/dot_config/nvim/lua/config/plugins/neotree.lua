@@ -1,6 +1,14 @@
 -- Neo-tree Configuration
 require("neo-tree").setup({
   close_if_last_window = true,
+  event_handlers = {
+    {
+      event = "neo_tree_buffer_enter",
+      handler = function()
+        vim.opt_local.scrolloff = 0
+      end,
+    },
+  },
   window = {
     position = "right",
     width = 35,

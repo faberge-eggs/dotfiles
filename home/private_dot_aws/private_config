@@ -250,6 +250,12 @@ sso_account_id = 471112990830
 sso_role_name = AdministratorAccess
 region = us-east-1
 
+[profile cn-privateca]
+sso_session = my-sso-cn
+sso_account_id = 750291281483
+sso_role_name = AdministratorAccess
+region = cn-northwest-1
+
 [profile opa-prod]
 sso_session = my-sso
 sso_account_id = 351738818944
