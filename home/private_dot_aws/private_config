@@ -1,0 +1,267 @@
+[default]
+output = json
+cli_auto_prompt = on-partial
+tcp_keepalive = true
+max_concurrent_requests = 20
+retry_mode = adaptive
+max_attempts = 3
+
+[sso-session my-sso]
+sso_start_url = https://d-906752cfe0.awsapps.com/start
+sso_region = us-east-1
+sso_registration_scopes = sso:account:access
+
+[sso-session my-sso-cn]
+sso_start_url = https://start.cn-northwest-1.home.awsapps.cn/directory/d-836707fe38
+sso_region = cn-northwest-1
+sso_registration_scopes = sso:account:access
+
+[profile us-prod]
+sso_session = my-sso
+sso_account_id = 983224934877
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile us-prod-kms]
+sso_session = my-sso
+sso_account_id = 520101481862
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile us-pconn]
+sso_session = my-sso
+sso_account_id = 471754640192
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile eu-prod]
+sso_session = my-sso
+sso_account_id = 591354985689
+sso_role_name = AdministratorAccess
+region = eu-central-1
+
+[profile eu-prod-kms]
+sso_session = my-sso
+sso_account_id = 974579865612
+sso_role_name = AdministratorAccess
+region = eu-central-1
+
+[profile eu-pconn-prod]
+sso_session = my-sso
+sso_account_id = 423623860879
+sso_role_name = AdministratorAccess
+region = eu-central-1
+
+[profile eu-pconn-preview]
+sso_session = my-sso
+sso_account_id = 904233135094
+sso_role_name = AdministratorAccess
+region = eu-central-1
+
+[profile infra-prod]
+sso_session = my-sso
+sso_account_id = 776711248639
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile infra-dev]
+sso_session = my-sso
+sso_account_id = 232647704873
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile infra-cn]
+sso_session = my-sso-cn
+sso_account_id = 739125528407
+sso_role_name = AdministratorAccess
+region = cn-northwest-1
+
+[profile us-preview]
+sso_session = my-sso
+sso_account_id = 672840933960
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile us-preview-kms]
+sso_session = my-sso
+sso_account_id = 560701437023
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile eu-preview]
+sso_session = my-sso
+sso_account_id = 513829378736
+sso_role_name = AdministratorAccess
+region = eu-central-1
+
+[profile eu-preview-kms]
+sso_session = my-sso
+sso_account_id = 905417994923
+sso_role_name = AdministratorAccess
+region = eu-central-1
+
+[profile infra-preview]
+sso_session = my-sso
+sso_account_id = 773267254890
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile dogfood]
+sso_session = my-sso
+sso_account_id = 059126532719
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile dogfood-kms]
+sso_session = my-sso
+sso_account_id = 059126532719
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile st1]
+sso_session = my-sso
+sso_account_id = 372245638561
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile st1-kms]
+sso_session = my-sso
+sso_account_id = 372245638561
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile trial]
+sso_session = my-sso
+sso_account_id = 290477248107
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile trial-kms]
+sso_session = my-sso
+sso_account_id = 143320676250
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile lor-use1]
+sso_session = my-sso
+sso_account_id = 864899853131
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile lor-use1-kms]
+sso_session = my-sso
+sso_account_id = 031961425009
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile lor-euc1]
+sso_session = my-sso
+sso_account_id = 867344458310
+sso_role_name = AdministratorAccess
+region = eu-central-1
+
+[profile lor-euc1-kms]
+sso_session = my-sso
+sso_account_id = 571438639677
+sso_role_name = AdministratorAccess
+region = eu-central-1
+
+[profile lor-apse1]
+sso_session = my-sso
+sso_account_id = 051826697780
+sso_role_name = AdministratorAccess
+region = ap-southeast-1
+
+[profile lor-apse1-kms]
+sso_session = my-sso
+sso_account_id = 300855338755
+sso_role_name = AdministratorAccess
+region = ap-southeast-1
+
+[profile lor-cnnw1]
+sso_session = my-sso-cn
+sso_account_id = 739089135338
+sso_role_name = AdministratorAccess
+region = cn-northwest-1
+
+[profile lor-cnnw1-kms]
+sso_session = my-sso-cn
+sso_account_id = 750295125571
+sso_role_name = AdministratorAccess
+region = cn-northwest-1
+
+[profile jp]
+sso_session = my-sso
+sso_account_id = 416646065935
+sso_role_name = AdministratorAccess
+region = ap-northeast-1
+
+[profile jp-kms]
+sso_session = my-sso
+sso_account_id = 197715205056
+sso_role_name = AdministratorAccess
+region = ap-northeast-1
+
+[profile au]
+sso_session = my-sso
+sso_account_id = 557764609414
+sso_role_name = AdministratorAccess
+region = ap-southeast-2
+
+[profile au-kms]
+sso_session = my-sso
+sso_account_id = 581444642159
+sso_role_name = AdministratorAccess
+region = ap-southeast-2
+
+[profile sg]
+sso_session = my-sso
+sso_account_id = 919649332084
+sso_role_name = AdministratorAccess
+region = ap-southeast-1
+
+[profile sg-kms]
+sso_session = my-sso
+sso_account_id = 875154552506
+sso_role_name = AdministratorAccess
+region = ap-southeast-1
+
+[profile ilc1]
+sso_session = my-sso
+sso_account_id = 442042530824
+sso_role_name = AdministratorAccess
+region = il-central-1
+
+[profile ilc1-kms]
+sso_session = my-sso
+sso_account_id = 422329506790
+sso_role_name = AdministratorAccess
+region = il-central-1
+
+[profile us-privateca-prod]
+sso_session = my-sso
+sso_account_id = 767397991882
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile us-privateca-preview]
+sso_session = my-sso
+sso_account_id = 471112990830
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile opa-prod]
+sso_session = my-sso
+sso_account_id = 351738818944
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile opa-preview]
+sso_session = my-sso
+sso_account_id = 146488169551
+sso_role_name = AdministratorAccess
+region = us-east-1
+
+[profile root-cn]
+region = cn-northwest-1
+output = yaml

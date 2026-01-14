@@ -1,0 +1,13 @@
+Host vpn-cn
+  # Hostname ec2-161-189-140-217.cn-northwest-1.compute.amazonaws.com.cn
+  Hostname 68.79.25.199
+  User ec2-user
+  Port 22
+  IdentityFile ~/.ssh/cn-wireguard.pem
+  PasswordAuthentication no
+  ForwardAgent yes
+  ServerAliveInterval 60
+  TCPKeepAlive yes
+  ControlMaster auto
+  ControlPersist 15m
+  ProxyCommand none

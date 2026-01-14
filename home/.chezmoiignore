@@ -31,5 +31,7 @@ Library/Containers/com.microsoft.rdc.macos/
 {{- end }}
 
 {{- if eq .machineType "own" }}
-.ssh/config_d/workato
+.ssh/config_d/workato*
+aws_vpn_profiles
+.aws
 {{- end }}

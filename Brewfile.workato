@@ -9,6 +9,7 @@ tap "hashicorp/tap"
 
 # Cloud Provider CLIs
 brew "awscli"                # AWS CLI
+cask "aws-vpn-client"
 
 # Security & Compliance
 # cask "zscaler"
@@ -19,3 +20,5 @@ brew "hashicorp/tap/vault"                 # HashiCorp Vault CLI
 # cask "confluence"
 
 brew "hashicorp/tap/terraform"                # Infrastructure as code
+
+mas "wireguard", id: 1451685025
