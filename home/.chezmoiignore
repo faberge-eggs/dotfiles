@@ -34,4 +34,5 @@ Library/Containers/com.microsoft.rdc.macos/
 .ssh/config_d/workato*
 aws_vpn_profiles
 .aws
+.kube/wkt_*
 {{- end }}
