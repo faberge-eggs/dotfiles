@@ -26,5 +26,10 @@ Library/
 {{- if eq .machineType "workato" }}
 .config/openconnect/
 .config/tmuxp/ivis.yaml
+.ssh/config_d/ivis
 Library/Containers/com.microsoft.rdc.macos/
+{{- end }}
+
+{{- if eq .machineType "own" }}
+.ssh/config_d/workato
 {{- end }}

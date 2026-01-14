@@ -22,7 +22,8 @@
       "Bash(for key in ~/.ssh/*.pub)",
       "Bash(ssh-keygen:*)",
       "Bash(done)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(/usr/bin/grep:*)"
     ]
   }
 }
