@@ -257,6 +257,9 @@ alias ivis-vpn="sudo openconnect \
     --passwd-on-stdin \
     <<< \$(op read 'op://IVIS/Ivis VPN/password')"
 
+
+export KUBECONFIG=/Users/vadim/repos/ivis/ansible/kubeconfig
+
 {{- end }}
 
 # Local customizations (not managed by chezmoi)

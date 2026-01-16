@@ -105,6 +105,14 @@
         - vpn
         - sudo
 
+    # ===== Manual Setup Reminders =====
+    - name: Remind to setup personal email
+      debug:
+        msg: "MANUAL: Add sh.vadim@gmail.com to Mail app via System Settings → Internet Accounts"
+      tags:
+        - reminder
+        - manual
+
     # ===== Git Configuration for Personal Repos =====
     - name: Create gitconfig for personal repositories
       copy:

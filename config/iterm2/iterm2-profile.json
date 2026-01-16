@@ -184,6 +184,7 @@
   "Window Type" : 0,
   "BM Growl" : true,
   "Prompt Before Closing 2" : false,
+  "Allow Alternate Mouse Scroll" : false,
   "Command" : "",
   "Selected Text Color" : {
     "Red Component" : 0,
@@ -199,6 +200,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.99263292551040649
   },
+  "Automatically Enable Alternate Mouse Scroll" : false,
   "Cursor Guide Color (Dark)" : {
     "Red Component" : 0.37649588016392954,
     "Color Space" : "sRGB",
@@ -235,7 +237,7 @@
     "Green Component" : 0
   },
   "Vertical Spacing" : 1,
-  "Disable Window Resizing" : true,
+  "Disable Window Resizing" : false,
   "Close Sessions On End" : true,
   "Selection Color (Dark)" : {
     "Red Component" : 0.70196080207824707,
@@ -477,6 +479,7 @@
   "Tags" : [
 
   ],
+  "Restrict Alternate Mouse Scroll to Vertical" : false,
   "Left Control Key" : 0,
   "Ansi 6 Color (Light)" : {
     "Red Component" : 0,
@@ -493,6 +496,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.23660069704055786
   },
+  "Restrict Mouse Reporting to Alternate Screen Mode" : false,
   "Use Bold Font" : true,
   "Ansi 8 Color (Light)" : {
     "Red Component" : 0.40781760215759277,
@@ -508,7 +512,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.7607843279838562
   },
-  "Normal Font" : "JetBrainsMono-Regular 16",
+  "Normal Font" : "JetBrainsMonoNFM-Regular 15",
   "Unlimited Scrollback" : false,
   "Ansi 12 Color (Light)" : {
     "Red Component" : 0.65349078178405762,
@@ -554,7 +558,6 @@
     "Alpha Component" : 1,
     "Green Component" : 0.97999999999999998
   },
-  "Terminal Type" : "xterm-256color",
   "Ansi 13 Color" : {
     "Red Component" : 0.8821563720703125,
     "Color Space" : "sRGB",
@@ -562,6 +565,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.4927266538143158
   },
+  "Terminal Type" : "xterm-256color",
   "Ansi 5 Color (Light)" : {
     "Red Component" : 0.752197265625,
     "Color Space" : "sRGB",
