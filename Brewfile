@@ -134,6 +134,8 @@ cask "font-cascadia-code"       # Cascadia Code
 
 mas "Xcode", id: 497799835
 mas "1Password for Safari", id: 1569813296
+mas "Ghostery Privacy Ad Blocker", id: 6504861501
+mas "Adblock Plus for Safari ABP", id: 1432731683
 mas "The Unarchiver", id: 425424353
 mas "copyclip", id: 595191960
 
@@ -142,3 +144,4 @@ cask "chatgpt"
 cask "claude-code"
 cask "google-drive"
 brew "direnv"
+cask "grammarly-desktop"

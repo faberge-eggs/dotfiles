@@ -192,10 +192,54 @@
             value: true
 
         # ===== Safari Configuration =====
-        # Safari settings require Full Disk Access for Terminal
-        # Configure manually: Safari > Settings > Advanced
-        # - Show full URL in address bar
-        # - Disable auto-open safe downloads
+        - name: Show full URL in Safari address bar
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: ShowFullURLInSmartSearchField
+            type: bool
+            value: true
+
+        - name: Disable auto-open safe downloads in Safari
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: AutoOpenSafeDownloads
+            type: bool
+            value: false
+
+        - name: Set Safari to open with empty page
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: NewWindowBehavior
+            type: int
+            value: 1
+
+        - name: Set Safari new tabs to open with empty page
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: NewTabBehavior
+            type: int
+            value: 1
+
+        - name: Restore previous session on Safari launch
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: AlwaysRestoreSessionAtLaunch
+            type: bool
+            value: true
+
+        - name: Set default text encoding to UTF-8
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: WebKitDefaultTextEncodingName
+            type: string
+            value: "utf-8"
+
+        - name: Set default text encoding to UTF-8 (WebKit2)
+          community.general.osx_defaults:
+            domain: com.apple.Safari
+            key: WebKitPreferences.defaultTextEncodingName
+            type: string
+            value: "utf-8"
 
         # ===== System Preferences =====
         - name: Expand save panel by default
