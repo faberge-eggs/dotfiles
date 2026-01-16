@@ -31,6 +31,13 @@ fi
 
 print_step "🚀 Starting macOS bootstrap process..."
 
+# Request sudo access upfront and keep it alive
+print_step "Requesting sudo access (will be cached for the session)..."
+sudo -v
+
+# Keep sudo alive in background (updates every 60 seconds)
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
 # Detect machine type from hostname
 detect_machine_type() {
     local hostname=$(hostname -s)
@@ -216,47 +223,9 @@ else
     print_step "Using existing host configuration: $HOST_DATA_FILE"
 fi
 
-# Step 7.6: Configure chezmoi with user data
-print_step "Configuring chezmoi..."
-mkdir -p "$HOME/.config/chezmoi"
-
-# Get user information from git config if available
-GIT_NAME=$(git config --global user.name 2>/dev/null || echo "")
-GIT_EMAIL=$(git config --global user.email 2>/dev/null || echo "")
-GITHUB_USER=$(git config --global github.user 2>/dev/null || echo "")
-
-# Create chezmoi config with all required data
-cat > "$HOME/.config/chezmoi/chezmoi.toml" <<EOF
-# Use dotfiles repo directly as source
-sourceDir = "$DOTFILES_DIR/home"
-
-[data]
-    email = "${GIT_EMAIL:-user@example.com}"
-    name = "${GIT_NAME:-Your Name}"
-    githubUsername = "${GITHUB_USER:-yourusername}"
-    machineType = "$MACHINE_TYPE"
-
-[edit]
-    command = "code"
-    args = ["--wait"]
-
-[diff]
-    command = "code"
-    args = ["--wait", "--diff"]
-
-[git]
-    autoCommit = false
-    autoPush = false
-
-[data.onepassword]
-    enabled = true
-EOF
-
-print_step "Chezmoi configured with:"
-echo "  - Name: ${GIT_NAME:-Your Name}"
-echo "  - Email: ${GIT_EMAIL:-user@example.com}"
-echo "  - GitHub: ${GITHUB_USER:-yourusername}"
-echo "  - Machine: $MACHINE_TYPE"
+# Step 7.6: Chezmoi will use .chezmoi.toml.tmpl from the repo
+print_step "Chezmoi will auto-configure from .chezmoi.toml.tmpl..."
+print_step "Using host-specific config: $HOST_DATA_FILE"
 
 # Step 8: Apply chezmoi configuration
 print_step "Applying dotfiles with chezmoi..."
@@ -265,22 +234,30 @@ chezmoi apply
 # Step 9: Run Ansible if available
 if [ -f "playbook.yml" ] && command -v ansible-playbook &>/dev/null; then
     print_step "Running Ansible playbook..."
-    ansible-playbook playbook.yml --ask-become-pass
+    ansible-playbook playbook.yml --become
 
     # Run machine-specific playbook
     if [ "$MACHINE_TYPE" = "workato" ] && [ -f "playbook.workato.yml" ]; then
         print_step "Running workato-specific Ansible playbook..."
-        ansible-playbook playbook.workato.yml --ask-become-pass
+        ansible-playbook playbook.workato.yml --become
     elif [ "$MACHINE_TYPE" = "own" ] && [ -f "playbook.own.yml" ]; then
         print_step "Running personal Ansible playbook..."
-        ansible-playbook playbook.own.yml --ask-become-pass
+        ansible-playbook playbook.own.yml --become
     fi
 fi
 
 # Step 10: Set Zsh as default shell
 if [ "$SHELL" != "$(which zsh)" ]; then
     print_step "Setting Zsh as default shell..."
-    chsh -s "$(which zsh)"
+
+    # Ensure Homebrew's zsh is in /etc/shells
+    ZSH_PATH="$(which zsh)"
+    if ! grep -q "^${ZSH_PATH}$" /etc/shells; then
+        print_step "Adding $ZSH_PATH to /etc/shells..."
+        echo "$ZSH_PATH" | sudo tee -a /etc/shells > /dev/null
+    fi
+
+    chsh -s "$ZSH_PATH"
 fi
 
 # Step 11: Install Oh My Zsh if not present

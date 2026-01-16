@@ -29,12 +29,12 @@
             value: 48.0
           notify: Restart Dock
 
-        - name: Enable Dock autohide
+        - name: Disable Dock autohide
           community.general.osx_defaults:
             domain: com.apple.dock
             key: autohide
             type: bool
-            value: true
+            value: false
           notify: Restart Dock
 
         - name: Set Dock autohide delay

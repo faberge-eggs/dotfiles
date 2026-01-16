@@ -77,17 +77,21 @@ config: ansible ## Configure macOS system settings with Ansible
 ansible: ## Run Ansible playbook for macOS configuration
 	@echo "${GREEN}Running Ansible playbook...${RESET}"
 	@echo "Machine type: ${MACHINE_TYPE}"
-	@ansible-playbook playbook.yml --ask-become-pass
+	@sudo -v
+	@ansible-playbook playbook.yml --become
 ifneq ($(MACHINE_TYPE),)
 	@echo "${GREEN}Running ${MACHINE_TYPE}-specific playbook...${RESET}"
-	@ansible-playbook playbook.$(MACHINE_TYPE).yml --ask-become-pass
+	@sudo -v
+	@ansible-playbook playbook.$(MACHINE_TYPE).yml --become
 endif
 
 ansible-check: ## Dry-run Ansible playbook
 	@echo "${GREEN}Running Ansible playbook (dry-run)...${RESET}"
 	@echo "Machine type: ${MACHINE_TYPE}"
+	@sudo -v
 	@ansible-playbook playbook.yml --check
 ifneq ($(MACHINE_TYPE),)
+	@sudo -v
 	@ansible-playbook playbook.$(MACHINE_TYPE).yml --check
 endif
 
