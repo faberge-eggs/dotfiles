@@ -203,6 +203,11 @@ if command -v direnv &>/dev/null; then
     eval "$(direnv hook zsh)"
 fi
 
+# asdf version manager
+if [ -f "/opt/homebrew/opt/asdf/libexec/asdf.sh" ]; then
+    . /opt/homebrew/opt/asdf/libexec/asdf.sh
+fi
+
 # Kubernetes - load all configs from ~/.kube
 if [ -d "$HOME/.kube" ]; then
     export KUBECONFIG="$HOME/.kube/config"

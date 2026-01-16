@@ -119,12 +119,12 @@
           notify: Restart Finder
 
         # ===== Keyboard Configuration =====
-        - name: Enable key repeat
+        - name: Enable press and hold for accents
           community.general.osx_defaults:
             domain: NSGlobalDomain
             key: ApplePressAndHoldEnabled
             type: bool
-            value: false
+            value: true
 
         - name: Set fast key repeat rate
           community.general.osx_defaults:

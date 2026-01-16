@@ -1,0 +1,4 @@
+# GitHub (uses workato key from 1Password for SAML SSO)
+Host vpn-sg-cn
+    User ubuntu
+    Hostname 13.212.180.35
