@@ -175,6 +175,40 @@ backup: ## Backup current dotfiles
 		~/.zshrc ~/.gitconfig ~/.ssh/config 2>/dev/null || true
 	@echo "${GREEN}Backup complete${RESET}"
 
+## Repository Management
+clone-repos: ## Clone all repositories from repos.txt
+	@echo "${GREEN}Cloning repositories...${RESET}"
+	@bash -c 'set -e; \
+	REPOS_DIR="$$HOME/repos"; \
+	mkdir -p "$$REPOS_DIR"; \
+	clone_if_missing() { \
+		local url=$$1; \
+		[[ -z "$$url" || "$$url" =~ ^[[:space:]]*\# ]] && return; \
+		local name=$$(basename "$$url" .git); \
+		local path="$$REPOS_DIR/$$name"; \
+		if [ ! -d "$$path" ]; then \
+			echo "Cloning $$name..."; \
+			git clone "$$url" "$$path"; \
+		else \
+			echo "$$name already exists"; \
+		fi; \
+	}; \
+	while IFS= read -r url; do clone_if_missing "$$url"; done < repos.txt; \
+	if [ -f "repos.$(MACHINE_TYPE).txt" ]; then \
+		echo "${GREEN}Cloning $(MACHINE_TYPE)-specific repositories...${RESET}"; \
+		while IFS= read -r url; do clone_if_missing "$$url"; done < repos.$(MACHINE_TYPE).txt; \
+	fi'
+
+update-repos: ## Pull latest changes in all cloned repositories
+	@echo "${GREEN}Updating repositories in ~/repos...${RESET}"
+	@for dir in ~/repos/*/; do \
+		if [ -d "$$dir/.git" ]; then \
+			echo "${CYAN}Updating $$(basename $$dir)...${RESET}"; \
+			git -C "$$dir" pull || true; \
+		fi; \
+	done
+	@echo "${GREEN}Repository update complete${RESET}"
+
 ## Git Commands
 commit: ## Commit dotfiles changes
 	@echo "${GREEN}Committing changes...${RESET}"
