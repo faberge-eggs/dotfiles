@@ -11,6 +11,7 @@ git@github.com:workato-devops/k8s-manifests.git
 git@github.com:workato-devops/tf-accounts.git
 git@github.com:workato-devops/tf-infra-eks.git
 git@github.com:workato-devops/tf-infra-prod.git
+git@github.com:workato-devops/tf-infra-preview.git
 git@github.com:workato-devops/tf-infra-vpc.git
 git@github.com:workato-devops/tf-workato-preview.git
 git@github.com:workato-devops/tf-workato-prod.git
