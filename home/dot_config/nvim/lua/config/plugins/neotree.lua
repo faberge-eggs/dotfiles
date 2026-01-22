@@ -59,9 +59,11 @@ require("neo-tree").setup({
     },
     scan_mode = "deep",
     follow_current_file = {
-      enabled = true,
+      enabled = false,
     },
     use_libuv_file_watcher = false,
+    bind_to_cwd = false,
+    hijack_netrw_behavior = "disabled",
   },
 })
 

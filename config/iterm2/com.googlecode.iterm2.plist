@@ -30,7 +30,11 @@
 	<false/>
 	<key>AlwaysOpenWindowAtStartup</key>
 	<false/>
+	<key>BrowserProfiles</key>
+	<false/>
 	<key>Default Bookmark Guid</key>
+	<string>50510616-C48E-4E8D-87AC-8E8CC49A6F04</string>
+	<key>Default Browser Profile Guid</key>
 	<string>50510616-C48E-4E8D-87AC-8E8CC49A6F04</string>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
@@ -976,6 +980,8 @@
 			<string>50510616-C48E-4E8D-87AC-8E8CC49A6F04</string>
 			<key>Horizontal Spacing</key>
 			<real>1</real>
+			<key>Icon</key>
+			<integer>1</integer>
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Jobs to Ignore</key>
@@ -1145,6 +1151,15 @@
 				<key>Red Component</key>
 				<real>0.70196080207824707</real>
 			</dict>
+			<key>Semantic History</key>
+			<dict>
+				<key>action</key>
+				<string>best editor</string>
+				<key>editor</key>
+				<string>com.github.atom</string>
+				<key>text</key>
+				<string></string>
+			</dict>
 			<key>Send Code When Idle</key>
 			<false/>
 			<key>Shortcut</key>
@@ -1217,7 +1232,7 @@
 	<key>ReportHorizontalScrollEvents</key>
 	<true/>
 	<key>RestoreWindowsToSameSpaces</key>
-	<false/>
+	<true/>
 	<key>SoundForEsc</key>
 	<false/>
 	<key>VisualIndicatorForEsc</key>

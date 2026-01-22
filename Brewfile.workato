@@ -23,3 +23,4 @@ brew "hashicorp/tap/terraform"                # Infrastructure as code
 
 mas "wireguard", id: 1451685025
 cask "pritunl"
+brew "trivy"

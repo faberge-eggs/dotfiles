@@ -13,6 +13,14 @@ contexts:
     namespace: lor-cnnw1
     user: teleport.infra.wktoinfra.net-obs-prod-apse1.sg
   name: obs-prod-apse1
+{{- if (stat (joinPath .chezmoi.homeDir ".kube/config")) }}
+{{- $config := include (joinPath .chezmoi.homeDir ".kube/config") }}
+{{- range (splitList "\n" $config) }}
+{{- if hasPrefix "current-context:" . }}
+{{ . }}
+{{- end }}
+{{- end }}
+{{- end }}
 kind: Config
 users:
 - name: teleport.infra.wktoinfra.net-obs-prod-apse1.sg
