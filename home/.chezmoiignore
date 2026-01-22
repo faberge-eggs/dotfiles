@@ -26,12 +26,13 @@ Library/
 {{- if eq .machineType "workato" }}
 .config/openconnect/
 .config/tmuxp/ivis.yaml
-.ssh/config_d/ivis
+.ssh/config.d/ivis
 Library/Containers/com.microsoft.rdc.macos/
 {{- end }}
 
 {{- if eq .machineType "own" }}
-.ssh/config_d/workato*
+.ssh/config.d/workato*
+.ssh/github_workato.pub
 aws_vpn_profiles
 .aws
 .kube/wkt_*
