@@ -38,6 +38,11 @@ lint.linters_by_ft = {
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   group = vim.api.nvim_create_augroup("lint", { clear = true }),
   callback = function()
+    -- Skip linting for all .tfvars files (keep only formatting)
+    local filename = vim.fn.expand("%:t")
+    if filename:match("%.tfvars$") then
+      return
+    end
     -- Silently try to lint, ignore errors for missing linters
     pcall(lint.try_lint)
   end,

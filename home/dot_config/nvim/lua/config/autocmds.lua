@@ -39,7 +39,7 @@ local function get_base_filetype(filename)
     return "ruby"
   elseif base:match("%.go$") then
     return "go"
-  elseif base:match("%.tf$") then
+  elseif base:match("%.tf$") or base:match("%.tfvars$") then
     return "terraform"
   elseif base:match("%.conf$") or base:match("%.cfg$") then
     return "conf"
@@ -57,6 +57,7 @@ vim.filetype.add({
       local filename = vim.fn.fnamemodify(path, ":t")
       return get_base_filetype(filename) or "gotmpl"
     end,
+    tfvars = "terraform",
   },
   filename = {
     [".yamllint"] = "yaml",

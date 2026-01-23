@@ -190,6 +190,18 @@ sso_account_id = 750295125571
 sso_role_name = AdministratorAccess
 region = cn-northwest-1
 
+[profile cn]
+sso_session = my-sso-cn
+sso_account_id =802182459751
+sso_role_name = AdministratorAccess
+region = cn-northwest-1
+
+[profile cn-kms]
+sso_session = my-sso-cn
+sso_account_id = 802183472714
+sso_role_name = AdministratorAccess
+region = cn-northwest-1
+
 [profile jp]
 sso_session = my-sso
 sso_account_id = 416646065935

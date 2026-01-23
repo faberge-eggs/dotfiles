@@ -109,3 +109,12 @@ vim.lsp.config("lua_ls", {
 
 -- Enable servers
 vim.lsp.enable({ "gopls", "pyright", "solargraph", "terraformls", "yamlls", "lua_ls" })
+
+-- Disable LSP diagnostics for .tfvars files (keep only formatting)
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  group = vim.api.nvim_create_augroup("DisableTfvarsLsp", { clear = true }),
+  pattern = "*.tfvars",
+  callback = function(ev)
+    vim.diagnostic.enable(false, { bufnr = ev.buf })
+  end,
+})
