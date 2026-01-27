@@ -24,6 +24,9 @@ require("gitsigns").setup({
     changedelete = { text = "~" },
     untracked = { text = "?" },
   },
+  watch_gitdir = {
+    enable = false,  -- Disable file watching to avoid race conditions with nested repos
+  },
   on_attach = function(bufnr)
     local gs = package.loaded.gitsigns
     local map = function(mode, l, r, desc)
