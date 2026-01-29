@@ -57,6 +57,9 @@ export GIT_COMMITTER_EMAIL="{{ .email }}"
 # Use 1Password SSH agent
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 
+# Set default 1Password account
+export OP_ACCOUNT="shaulski.1password.com"
+
 # 1Password CLI helper functions
 op_load() {
     if ! command -v op &>/dev/null; then

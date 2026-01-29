@@ -8,6 +8,30 @@ require("neo-tree").setup({
         vim.opt_local.scrolloff = 0
       end,
     },
+    {
+      event = "file_opened",
+      handler = function(file_path)
+        -- Prevent any action - no revealing
+      end,
+    },
+    {
+      event = "file_added",
+      handler = function(file_path)
+        -- Prevent any action
+      end,
+    },
+    {
+      event = "file_deleted",
+      handler = function(file_path)
+        -- Prevent any action
+      end,
+    },
+    {
+      event = "vim_buffer_enter",
+      handler = function()
+        -- Block buffer enter from triggering reveals
+      end,
+    },
   },
   window = {
     position = "right",
@@ -60,13 +84,16 @@ require("neo-tree").setup({
     scan_mode = "deep",
     follow_current_file = {
       enabled = false,
+      leave_dirs_open = false,  -- Changed to false to prevent any auto behavior
     },
     use_libuv_file_watcher = false,
     bind_to_cwd = false,
     hijack_netrw_behavior = "disabled",
+    group_empty_dirs = false,  -- Don't group empty directories
   },
 })
 
 -- Keymaps
 vim.keymap.set("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Toggle file explorer" })
 vim.keymap.set("n", "<leader>o", "<cmd>Neotree focus<cr>", { desc = "Focus file explorer" })
+vim.keymap.set("n", "<leader>ef", "<cmd>Neotree reveal<cr>", { desc = "Reveal file in explorer" })

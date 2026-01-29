@@ -40,3 +40,4 @@ map("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", { desc = "Diagnostics" 
 map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>", { desc = "Document symbols" })
 map("n", "<leader>fw", "<cmd>Telescope grep_string<cr>", { desc = "Grep word" })
 map("n", "<C-p>", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
+map("n", "<C-e>", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })

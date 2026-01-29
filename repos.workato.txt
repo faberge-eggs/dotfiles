@@ -15,6 +15,7 @@ git@github.com:workato-devops/tf-infra-preview.git
 git@github.com:workato-devops/tf-infra-vpc.git
 git@github.com:workato-devops/tf-workato-preview.git
 git@github.com:workato-devops/tf-workato-prod.git
+git@github.com:workato-devops/tf-intercloud-prod.git
 
 # Other
 git@github.com:workato-devops/ace-plugins.git

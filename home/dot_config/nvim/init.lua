@@ -54,8 +54,7 @@ Plug("nvim-telescope/telescope.nvim", { branch = "0.1.x" })
 Plug("nvim-telescope/telescope-fzf-native.nvim", { ["do"] = "make" })
 
 -- File explorer
-Plug("nvim-neo-tree/neo-tree.nvim", { branch = "v3.x" })
-Plug("MunifTanjim/nui.nvim")
+Plug("nvim-tree/nvim-tree.lua")
 
 -- Git
 Plug("lewis6991/gitsigns.nvim")
@@ -77,6 +76,9 @@ Plug("numToStr/Comment.nvim")
 Plug("echasnovski/mini.surround")
 Plug("echasnovski/mini.ai")
 Plug("windwp/nvim-ts-autotag")
+
+-- Session management
+Plug("folke/persistence.nvim")
 
 vim.call("plug#end")
 
@@ -103,9 +105,10 @@ if vim.fn.isdirectory(plugged_path .. "/nvim-cmp") == 1 then
 	safe_require("config.plugins.completion")
 	safe_require("config.plugins.treesitter")
 	safe_require("config.plugins.telescope")
-	safe_require("config.plugins.neotree")
+	safe_require("config.plugins.nvimtree")
 	safe_require("config.plugins.git")
 	safe_require("config.plugins.ui")
 	safe_require("config.plugins.formatting")
 	safe_require("config.plugins.editor")
+	safe_require("config.plugins.session")
 end
