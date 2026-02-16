@@ -25,3 +25,5 @@ mas "wireguard", id: 1451685025
 cask "pritunl"
 brew "trivy"
 brew "kreuzwerker/taps/m1-terraform-provider-helper"
+brew "kubelogin"
+brew "dotslash"

@@ -1,0 +1,20 @@
+session_name: workato
+start_directory: ~/repos/workato
+options:
+  set-titles: on
+  set-titles-string: "#{session_name}"
+windows:
+  - window_name: vim
+    panes:
+      - shell_command:
+          - nvim
+  - window_name: claude
+    panes:
+      - shell_command:
+          - claude --resume workato
+  - window_name: shell
+    panes:
+      - shell_command: []
+  - window_name: server
+    panes:
+      - shell_command: []

@@ -15,7 +15,17 @@ if vim.fn.empty(vim.fn.glob(plug_path)) > 0 then
 end
 
 -- Treesitter compatibility shim (ft_to_lang was renamed to get_lang in Neovim 0.10+)
-vim.treesitter.language.ft_to_lang = vim.treesitter.language.get_lang
+-- Ensure ft_to_lang exists for backward compatibility with telescope
+if vim.treesitter and vim.treesitter.language then
+  local get_lang_fn = vim.treesitter.language.get_lang
+  if type(get_lang_fn) == "function" then
+    vim.treesitter.language.ft_to_lang = get_lang_fn
+  else
+    vim.treesitter.language.ft_to_lang = function(ft)
+      return ft
+    end
+  end
+end
 
 -- Load options and keymaps first
 require("config.options")

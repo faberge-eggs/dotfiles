@@ -16,6 +16,17 @@ opt.expandtab = true
 opt.autoindent = true
 opt.smartindent = true
 
+-- Prevent auto-formatting that removes spaces
+opt.formatoptions:remove({ "t", "c", "r", "o", "a" })
+
+-- Disable paste mode issues with bracketed paste
+vim.api.nvim_create_autocmd({ "InsertEnter" }, {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+  end,
+})
+
 -- Line wrapping
 opt.wrap = true
 opt.linebreak = true      -- Break at word boundaries
@@ -58,7 +69,7 @@ opt.shortmess:append("c")
 opt.encoding = "utf-8"
 opt.fileencoding = "utf-8"
 
--- Disable netrw (using neo-tree)
+-- Disable netrw (using nvim-tree)
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 

@@ -9,7 +9,6 @@ contexts:
     cluster: arn:aws-cn:eks:cn-northwest-1:739089135338:cluster/wkt-prod-lor-cnnw1
     user: arn:aws-cn:eks:cn-northwest-1:739089135338:cluster/wkt-prod-lor-cnnw1
   name: lor-cnnw1
-current-context: lor-cnnw1
 kind: Config
 preferences: {}
 users:

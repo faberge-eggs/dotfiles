@@ -57,6 +57,7 @@ vim.filetype.add({
       local filename = vim.fn.fnamemodify(path, ":t")
       return get_base_filetype(filename) or "gotmpl"
     end,
+    tf = "terraform",
     tfvars = "terraform",
   },
   filename = {

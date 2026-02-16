@@ -241,6 +241,26 @@
             type: string
             value: "utf-8"
 
+        # ===== Firefox Configuration =====
+        - name: Create Firefox policies file in temp location
+          ansible.builtin.copy:
+            dest: /tmp/firefox-policies.json
+            mode: '0644'
+            content: |
+              {
+                "policies": {
+                  "DisableAppUpdate": true,
+                  "ManualAppUpdateOnly": true
+                }
+              }
+
+        - name: Move Firefox policies to app bundle
+          ansible.builtin.shell: |
+            mkdir -p "/Applications/Firefox.app/Contents/Resources/distribution"
+            cp /tmp/firefox-policies.json "/Applications/Firefox.app/Contents/Resources/distribution/policies.json"
+            chmod 644 "/Applications/Firefox.app/Contents/Resources/distribution/policies.json"
+            rm -f /tmp/firefox-policies.json
+
         # ===== System Preferences =====
         - name: Expand save panel by default
           community.general.osx_defaults:

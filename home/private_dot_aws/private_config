@@ -16,6 +16,12 @@ sso_start_url = https://start.cn-northwest-1.home.awsapps.cn/directory/d-836707f
 sso_region = cn-northwest-1
 sso_registration_scopes = sso:account:access
 
+[profile rba]
+sso_session = my-sso
+sso_account_id = 353360065216
+sso_role_name = AdministratorAccess
+region = us-east-1
+
 [profile us-prod]
 sso_session = my-sso
 sso_account_id = 983224934877
@@ -69,6 +75,12 @@ sso_session = my-sso
 sso_account_id = 232647704873
 sso_role_name = AdministratorAccess
 region = us-east-1
+
+[profile intercloud-cn]
+sso_session = my-sso-cn
+sso_account_id =739127793998
+sso_role_name = AdministratorAccess
+region = cn-northwest-1
 
 [profile infra-cn]
 sso_session = my-sso-cn
@@ -192,7 +204,13 @@ region = cn-northwest-1
 
 [profile cn]
 sso_session = my-sso-cn
-sso_account_id =802182459751
+sso_account_id = 802182459751
+sso_role_name = AdministratorAccess
+region = cn-northwest-1
+
+[profile obs-cn]
+sso_session = my-sso-cn
+sso_account_id = 739124529044
 sso_role_name = AdministratorAccess
 region = cn-northwest-1
 
@@ -261,6 +279,12 @@ sso_session = my-sso
 sso_account_id = 471112990830
 sso_role_name = AdministratorAccess
 region = us-east-1
+
+[profile rba-cn]
+sso_session = my-sso-cn
+sso_account_id = 837548733051
+sso_role_name = AdministratorAccess
+region = cn-northwest-1
 
 [profile cn-privateca]
 sso_session = my-sso-cn

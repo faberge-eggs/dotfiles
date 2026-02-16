@@ -1,6 +1,15 @@
 -- LSP Configuration
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+-- Suppress "Client not attached" errors
+local notify = vim.notify
+vim.notify = function(msg, level, opts)
+  if type(msg) == "string" and msg:match("not attached to buffer") then
+    return
+  end
+  notify(msg, level, opts)
+end
+
 -- Mason setup
 require("mason").setup({
   ui = {
@@ -49,8 +58,14 @@ vim.diagnostic.config({
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
   callback = function(ev)
-    local map = function(mode, lhs, rhs, desc)
-      vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf, desc = desc })
+    local map = function(mode, lhs, fn, desc)
+      vim.keymap.set(mode, lhs, function()
+        -- Double check client is still attached when keymap is used
+        local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+        if #clients > 0 then
+          fn()
+        end
+      end, { buffer = ev.buf, desc = desc })
     end
 
     map("n", "gd", vim.lsp.buf.definition, "Go to definition")
@@ -80,8 +95,50 @@ vim.lsp.config("pyright", { capabilities = capabilities })
 vim.lsp.config("solargraph", {
   capabilities = capabilities,
   cmd = { "/opt/homebrew/lib/ruby/gems/3.4.0/bin/solargraph", "stdio" },
+  settings = {
+    solargraph = {
+      diagnostics = true,
+      completion = true,
+      hover = true,
+      formatting = true,
+      symbols = true,
+      definitions = true,
+      references = true,
+      folding = true,
+      useBundler = false,
+      checkGemVersion = false,
+      maxFiles = 10000,
+    },
+  },
 })
-vim.lsp.config("terraformls", { capabilities = capabilities })
+vim.lsp.config("terraformls", {
+  capabilities = capabilities,
+  settings = {
+    ["terraform-ls"] = {
+      experimentalFeatures = {
+        prefillRequiredFields = false,
+      },
+      validation = {
+        enableEnhancedValidation = false,
+      },
+    },
+  },
+  root_dir = function(fname)
+    -- Handle case where fname might be a buffer number
+    if type(fname) == "number" then
+      fname = vim.api.nvim_buf_get_name(fname)
+    end
+    if type(fname) ~= "string" or fname == "" then
+      return nil
+    end
+    local found = vim.fs.find({".terraform", ".git"}, { path = fname, upward = true })
+    if found and found[1] then
+      return vim.fs.dirname(found[1])
+    end
+    -- Fallback to file directory
+    return vim.fs.dirname(fname)
+  end,
+})
 
 vim.lsp.config("yamlls", {
   capabilities = capabilities,

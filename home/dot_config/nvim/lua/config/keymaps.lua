@@ -37,7 +37,13 @@ map("v", "<", "<gv", { desc = "Indent left" })
 map("v", ">", ">gv", { desc = "Indent right" })
 
 -- Better paste (don't yank replaced text)
-map("v", "p", '"_dP', { desc = "Paste without yanking" })
+map("x", "p", "P", { desc = "Paste without yanking" })
+
+-- Toggle paste mode (disables autoindent, smartindent, etc)
+map("n", "<F2>", function()
+  vim.opt.paste = not vim.opt.paste:get()
+  print("Paste mode: " .. (vim.opt.paste:get() and "ON" or "OFF"))
+end, { desc = "Toggle paste mode" })
 
 -- Save file
 map("n", "<leader>w", "<cmd>w<CR>", { desc = "Save file" })

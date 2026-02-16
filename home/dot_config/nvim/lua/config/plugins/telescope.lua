@@ -22,6 +22,10 @@ telescope.setup({
         ["<C-q>"] = "send_to_qflist",
       },
     },
+    -- Disable treesitter highlighting in previewer to avoid ft_to_lang errors
+    preview = {
+      treesitter = false,
+    },
   },
 })
 

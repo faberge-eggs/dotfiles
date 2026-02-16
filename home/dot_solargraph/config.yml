@@ -1,0 +1,16 @@
+---
+exclude:
+  - "**/.git/**"
+  - "**/node_modules/**"
+  - "**/tmp/**"
+  - "**/temp/**"
+  - "**/cache/**"
+  - "**/vendor/bundle/**"
+  - "**/vendor/cache/**"
+  - "**/log/**"
+  - "**/coverage/**"
+  - "**/public/**"
+  - "**/.bundle/**"
+  - "**/spec/fixtures/**"
+  - "**/test/fixtures/**"
+max_files: 10000
