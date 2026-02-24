@@ -90,6 +90,9 @@ Plug("windwp/nvim-ts-autotag")
 -- Session management
 Plug("folke/persistence.nvim")
 
+-- GitHub Copilot
+Plug("github/copilot.vim")
+
 vim.call("plug#end")
 
 -- Set colorscheme (fallback to default if not installed)
