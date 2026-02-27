@@ -93,6 +93,13 @@ op_export_env() {
 {{- end }}
 
 # ===== Aliases =====
+
+{{- if eq .machineType "workato" }}
+# AWS SSO aliases
+alias aws-sso="aws sso login --sso-session my-sso"
+alias aws-sso-cn="aws sso login --sso-session my-sso-cn"
+{{- end }}
+
 # Modern CLI replacements
 # alias ls="ls -lD "%Y-%m-%d %H:%M""
 #alias ls="eza --icons --group-directories-first"
