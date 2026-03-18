@@ -26,3 +26,6 @@ git@github.com:workato-devops/vault-secrets.git
 
 # Apps
 git@github.com:workato/workato.git
+
+# AI
+git@github.com:workato-devops/tf-ai-apps-prod.git

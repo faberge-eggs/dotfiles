@@ -3,10 +3,10 @@
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
--- Helper: detect base filetype from chezmoi .tmpl files
+-- Helper: detect base filetype from chezmoi .tmpl and .gotmpl files
 local function get_base_filetype(filename)
-  -- Remove .tmpl extension
-  local base = filename:gsub("%.tmpl$", "")
+  -- Remove .tmpl or .gotmpl extension
+  local base = filename:gsub("%.tmpl$", ""):gsub("%.gotmpl$", "")
 
   -- Remove chezmoi prefixes
   base = base:gsub("^dot_", ".")
@@ -50,10 +50,14 @@ local function get_base_filetype(filename)
   return nil
 end
 
--- Filetype detection for .tmpl files with base type detection
+-- Filetype detection for .tmpl and .gotmpl files with base type detection
 vim.filetype.add({
   extension = {
     tmpl = function(path, bufnr)
+      local filename = vim.fn.fnamemodify(path, ":t")
+      return get_base_filetype(filename) or "gotmpl"
+    end,
+    gotmpl = function(path, bufnr)
       local filename = vim.fn.fnamemodify(path, ":t")
       return get_base_filetype(filename) or "gotmpl"
     end,
@@ -65,11 +69,11 @@ vim.filetype.add({
   },
 })
 
--- Add gotmpl syntax highlighting for {{ }} blocks in .tmpl files
+-- Add gotmpl syntax highlighting for {{ }} blocks in .tmpl and .gotmpl files
 augroup("GotmplSyntax", { clear = true })
 autocmd({ "BufRead", "BufNewFile", "BufWinEnter" }, {
   group = "GotmplSyntax",
-  pattern = "*.tmpl",
+  pattern = { "*.tmpl", "*.gotmpl" },
   callback = function()
     -- Simple approach: just highlight {{ }} blocks as Special
     vim.cmd([[

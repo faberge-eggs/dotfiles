@@ -36,9 +36,6 @@ map("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 map("v", "<", "<gv", { desc = "Indent left" })
 map("v", ">", ">gv", { desc = "Indent right" })
 
--- Better paste (don't yank replaced text)
-map("x", "p", "P", { desc = "Paste without yanking" })
-
 -- Toggle paste mode (disables autoindent, smartindent, etc)
 map("n", "<F2>", function()
   vim.opt.paste = not vim.opt.paste:get()

@@ -22,6 +22,12 @@ sso_account_id = 353360065216
 sso_role_name = AdministratorAccess
 region = us-east-1
 
+[profile ai-us]
+sso_session = my-sso
+sso_account_id = 879381285797
+sso_role_name = AdministratorAccess
+region = us-east-1
+
 [profile us-prod]
 sso_session = my-sso
 sso_account_id = 983224934877
