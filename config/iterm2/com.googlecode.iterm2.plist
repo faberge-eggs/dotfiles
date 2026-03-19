@@ -1066,7 +1066,7 @@
 			<key>Restrict Mouse Reporting to Alternate Screen Mode</key>
 			<false/>
 			<key>Right Option Key Sends</key>
-			<integer>0</integer>
+			<integer>2</integer>
 			<key>Rows</key>
 			<integer>25</integer>
 			<key>Screen</key>

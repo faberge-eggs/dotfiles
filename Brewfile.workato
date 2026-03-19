@@ -9,6 +9,7 @@ tap "hashicorp/tap"
 
 # Cloud Provider CLIs
 brew "awscli"                # AWS CLI
+brew "azure-cli"             # Azure CLI
 cask "aws-vpn-client"
 
 # Security & Compliance
