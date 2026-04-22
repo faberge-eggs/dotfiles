@@ -96,6 +96,8 @@ region = cn-northwest-1
 
 [profile us-preview]
 sso_session = my-sso
+sso_start_url = https://d-906752cfe0.awsapps.com/start
+sso_region = us-east-1
 sso_account_id = 672840933960
 sso_role_name = AdministratorAccess
 region = us-east-1
@@ -108,6 +110,9 @@ region = us-east-1
 
 [profile eu-preview]
 sso_session = my-sso
+sso_start_url = https://d-906752cfe0.awsapps.com/start
+sso_region = us-east-1
+sso_registration_scopes = sso:account:access
 sso_account_id = 513829378736
 sso_role_name = AdministratorAccess
 region = eu-central-1
@@ -278,19 +283,19 @@ region = il-central-1
 sso_session = my-sso
 sso_account_id =172786533389
 sso_role_name = AdministratorAccess
-region = ap-southeast-2
+region = ap-northeast-2
 
 [profile kr-kms]
 sso_session = my-sso
 sso_account_id = 808491096405
 sso_role_name = AdministratorAccess
-region = ap-southeast-2
+region = ap-northeast-2
 
 [profile kr-pconn]
 sso_session = my-sso
 sso_account_id = 740055420144
 sso_role_name = AdministratorAccess
-region = ap-southeast-2
+region = ap-northeast-2
 
 [profile us-privateca-prod]
 sso_session = my-sso
