@@ -153,6 +153,12 @@ sso_account_id = 372245638561
 sso_role_name = AdministratorAccess
 region = us-east-1
 
+[profile uk]
+sso_session = my-sso
+sso_account_id = 123240248685
+sso_role_name = AdministratorAccess
+region = eu-west-2
+
 [profile trial]
 sso_session = my-sso
 sso_account_id = 290477248107

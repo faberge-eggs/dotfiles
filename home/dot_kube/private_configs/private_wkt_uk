@@ -1,0 +1,32 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJR1EwbnlTdDVoQ1V3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TmpBME16QXhOakEyTVROYUZ3MHpOakEwTWpjeE5qRXhNVE5hTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURaNkdLL0ttd1ZXMG5IUGtndkZjWGRZbVhJemVXeXNEYXE2czlPdEJha05YK3I2QmJ3L29pZmNYSjMKMXpHdUh6cVM1UnRSbHpncHBKaGN6RjlSbTByM3dTRTUydFlqWDVlajBEb3drM2VDaXptSnlRTTFXc2VwdWFmcwpFZXZaUnR4OTIwaGdMcGJXV1I2N25weGtWS2ZmNE1JWHJnNkwvZ0Y1S1JQdnhlemFqZS8vZ3p6bHVhMWNXVlpJCldYSmtiR2l0RnpEb1hZWW9aY25vU1liRndsODZPM1gydC9LZXFwYWw1RkNodGpFbXhZSDBKN3R2SVJIbG5iay8KS0Z2NHg0UFpydW9iVEcvbitWWkpDVXdmci9KK3Mwc3VTZG00MXVJWUQ5cFRvanpzemhRNXBKdFBZa1p3TnJGMAo2bUwxOXdFNWJxZmFUT01VV2VqaWNNbnFXZ3NaQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJRRTNoVFE0K09OaFFGR1VVV0dnMGxSVWVBZUpqQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRRENnNVA5am5OcwpIT0k3Q3BadGhFMEJLa2JudVpPbU14UjEwcVFlZ0lZSW1EK3VHSmJ1YWREUmhFclBNZ3FHYXU0VFgrczlzcjFJCkJaUGxLcExuOE85NHVSTGdMbWgzajhKTFR3MW14N3BHWmZjcm50Q2lpZ0NzbWlLd2U2ejdBdlNCQXp5ZzJSdzUKQmhDTjd6MEljaWRxU1p2U0ZLaU1sbVA4UjhCSE9HVDJRTm52eU9UaVF2aEluTmp3K2NDOVRZb0xqZm1TTUVHTApjbU9Dd1J4SnNnVGUwWjN1Ums4OXRTYXA2eXl0Y0RMSzd0UElCQ2VHbHBJb0VXL29KK0gxNGNIZHFxUGN6c1doCjRBYy95VWdNdkJzZ25Xell1QTBQOHc5QkUwdWU4LzVlVUZFbnZUUUQ5ajhhMG9pVDJFNEpvaDM1NFM4R0VFSW0KVEhZNkk3dElPRVY1Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://11CD705F308F19BF0FF4F45B09B64271.gr7.eu-west-2.eks.amazonaws.com
+  name: arn:aws:eks:eu-west-2:123240248685:cluster/wkt-prod-euw2
+contexts:
+- context:
+    cluster: arn:aws:eks:eu-west-2:123240248685:cluster/wkt-prod-euw2
+    user: arn:aws:eks:eu-west-2:123240248685:cluster/wkt-prod-euw2
+  name: uk
+kind: Config
+preferences: {}
+users:
+- name: arn:aws:eks:eu-west-2:123240248685:cluster/wkt-prod-euw2
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - --region
+      - eu-west-2
+      - eks
+      - get-token
+      - --cluster-name
+      - wkt-prod-euw2
+      - --output
+      - json
+      command: aws
+      env:
+      - name: AWS_PROFILE
+        value: uk
+current-context: arn:aws:eks:eu-west-2:123240248685:cluster/wkt-prod-euw2
