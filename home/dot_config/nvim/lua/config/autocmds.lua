@@ -143,9 +143,18 @@ autocmd("FileType", {
 })
 autocmd("FileType", {
   group = "FileTypeSettings",
-  pattern = { "yaml", "terraform", "json" },
+  pattern = { "yaml", "json" },
   callback = function()
     vim.opt_local.tabstop = 2
     vim.opt_local.shiftwidth = 2
+  end,
+})
+autocmd("FileType", {
+  group = "FileTypeSettings",
+  pattern = { "terraform", "hcl" },
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.commentstring = "# %s"
   end,
 })

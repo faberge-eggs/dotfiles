@@ -15,14 +15,22 @@ require("conform").setup({
     bash = { "shfmt" },
   },
   format_on_save = {
-    timeout_ms = 500,
-    lsp_fallback = true,
+    timeout_ms = 10000,
+    lsp_fallback = false,
   },
 })
 
 vim.keymap.set("n", "<leader>cf", function()
   require("conform").format({ async = true })
 end, { desc = "Format buffer" })
+
+-- Format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = vim.api.nvim_create_augroup("conform_format_on_save", { clear = true }),
+  callback = function(args)
+    require("conform").format({ bufnr = args.buf, lsp_fallback = false, timeout_ms = 10000 })
+  end,
+})
 
 -- nvim-lint (linter)
 local lint = require("lint")

@@ -34,11 +34,11 @@ install: ## Full installation (bootstrap everything)
 install-brew: ## Install Homebrew packages from Brewfile
 	@echo "${GREEN}Installing Homebrew packages...${RESET}"
 	@echo "Machine type: ${MACHINE_TYPE}"
-	@brew bundle --file=Brewfile
+	@brew bundle --file=Brewfile --no-upgrade
 ifneq ($(MACHINE_TYPE),)
 	@if [ -f "Brewfile.$(MACHINE_TYPE)" ]; then \
 		echo "${GREEN}Installing ${MACHINE_TYPE}-specific packages...${RESET}"; \
-		brew bundle --file=Brewfile.$(MACHINE_TYPE); \
+		brew bundle --file=Brewfile.$(MACHINE_TYPE) --no-upgrade; \
 	fi
 endif
 

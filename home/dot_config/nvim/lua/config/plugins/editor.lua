@@ -15,8 +15,12 @@ local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 local cmp = require("cmp")
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
--- Comment.nvim
-require("Comment").setup({})
+-- Comment.nvim - bypass treesitter to avoid nil errors when parsers not installed
+require("Comment").setup({
+  pre_hook = function()
+    return vim.bo.commentstring
+  end,
+})
 
 -- Mini.surround
 require("mini.surround").setup({

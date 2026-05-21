@@ -159,6 +159,24 @@ sso_account_id = 123240248685
 sso_role_name = AdministratorAccess
 region = eu-west-2
 
+[profile tme-eu]
+sso_session = my-sso
+sso_account_id = 694371387610
+sso_role_name = AdministratorAccess
+region = eu-central-1
+
+[profile uk-pconn]
+sso_session = my-sso
+sso_account_id = 535572812572
+sso_role_name = AdministratorAccess
+region = eu-west-2
+
+[profile uk-kms]
+sso_session = my-sso
+sso_account_id = 127696279653
+sso_role_name = AdministratorAccess
+region = eu-west-2
+
 [profile trial]
 sso_session = my-sso
 sso_account_id = 290477248107
@@ -342,3 +360,10 @@ region = us-east-1
 [profile root-cn]
 region = cn-northwest-1
 output = yaml
+
+[profile tme-eu]
+sso_session = my-sso
+sso_account_id = 694371387610
+sso_role_name = AdministratorAccess
+region = eu-central-1
+
