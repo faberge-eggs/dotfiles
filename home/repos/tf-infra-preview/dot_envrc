@@ -1,1 +1,2 @@
 export VAULT_ADDR=https://vault.infra.wktodev.net/
+export AWS_PROFILE=infra-preview

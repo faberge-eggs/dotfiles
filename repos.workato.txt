@@ -19,6 +19,7 @@ git@github.com:workato-devops/tf-workato-prod.git
 git@github.com:workato-devops/tf-intercloud-prod.git
 git@github.com:workato-devops/base-eks-ami.git
 git@github.com:workato-devops/tf-ng.git
+git@github.com:workato-devops/res-cat.git
 
 # Tflow
 git@github.com:workato-devops/tflow.git
