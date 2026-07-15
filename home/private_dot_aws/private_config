@@ -378,3 +378,14 @@ region = us-east-1
 [profile root-cn]
 region = cn-northwest-1
 output = yaml
+
+[sso-session fedramp-sso]
+sso_start_url = https://d-90663f591e.awsapps.com/start
+sso_region = us-east-1
+sso_registration_scopes = sso:account:access
+
+[profile fedramp]
+sso_session = fedramp-sso
+sso_account_id = 755545428034
+sso_role_name = CustomerAdmin
+region = us-east-1

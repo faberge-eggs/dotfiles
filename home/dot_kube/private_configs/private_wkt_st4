@@ -8,7 +8,7 @@ contexts:
 - context:
     cluster: wkt-prod-st4
     user: wkt-prod-st4-oidc
-  name: wkt-prod-st4
+  name: st4
 kind: Config
 preferences: {}
 users:

@@ -34,3 +34,4 @@ git@github.com:workato/workato.git
 
 # AI
 git@github.com:workato-devops/tf-ai-apps-prod.git
+git@github.com:workato/wapl.git

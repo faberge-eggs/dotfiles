@@ -1,0 +1,42 @@
+apiVersion: v1
+clusters:
+- cluster:
+    server: https://94536DDA2E4D3831EB5B98FB526D50E3.gr7.us-east-1.eks.amazonaws.com
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJZVZvRHRuZStXMU13RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TmpBM01UQXhNelE1TlRSYUZ3MHpOakEzTURjeE16VTBOVFJhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUUN6dU1TcldEMEZtYUFhMGFBUDg1NVB5ODkxZzZSZnk1ZjdqU01wNDlMNUpCaXhhQ2VyTlFsK1M3cWgKSG5PM2VSeURtUTdzQjhoSEpjclZzNmE0bFdhV2tJbGtwQzg3N2pFZW13U1RYeDBIeHRld095UjQvK0pvVTNQVQpNS3JROFJyZHpwMjZPU3NQcjgvOU1qZmlJRWtpRFFvb3RSaG5vR0lDbDhqUlM5UExLT1RQN0ExcWtsby9ZVllPCjV6a1ZqUitNaDhjcjE4cGQ4aEhmS0kxOXd3NGh1VTNWenBGcFlTcEdOMjk5UEx2UGhJdWF6R2pLUSs4cnUzYmYKUXIwQ1VGZG9laURpcGVZVkNGTDJMUE92eUJoL0svejgyMUE2ZDlpTWM2eG9EakE5YTBZbEhKVzd6V09iVnNLZApVUWg2ajJZTFNIWDVLUndMMzVQaGprRW1MYWUzQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJTK0wyMzVSdVJ0RVVNYU4xT1pnTk5EekJKUE9qQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQkR6SlR5a1RobApXWjJxaHNLS1BnTnVUaUNkTGxKbGlYSzN3dGU3elJsZHRGaUI4ekNPdHgzM2gwSWFpSk9nRG80SnpEVU1ublBsCkd6RWFjaEhJK3J6R0F6ZmJobDdkbjc2REpIanBXS09obTk1YWN4eDZTTEJwakhlb2U3ZjEyaXUrWWFnMDBtaGUKQXVGTTBZR2tPU3hGT0VRSW9JV0ZrSW9SbGtUUVJJeEkvOGpRcmJWaFRZenJYZHNabXRBdXo2c3cya3A1cWtKQwpZT0EreUR0YWlZMnZUeXJqMUpzNVc0TlBVSWRzR2Z2V2dQK2xYckhQV21mcU8rN3BiTUVyc3BhbUR4Z2YzNklnCmxqalRJNS9EM0xRR29HNmZEditUWFF3UmRLZlRPbGEvdExIbStoL1BoTEJvNE1HZ3M5Y25leE5RdUo0RUg3RlkKSFRRZzlaZmZNaEhSCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  name: wkt-preview-fedramp
+contexts:
+- context:
+    cluster: wkt-preview-fedramp
+    user: wkt-preview-fedramp-oidc
+  name: fedramp
+kind: Config
+preferences: {}
+users:
+- name: wkt-preview-fedramp-oidc
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - oidc-login
+      - get-token
+      - --oidc-issuer-url=https://workatodevops.okta.com/oauth2/ausnffp2qtT891Or52p7
+      - --oidc-client-id=0oanffn30bygBZtzm2p7
+      - --oidc-extra-scope=email
+      - --oidc-extra-scope=offline_access
+      - --oidc-extra-scope=profile
+      - --oidc-extra-scope=openid
+      command: kubectl
+      env: null
+      interactiveMode: IfAvailable
+      provideClusterInfo: false
+- name: aws
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1alpha1
+      args:
+      - eks
+      - get-token
+      - --cluster-name
+      - wkt-preview-fedramp
+      command: aws
+
