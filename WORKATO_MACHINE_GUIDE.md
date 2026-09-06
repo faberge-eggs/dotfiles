@@ -60,9 +60,6 @@ cask "microsoft-teams"
 cask "slack"
 cask "zoom"
 
-# VPN
-cask "cisco-anyconnect"
-
 # Security
 brew "vault"
 brew "aws-vault"
@@ -91,8 +88,8 @@ export HTTPS_PROXY="http://proxy.company.com:8080"
 export NO_PROXY="localhost,127.0.0.1,.company.com"
 
 # Work-specific aliases
-alias vpn-connect="sudo openconnect vpn.company.com"
-alias vpn-disconnect="sudo killall openconnect"
+alias vpn-connect="scutil --nc start work-vpn"
+alias vpn-disconnect="scutil --nc stop work-vpn"
 {{- end }}
 ```
 
@@ -240,20 +237,26 @@ git config user.email  # your.name@workato.com
 
 **Problem**: Need to connect to corporate VPN
 
-**Solution**: Add VPN package and aliases
+**Solution**: Use the native macOS VPN client (L2TP/IPsec or IKEv2) - no extra
+package required. Ship the connection as a chezmoi-managed configuration profile
+and drive it from the shell with `scutil`.
 
-1. Add to `Brewfile.workato`:
-```ruby
-cask "cisco-anyconnect"
-# or
-brew "openconnect"
+1. Add a profile template, e.g. `home/dot_config/private_work-vpn.mobileconfig.tmpl`,
+   with `VPNType` `L2TP` (or `IKEv2`), `CommRemoteAddress` set to the VPN host and
+   credentials pulled from 1Password. See
+   `home/dot_config/private_ivis-vpn.mobileconfig.tmpl` for a working example.
+
+2. Install it once (needs manual approval):
+```bash
+open ~/.config/work-vpn.mobileconfig
+# System Settings -> General -> Device Management -> approve
 ```
 
-2. Add aliases to work section in `.zshrc`:
+3. Add aliases to work section in `.zshrc`:
 ```bash
-alias vpn-connect="sudo openconnect vpn.company.com --user=yourname"
-alias vpn-status="ps aux | grep openconnect"
-alias vpn-disconnect="sudo killall openconnect"
+alias vpn-connect="scutil --nc start work-vpn"
+alias vpn-status="scutil --nc status work-vpn"
+alias vpn-disconnect="scutil --nc stop work-vpn"
 ```
 
 ### Scenario 3: Cloud Provider Profiles

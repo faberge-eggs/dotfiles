@@ -1,6 +1,7 @@
+{{- /* Connection shell only: no password / shared secret is baked in here.
+       `ivis-vpn` (see .zshrc) feeds both to `scutil --nc start` from 1Password,
+       so rotating them needs no profile reinstall. */ -}}
 {{- $user := onepasswordRead "op://IVIS/Ivis VPN/username" | replace "&" "&amp;" | replace "<" "&lt;" -}}
-{{- $pass := onepasswordRead "op://IVIS/Ivis VPN/password" | replace "&" "&amp;" | replace "<" "&lt;" -}}
-{{- $psk := onepasswordRead "op://IVIS/Ivis VPN/shared secret" -}}
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -30,8 +31,6 @@
 				<string>vpn.ivis.ru</string>
 				<key>AuthName</key>
 				<string>{{ $user }}</string>
-				<key>AuthPassword</key>
-				<string>{{ $pass }}</string>
 				<key>TokenCard</key>
 				<integer>0</integer>
 			</dict>
@@ -39,8 +38,6 @@
 			<dict>
 				<key>AuthenticationMethod</key>
 				<string>SharedSecret</string>
-				<key>SharedSecret</key>
-				<data>{{ $psk | b64enc }}</data>
 			</dict>
 		</dict>
 	</array>
