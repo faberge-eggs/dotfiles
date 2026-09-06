@@ -92,18 +92,25 @@
         - transmission
 
 
-    # ===== OpenConnect VPN (passwordless sudo) =====
-    - name: Allow openconnect without sudo password
+    # ===== IVIS VPN (native macOS L2TP/IPsec) =====
+    - name: Remove obsolete openconnect sudoers rule
       become: true
-      copy:
-        dest: /etc/sudoers.d/openconnect
-        content: |
-          %admin ALL=(ALL) NOPASSWD: /opt/homebrew/bin/openconnect
-        mode: '0440'
-        validate: 'visudo -cf %s'
+      file:
+        path: /etc/sudoers.d/openconnect
+        state: absent
       tags:
         - vpn
         - sudo
+
+    - name: Remind to install the IVIS VPN configuration profile
+      debug:
+        msg: >-
+          MANUAL: run `open ~/.config/ivis-vpn.mobileconfig`, then approve it in
+          System Settings -> General -> Device Management. Connect with `ivis-vpn`.
+      tags:
+        - vpn
+        - reminder
+        - manual
 
     # ===== Manual Setup Reminders =====
     - name: Remind to setup personal email

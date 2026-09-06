@@ -11,7 +11,7 @@ windows:
   - window_name: claude
     panes:
       - shell_command:
-          - claude --resume tf-accounts
+          - claude
   - window_name: shell
     panes:
       - shell_command: []

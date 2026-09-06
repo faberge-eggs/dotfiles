@@ -265,11 +265,28 @@ alias vpn-disconnect="echo 'Disconnect from Workato VPN'"
 alias personal="cd $HOME/Developer/personal"
 alias experiments="cd $HOME/Developer/experiments"
 
-# VPN aliases
-alias ivis-vpn="sudo openconnect \
-    --config ~/.config/openconnect/ivis.conf \
-    --passwd-on-stdin \
-    <<< \$(op read 'op://IVIS/Ivis VPN/password')"
+# VPN (native macOS L2TP/IPsec service "ivis", see ~/.config/ivis-vpn.mobileconfig)
+ivis-vpn() {
+    scutil --nc status ivis >/dev/null 2>&1 || {
+        echo "VPN service 'ivis' not found - install ~/.config/ivis-vpn.mobileconfig first" >&2
+        return 1
+    }
+    scutil --nc start ivis
+    for _ in {1..20}; do
+        [[ "$(scutil --nc status ivis | head -1)" == "Connected" ]] && { echo "ivis VPN connected"; return 0; }
+        sleep 1
+    done
+    echo "ivis VPN did not connect: $(scutil --nc status ivis | head -1)" >&2
+    return 1
+}
+
+ivis-vpn-stop() {
+    scutil --nc stop ivis
+}
+
+ivis-vpn-status() {
+    scutil --nc status ivis
+}
 
 
 export KUBECONFIG=/Users/vadim/repos/ivis/ansible/kubeconfig

@@ -9,5 +9,4 @@ brew "ffmpeg"
 
 cask "transmission"
 
-brew "openconnect" # vpn client for cisco
 cask "windows-app"

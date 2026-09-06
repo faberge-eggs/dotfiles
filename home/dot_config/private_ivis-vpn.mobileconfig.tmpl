@@ -1,0 +1,62 @@
+{{- $user := onepasswordRead "op://IVIS/Ivis VPN/username" | replace "&" "&amp;" | replace "<" "&lt;" -}}
+{{- $pass := onepasswordRead "op://IVIS/Ivis VPN/password" | replace "&" "&amp;" | replace "<" "&lt;" -}}
+{{- $psk := onepasswordRead "op://IVIS/Ivis VPN/shared secret" -}}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadType</key>
+			<string>com.apple.vpn.managed</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>PayloadIdentifier</key>
+			<string>ru.ivis.vpn.l2tp</string>
+			<key>PayloadUUID</key>
+			<string>FC72DE5A-C769-4DEF-A3FB-70C64E93DA8A</string>
+			<key>PayloadDisplayName</key>
+			<string>IVIS VPN (L2TP over IPSec)</string>
+			<key>UserDefinedName</key>
+			<string>ivis</string>
+			<key>VPNType</key>
+			<string>L2TP</string>
+			<key>OverridePrimary</key>
+			<integer>0</integer>
+			<key>PPP</key>
+			<dict>
+				<key>CommRemoteAddress</key>
+				<string>vpn.ivis.ru</string>
+				<key>AuthName</key>
+				<string>{{ $user }}</string>
+				<key>AuthPassword</key>
+				<string>{{ $pass }}</string>
+				<key>TokenCard</key>
+				<integer>0</integer>
+			</dict>
+			<key>IPSec</key>
+			<dict>
+				<key>AuthenticationMethod</key>
+				<string>SharedSecret</string>
+				<key>SharedSecret</key>
+				<data>{{ $psk | b64enc }}</data>
+			</dict>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>IVIS VPN</string>
+	<key>PayloadIdentifier</key>
+	<string>ru.ivis.vpn</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>BB202F76-741C-4957-A63D-3C7329725426</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+	<key>PayloadScope</key>
+	<string>User</string>
+	<key>PayloadRemovalDisallowed</key>
+	<false/>
+</dict>
+</plist>

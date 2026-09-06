@@ -23,7 +23,8 @@
       "Bash(ssh-keygen:*)",
       "Bash(done)",
       "Bash(git push:*)",
-      "Bash(/usr/bin/grep:*)"
+      "Bash(/usr/bin/grep:*)",
+      "Skill(neovim-expert)"
     ]
   }
 }

@@ -24,7 +24,7 @@ Library/
 
 # Machine-specific configs
 {{- if eq .machineType "workato" }}
-.config/openconnect/
+.config/ivis-vpn.mobileconfig
 .config/tmuxp/ivis.yaml
 .ssh/config.d/ivis
 Library/Containers/com.microsoft.rdc.macos/
