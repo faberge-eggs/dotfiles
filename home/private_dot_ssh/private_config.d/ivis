@@ -12,6 +12,22 @@ Host mail mail.ivis.ru
   HostKeyAlgorithms=+ssh-rsa
   PubkeyAcceptedAlgorithms=+ssh-rsa
 
+Host esxi esxi-132 10.11.21.132
+  Hostname 10.11.21.132
+  User root
+  IdentityFile ~/.ssh/ivis_esx.pub
+  IdentitiesOnly yes
+
+Host mikrotik 10.11.12.1
+  Hostname 10.11.12.1
+  User vadim
+  IdentityFile ~/.ssh/ivis_esx.pub
+  IdentitiesOnly yes
+
+Host term-deb
+  Hostname 10.11.1.210
+  User vadim
+
 Host smtp-proxy 10.11.1.171
   Hostname 10.11.1.171
   User ubuntu
