@@ -47,6 +47,7 @@ cask "docker-desktop"           # Docker Desktop (includes CLI)
 brew "kubernetes-cli"           # Kubernetes CLI
 brew "helm"                     # Kubernetes package manager
 brew "ansible"                  # Automation tool
+brew "opentofu"                 # OpenTofu (Terraform fork)
 brew "tflint"                   # Terraform linter
 
 # ===== Development Tools - Build & Package Managers =====
@@ -77,6 +78,7 @@ brew "glow"                     # Markdown renderer
 brew "httpie"                   # Better curl
 brew "wget"                     # File downloader
 brew "curl"                     # Transfer data
+brew "sshpass"                  # Non-interactive SSH password auth
 # Note: dig is built-in on macOS, use 'doggo' if you need a modern alternative
 
 # ===== Modern CLI Utilities - Other =====
