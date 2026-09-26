@@ -6,8 +6,13 @@ require("conform").setup({
     go = { "gofmt", "goimports" },
     python = { "black" },
     ruby = { "rubocop" },
+{{- if eq .machineType "own" }}
+    terraform = { "tofu_fmt" },
+    hcl = { "tofu_fmt" },
+{{- else }}
     terraform = { "terraform_fmt" },
     hcl = { "terraform_fmt" },
+{{- end }}
     yaml = { "prettier" },
     json = { "prettier" },
     lua = { "stylua" },
